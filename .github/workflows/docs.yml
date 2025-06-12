@@ -1,0 +1,57 @@
+# Copyright 2025 Jiaqi Liu. All rights reserved.
+---
+name: "Documentation CI/CD"
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  deploy:
+    permissions:
+      contents: write
+    name: Deploy Docs to GitHub Pages
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Set up Poetry
+        run: pip install poetry
+      - name: Setup mkdocs
+        run: |
+          uv venv
+          pip install mkdocs
+          pip install mkdocs-material
+          pip install mkdocs-click
+          pip install mkdocs-include-dir-to-nav
+          pip install mkdocs-render-swagger-plugin
+          pip install mkdocs-github-admonitions-plugin
+          pip install mkdocs-jupyter
+          pip install mkdocstrings-python
+          pip install griffe_fieldz
+      - name: Install dependencies
+        run: |
+          poetry install
+          pip install $(mkdocs-get-deps)
+        working-directory: docs
+      - name: Build docs
+        run: |
+          mkdocs build
+          sudo apt-get install tree
+          tree
+        working-directory: docs
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v4.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/site
+          user_name: QubitPi
+          user_email: jack20220723@gmail.com
+          cname: llamaindex.qubitpi.org
