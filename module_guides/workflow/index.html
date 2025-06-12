@@ -1,0 +1,2855 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/workflow/">
+      
+      
+        <link rel="prev" href="../deploying/agents/tools/">
+      
+      
+        <link rel="next" href="../evaluating/">
+      
+      
+      <link rel="icon" href="../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Workflows - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/style.css">
+    
+      <link rel="stylesheet" href="../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#workflows" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Workflows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../understanding/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../use_cases/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api_reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/integrations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../llama_cloud/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  LlamaCloud
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../understanding/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../use_cases/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Use Cases
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../examples/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Component Guides
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../models/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Models
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../models/prompts/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Prompts
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../loading/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Loading
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../indexing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Indexing
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../storing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Storing
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../querying/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Querying
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../deploying/agents/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Agents
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    Workflows
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            Workflows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../evaluating/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Evaluation
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../observability/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../llama_deploy" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../api_reference/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../community/integrations/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../llama_cloud/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defining-workflow-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defining Workflow Events
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-the-workflow-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up the Workflow Class
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-entry-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow Entry Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-exit-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow Exit Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the Workflow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-entry-and-exit-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customizing entry and exit points
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing entry and exit points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-a-custom-startevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a custom StartEvent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-custom-stopevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a custom StopEvent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drawing-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Drawing the Workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-global-contextstate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Global Context/State
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waiting-for-multiple-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      Waiting for Multiple Events
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manually-triggering-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manually Triggering Events
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Events
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retry-steps-execution-in-case-of-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retry steps execution in case of failures
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#human-in-the-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Human-in-the-loop
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stepwise-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stepwise Execution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decorating-non-class-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decorating non-class Functions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maintaining-context-across-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maintaining Context Across Runs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpointing-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checkpointing Workflows
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-a-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploying a Workflow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="workflows">Workflows<a class="headerlink" href="#workflows" title="Permanent link">#</a></h1>
+<p>A <code>Workflow</code> in LlamaIndex is an event-driven abstraction used to chain together several events. Workflows are made up of <code>steps</code>, with each step responsible for handling certain event types and emitting new events.</p>
+<p><code>Workflow</code>s in LlamaIndex work by decorating function with a <code>@step</code> decorator. This is used to infer the input and output types of each workflow for validation, and ensures each step only runs when an accepted event is ready.</p>
+<p>You can create a <code>Workflow</code> to do anything! Build an agent, a RAG flow, an extraction flow, or anything else you want.</p>
+<p>Workflows are also automatically instrumented, so you get observability into each step using tools like <a href="../observability/#arize-phoenix-local">Arize Pheonix</a>. (<strong>NOTE:</strong> Observability works for integrations that take advantage of the newer instrumentation system. Usage may vary.)</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Workflows make async a first-class citizen, and this page assumes you are running in an async environment. What this means for you is setting up your code for async properly. If you are already running in a server like FastAPI, or in a notebook, you can freely use await already!</p>
+<p>If you are running your own python scripts, its best practice to have a single async entry point.</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">MyWorkflow</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">asyncio</span>
+
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+</div>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">#</a></h2>
+<p>As an illustrative example, let's consider a naive workflow where a joke is generated and then critiqued.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Event</span><span class="p">,</span>
+    <span class="n">StartEvent</span><span class="p">,</span>
+    <span class="n">StopEvent</span><span class="p">,</span>
+    <span class="n">Workflow</span><span class="p">,</span>
+    <span class="n">step</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># `pip install llama-index-llms-openai` if you don&#39;t already have it</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+
+<span class="k">class</span> <span class="nc">JokeEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">joke</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">topic</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;pirates&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</code></pre></div>
+<p>There's a few moving pieces here, so let's go through this piece by piece.</p>
+<h3 id="defining-workflow-events">Defining Workflow Events<a class="headerlink" href="#defining-workflow-events" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">joke</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+<p>Events are user-defined pydantic objects. You control the attributes and any other auxiliary methods. In this case, our workflow relies on a single user-defined event, the <code>JokeEvent</code>.</p>
+<h3 id="setting-up-the-workflow-class">Setting up the Workflow Class<a class="headerlink" href="#setting-up-the-workflow-class" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">)</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>Our workflow is implemented by subclassing the <code>Workflow</code> class. For simplicity, we attached a static <code>OpenAI</code> llm instance.</p>
+<h3 id="workflow-entry-points">Workflow Entry Points<a class="headerlink" href="#workflow-entry-points" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">topic</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+    <span class="o">...</span>
+</code></pre></div>
+<p>Here, we come to the entry-point of our workflow. While most events are use-defined, there are two special-case events,
+the <code>StartEvent</code> and the <code>StopEvent</code> that the framework provides out of the box. Here, the <code>StartEvent</code> signifies where
+to send the initial workflow input.</p>
+<p>The <code>StartEvent</code> is a bit of a special object since it can hold arbitrary attributes. Here, we accessed the topic with
+<code>ev.topic</code>, which would raise an error if it wasn't there. You could also do <code>ev.get("topic")</code> to handle the case where
+the attribute might not be there without raising an error.</p>
+<p>At this point, you may have noticed that we haven't explicitly told the workflow what events are handled by which steps.
+Instead, the <code>@step</code> decorator is used to infer the input and output types of each step. Furthermore, these inferred
+input and output types are also used to verify for you that the workflow is valid before running!</p>
+<h3 id="workflow-exit-points">Workflow Exit Points<a class="headerlink" href="#workflow-exit-points" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+    <span class="o">...</span>
+</code></pre></div>
+<p>Here, we have our second, and last step, in the workflow. We know its the last step because the special <code>StopEvent</code> is
+returned. When the workflow encounters a returned <code>StopEvent</code>, it immediately stops the workflow and returns whatever
+we passed in the <code>result</code> parameter.</p>
+<p>In this case, the result is a string, but it could be a dictionary, list, or any other object.</p>
+<h3 id="running-the-workflow">Running the Workflow<a class="headerlink" href="#running-the-workflow" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;pirates&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</code></pre></div>
+<p>Lastly, we create and run the workflow. There are some settings like timeouts (in seconds) and verbosity to help with
+debugging.</p>
+<p>The <code>.run()</code> method is async, so we use await here to wait for the result. The keyword arguments passed to <code>run()</code> will
+become fields of the special <code>StartEvent</code> that will be automatically emitted and start the workflow. As we have seen,
+in this case <code>topic</code> will be accessed from the step with <code>ev.topic</code>.</p>
+<h2 id="customizing-entry-and-exit-points">Customizing entry and exit points<a class="headerlink" href="#customizing-entry-and-exit-points" title="Permanent link">#</a></h2>
+<p>Most of the times, relying on the default entry and exit points we have seen in the [Getting Started] section is enough.
+However, workflows support custom events where you normally would expect <code>StartEvent</code> and <code>StopEvent</code>, let's see how.</p>
+<h3 id="using-a-custom-startevent">Using a custom <code>StartEvent</code><a class="headerlink" href="#using-a-custom-startevent" title="Permanent link">#</a></h3>
+<p>When we call the <code>run()</code> method on a workflow instance, the keyword arguments passed become fields of a <code>StartEvent</code>
+instance that's automatically created under the hood. In case we want to pass complex data to start a workflow, this
+approach might become cumbersome, and it's when we can introduce a custom start event.</p>
+<p>To be able to use a custom start event, the first step is creating a custom class that inherits from <code>StartEvent</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">StartEvent</span>
+<span class="kn">from</span> <span class="nn">llama_index.indices.managed.llama_cloud</span> <span class="kn">import</span> <span class="n">LlamaCloudIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+
+<span class="k">class</span> <span class="nc">MyCustomStartEvent</span><span class="p">(</span><span class="n">StartEvent</span><span class="p">):</span>
+    <span class="n">a_string_field</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">a_path_to_somewhere</span><span class="p">:</span> <span class="n">Path</span>
+    <span class="n">an_index</span><span class="p">:</span> <span class="n">LlamaCloudIndex</span>
+    <span class="n">an_llm</span><span class="p">:</span> <span class="n">OpenAI</span>
+</code></pre></div>
+<p>All we have to do now is using <code>MyCustomStartEvent</code> as event type in the steps that act as entry points.
+Take this artificially complex step for example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke_from_index</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">MyCustomStartEvent</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+        <span class="c1"># Build a query engine using the index and the llm from the start event</span>
+        <span class="n">query_engine</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">an_index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">ev</span><span class="o">.</span><span class="n">an_llm</span><span class="p">)</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;What is the closest topic to </span><span class="si">{</span><span class="n">a_string_field</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># Use the llm attached to the start event to instruct the model</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ev</span><span class="o">.</span><span class="n">an_llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="c1"># Dump the response on disk using the Path object from the event</span>
+        <span class="n">ev</span><span class="o">.</span><span class="n">a_path_to_somewhere</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+        <span class="c1"># Finally, pass the JokeEvent along</span>
+        <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</code></pre></div>
+<p>We could still pass the fields of <code>MyCustomStartEvent</code> as keyword arguments to the <code>run</code> method of our workflow, but
+that would be, again, cumbersome. A better approach is to use pass the event instance through the <code>start_event</code>
+keyword argument like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">custom_start_event</span> <span class="o">=</span> <span class="n">MyCustomStartEvent</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">start_event</span><span class="o">=</span><span class="n">custom_start_event</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</code></pre></div>
+<p>This approach makes the code cleaner and more explicit and allows autocompletion in IDEs to work properly.</p>
+<h3 id="using-a-custom-stopevent">Using a custom <code>StopEvent</code><a class="headerlink" href="#using-a-custom-stopevent" title="Permanent link">#</a></h3>
+<p>Similarly to <code>StartEvent</code>, relying on the built-in <code>StopEvent</code> works most of the times but not always. In fact, when we
+use <code>StopEvent</code>, the result of a workflow must be set to the <code>result</code> field of the event instance. Since a result can
+be any Python object, the <code>result</code> field of <code>StopEvent</code> is typed as <code>Any</code>, losing any advantage from the typing system.
+Additionally, returning more than one object is cumbersome: we usually stuff a bunch of unrelated objects into a
+dictionary that we then assign to <code>StopEvent.result</code>.</p>
+<p>First step to support custom stop events, we need to create a subclass of <code>StopEvent</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">StopEvent</span>
+
+
+<span class="k">class</span> <span class="nc">MyStopEvent</span><span class="p">(</span><span class="n">StopEvent</span><span class="p">):</span>
+    <span class="n">critique</span><span class="p">:</span> <span class="n">CompletionResponse</span>
+</code></pre></div>
+<p>We can now replace <code>StopEvent</code> with <code>MyStopEvent</code> in our workflow:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyStopEvent</span><span class="p">:</span>
+        <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">MyStopEvent</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="o">...</span>
+</code></pre></div>
+<p>The one important thing we need to remember when using a custom stop events, is that the result of a workflow run
+will be the instance of the event:</p>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># Warning! `result` now contains an instance of MyStopEvent!</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;pirates&quot;</span><span class="p">)</span>
+<span class="c1"># We can now access the event fields as any normal Event</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">critique</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<p>This approach takes advantage of the Python typing system, is friendly to autocompletion in IDEs and allows
+introspection from outer applications that now know exactly what a workflow run will return.</p>
+<h2 id="drawing-the-workflow">Drawing the Workflow<a class="headerlink" href="#drawing-the-workflow" title="Permanent link">#</a></h2>
+<p>Workflows can be visualized, using the power of type annotations in your step definitions. You can either draw all possible paths through the workflow, or the most recent execution, to help with debugging.</p>
+<p>First install:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-utils-workflow
+</code></pre></div>
+<p>Then import and use:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.utils.workflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">draw_all_possible_flows</span><span class="p">,</span>
+    <span class="n">draw_most_recent_execution</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Draw all</span>
+<span class="n">draw_all_possible_flows</span><span class="p">(</span><span class="n">JokeFlow</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;joke_flow_all.html&quot;</span><span class="p">)</span>
+
+<span class="c1"># Draw an execution</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Pirates&quot;</span><span class="p">)</span>
+<span class="n">draw_most_recent_execution</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;joke_flow_recent.html&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div id="working-with-global-context-state"></div>
+<h2 id="working-with-global-contextstate">Working with Global Context/State<a class="headerlink" href="#working-with-global-contextstate" title="Permanent link">#</a></h2>
+<p>Optionally, you can choose to use global context between steps. For example, maybe multiple steps access the original <code>query</code> input from the user. You can store this in global context so that every step has access.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">Context</span>
+
+
+<span class="nd">@step</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">MyEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+    <span class="c1"># retrieve from context</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query&quot;</span><span class="p">)</span>
+
+    <span class="c1"># do something with context and event</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="o">...</span>
+
+    <span class="c1"># store in context</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="waiting-for-multiple-events">Waiting for Multiple Events<a class="headerlink" href="#waiting-for-multiple-events" title="Permanent link">#</a></h2>
+<p>The context does more than just hold data, it also provides utilities to buffer and wait for multiple events.</p>
+<p>For example, you might have a step that waits for a query and retrieved nodes before synthesizing a response:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">get_response_synthesizer</span>
+
+
+<span class="nd">@step</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">synthesize</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">QueryEvent</span> <span class="o">|</span> <span class="n">RetrieveEvent</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">collect_events</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="p">[</span><span class="n">QueryEvent</span><span class="p">,</span> <span class="n">RetrieveEvent</span><span class="p">])</span>
+    <span class="c1"># check if we can run</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># unpack -- data is returned in order</span>
+    <span class="n">query_event</span><span class="p">,</span> <span class="n">retrieve_event</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="c1"># run response synthesis</span>
+    <span class="n">synthesizer</span> <span class="o">=</span> <span class="n">get_response_synthesizer</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">synthesizer</span><span class="o">.</span><span class="n">synthesize</span><span class="p">(</span>
+        <span class="n">query_event</span><span class="o">.</span><span class="n">query</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">retrieve_event</span><span class="o">.</span><span class="n">nodes</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+<p>Using <code>ctx.collect_events()</code> we can buffer and wait for ALL expected events to arrive. This function will only return data (in the requested order) once all events have arrived.</p>
+<h2 id="manually-triggering-events">Manually Triggering Events<a class="headerlink" href="#manually-triggering-events" title="Permanent link">#</a></h2>
+<p>Normally, events are triggered by returning another event during a step. However, events can also be manually dispatched using the <code>ctx.send_event(event)</code> method within a workflow.</p>
+<p>Here is a short toy example showing how this would be used:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">step</span><span class="p">,</span> <span class="n">Context</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Workflow</span>
+
+
+<span class="k">class</span> <span class="nc">MyEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">MyEventResult</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">result</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">GatherEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">MyWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">dispatch_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyEvent</span> <span class="o">|</span> <span class="n">GatherEvent</span><span class="p">:</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">MyEvent</span><span class="p">())</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">MyEvent</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">GatherEvent</span><span class="p">()</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">handle_my_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">MyEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyEventResult</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">MyEventResult</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="s2">&quot;result&quot;</span><span class="p">)</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">gather</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">GatherEvent</span> <span class="o">|</span> <span class="n">MyEventResult</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># wait for events to finish</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">collect_events</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="p">[</span><span class="n">MyEventResult</span><span class="p">,</span> <span class="n">MyEventResult</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">events</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="streaming-events">Streaming Events<a class="headerlink" href="#streaming-events" title="Permanent link">#</a></h2>
+<p>You can also iterate over events as they come in. This is useful for streaming purposes, showing progress, or for debugging. The handler object will emit events that are explicitly written to the stream using <code>ctx.write_event_to_stream()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ProgressEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">MyWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">step_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FirstEvent</span><span class="p">:</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">write_event_to_stream</span><span class="p">(</span><span class="n">ProgressEvent</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Step one is happening&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">FirstEvent</span><span class="p">(</span><span class="n">first_output</span><span class="o">=</span><span class="s2">&quot;First step complete.&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>You can then pick up the events like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">MyWorkflow</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Pirates&quot;</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="retry-steps-execution-in-case-of-failures">Retry steps execution in case of failures<a class="headerlink" href="#retry-steps-execution-in-case-of-failures" title="Permanent link">#</a></h2>
+<p>A step that fails its execution might result in the failure of the entire workflow, but oftentimes errors are
+expected and the execution can be safely retried. Think of a HTTP request that times out because of a transient
+congestion of the network, or an external API call that hits a rate limiter.</p>
+<p>For all those situation where you want the step to try again, you can use a "Retry Policy". A retry policy is an object
+that instructs the workflow to execute a step multiple times, dictating how much time has to pass before a new attempt.
+Policies take into consideration how much time passed since the first failure, how many consecutive failures happened
+and which was the last error occurred.</p>
+<p>To set a policy for a specific step, all you have to do is passing a policy object to the <code>@step</code> decorator:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow.retry_policy</span> <span class="kn">import</span> <span class="n">ConstantDelayRetryPolicy</span>
+
+
+<span class="k">class</span> <span class="nc">MyWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="c1"># ...more workflow definition...</span>
+
+    <span class="c1"># This policy will retry this step on failure every 5 seconds for at most 10 times</span>
+    <span class="nd">@step</span><span class="p">(</span><span class="n">retry_policy</span><span class="o">=</span><span class="n">ConstantDelayRetryPolicy</span><span class="p">(</span><span class="n">delay</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">maximum_attempts</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">flaky_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">flaky_call</span><span class="p">()</span>  <span class="c1"># this might raise</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+<p>You can see the <a href="../../api_reference/workflow/retry_policy/">API docs</a> for a detailed description of the policies
+available in the framework. If you can't find a policy that's suitable for your use case, you can easily write a
+custom one. The only requirement for custom policies is to write a Python class that respects the <code>RetryPolicy</code>
+protocol. In other words, your custom policy class must have a method with the following signature:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">next</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">attempts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>For example, this is a retry policy that's excited about the weekend and only retries a step if it's Friday:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+
+<span class="k">class</span> <span class="nc">RetryOnFridayPolicy</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">attempts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Friday&quot;</span><span class="p">:</span>
+            <span class="c1"># retry in 5 seconds</span>
+            <span class="k">return</span> <span class="mi">5</span>
+        <span class="c1"># tell the workflow we don&#39;t want to retry</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+<h2 id="human-in-the-loop">Human-in-the-loop<a class="headerlink" href="#human-in-the-loop" title="Permanent link">#</a></h2>
+<p>Since workflows are so flexible, there are many possible ways to implement human-in-the-loop patterns.</p>
+<p>The easiest way to implement a human-in-the-loop is to use the <code>InputRequiredEvent</code> and <code>HumanResponseEvent</code> events during event streaming.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">InputRequiredEvent</span><span class="p">,</span> <span class="n">HumanResponseEvent</span>
+
+
+<span class="k">class</span> <span class="nc">HumanInTheLoopWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">step1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputRequiredEvent</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">InputRequiredEvent</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Enter a number: &quot;</span><span class="p">)</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">step2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">HumanResponseEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">ev</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+
+
+<span class="c1"># workflow should work with streaming</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">HumanInTheLoopWorkflow</span><span class="p">()</span>
+
+<span class="n">handler</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">InputRequiredEvent</span><span class="p">):</span>
+        <span class="c1"># here, we can handle human input however you want</span>
+        <span class="c1"># this means using input(), websockets, accessing async state, etc.</span>
+        <span class="c1"># here, we just use input()</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">HumanResponseEvent</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">))</span>
+
+<span class="n">final_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<p>Here, the workflow will wait until the <code>HumanResponseEvent</code> is emitted.</p>
+<p>Also note that you can break out of the loop, and resume it later. This is useful if you want to pause the workflow to wait for a human response, but continue the workflow later.</p>
+<div class="highlight"><pre><span></span><code><span class="n">handler</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">InputRequiredEvent</span><span class="p">):</span>
+        <span class="k">break</span>
+
+<span class="c1"># now we handle the human response</span>
+<span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">prefix</span><span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">HumanResponseEvent</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">))</span>
+
+<span class="c1"># now we resume the workflow streaming</span>
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="k">continue</span>
+
+<span class="n">final_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="stepwise-execution">Stepwise Execution<a class="headerlink" href="#stepwise-execution" title="Permanent link">#</a></h2>
+<p>Workflows have built-in utilities for stepwise execution, allowing you to control execution and debug state as things progress.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create a workflow, same as usual</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">()</span>
+<span class="c1"># Get the handler. Passing `stepwise=True` will block execution, waiting for manual intervention</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">stepwise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Each time we call `run_step`, the workflow will advance and return all the events</span>
+<span class="c1"># that were produced in the last step. This events need to be manually propagated</span>
+<span class="c1"># for the workflow to keep going (we assign them to `produced_events` with the := operator).</span>
+<span class="k">while</span> <span class="n">produced_events</span> <span class="o">:=</span> <span class="k">await</span> <span class="n">handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">():</span>
+    <span class="c1"># If we&#39;re here, it means there&#39;s at least an event we need to propagate,</span>
+    <span class="c1"># let&#39;s do it with `send_event`</span>
+    <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">produced_events</span><span class="p">:</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+
+<span class="c1"># If we&#39;re here, it means the workflow execution completed, and</span>
+<span class="c1"># we can now access the final result.</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="decorating-non-class-functions">Decorating non-class Functions<a class="headerlink" href="#decorating-non-class-functions" title="Permanent link">#</a></h2>
+<p>You can also decorate and attach steps to a workflow without subclassing it.</p>
+<p>Below is the <code>JokeFlow</code> from earlier, but defined without subclassing.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Event</span><span class="p">,</span>
+    <span class="n">StartEvent</span><span class="p">,</span>
+    <span class="n">StopEvent</span><span class="p">,</span>
+    <span class="n">Workflow</span><span class="p">,</span>
+    <span class="n">step</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+
+<span class="k">class</span> <span class="nc">JokeEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">joke</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="n">joke_flow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="nd">@step</span><span class="p">(</span><span class="n">workflow</span><span class="o">=</span><span class="n">joke_flow</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke</span><span class="p">(</span><span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+    <span class="n">topic</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">topic</span>
+
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+
+<span class="nd">@step</span><span class="p">(</span><span class="n">workflow</span><span class="o">=</span><span class="n">joke_flow</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+    <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+    <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="maintaining-context-across-runs">Maintaining Context Across Runs<a class="headerlink" href="#maintaining-context-across-runs" title="Permanent link">#</a></h2>
+<p>As you have seen, workflows have a <code>Context</code> object that can be used to maintain state across steps.</p>
+<p>If you want to maintain state across multiple runs of a workflow, you can pass a previous context into the <code>.run()</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="n">handler</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+
+<span class="c1"># continue with next run</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ctx</span><span class="o">=</span><span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">#</a></h2>
+<p>Resources are external dependencies you can inject into the steps of a workflow.</p>
+<p>As a simple example, look at <code>memory</code> in the following workflow:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow.resource</span> <span class="kn">import</span> <span class="n">Resource</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">Memory</span>
+
+
+<span class="k">def</span> <span class="nf">get_memory</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Memory</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="s2">&quot;user_id_123&quot;</span><span class="p">,</span> <span class="n">token_limit</span><span class="o">=</span><span class="mi">60000</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SecondEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">WorkflowWithResource</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">first_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">,</span>
+        <span class="n">memory</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Memory</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="n">get_memory</span><span class="p">)],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SecondEvent</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory before step 1&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">aput</span><span class="p">(</span>
+            <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;This is the first step&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory after step 1&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SecondEvent</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;This is an input for step 2&quot;</span><span class="p">)</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">second_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">SecondEvent</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Memory</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="n">get_memory</span><span class="p">)]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory before step 2&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">aput</span><span class="p">(</span><span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">ev</span><span class="o">.</span><span class="n">msg</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory after step 2&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="s2">&quot;Messages put into memory&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>To inject a resource into a workflow step, you have to add a parameter to the step signature and define its type,
+using <code>Annotated</code> and invoke the <code>Resource()</code> wrapper passing a function or callable returning the actual Resource
+object. The return type of the wrapped function must match the declared type, ensuring consistency between what’s
+expected and what’s provided during execution. In the example above, <code>memory: Annotated[Memory, Resource(get_memory)</code>
+defines a resource of type <code>Memory</code> that will be provided by the <code>get_memory()</code> function and passed to the step in the
+<code>memory</code> parameter when the workflow runs.</p>
+<p>Resources are shared among steps of a workflow, and the <code>Resource()</code> wrapper will invoke the factory function only once.
+In case this is not the desired behavior, passing <code>cache=False</code> to <code>Resource()</code> will inject different resource objects
+in different steps, invoking the factory function as many times.</p>
+<h2 id="checkpointing-workflows">Checkpointing Workflows<a class="headerlink" href="#checkpointing-workflows" title="Permanent link">#</a></h2>
+<p>Workflow runs can also be made to create and store checkpoints upon every step completion via the <code>WorfklowCheckpointer</code> object. These checkpoints can be then be used as the starting points for future runs, which can be a helpful feature during the development (and debugging) of your Workflow.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">WorkflowCheckpointer</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">w_cptr</span> <span class="o">=</span> <span class="n">WorkflowCheckpointer</span><span class="p">(</span><span class="n">workflow</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+
+<span class="c1"># to checkpoint a run, use the `run` method from w_cptr</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w_cptr</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Pirates&quot;</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">handler</span>
+
+<span class="c1"># to view the stored checkpoints of this run</span>
+<span class="n">w_cptr</span><span class="o">.</span><span class="n">checkpoints</span><span class="p">[</span><span class="n">handler</span><span class="o">.</span><span class="n">run_id</span><span class="p">]</span>
+
+<span class="c1"># to run from one of the checkpoints, use `run_from` method</span>
+<span class="n">ckpt</span> <span class="o">=</span> <span class="n">w_cptr</span><span class="o">.</span><span class="n">checkpoints</span><span class="p">[</span><span class="n">handler</span><span class="o">.</span><span class="n">run_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w_cptr</span><span class="o">.</span><span class="n">run_from</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Ships&quot;</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="n">ckpt</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="deploying-a-workflow">Deploying a Workflow<a class="headerlink" href="#deploying-a-workflow" title="Permanent link">#</a></h2>
+<p>You can deploy a workflow as a multi-agent service with <a href="../../module_guides/llama_deploy">llama_deploy</a> (<a href="https://github.com/run-llama/llama_deploy">repo</a>). Each agent service is orchestrated via a control plane and communicates via a message queue. Deploy locally or on Kubernetes.</p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h2>
+<p>To help you become more familiar with the workflow concept and its features, LlamaIndex documentation offers example
+notebooks that you can run for hands-on learning:</p>
+<ul>
+<li><a href="../../examples/workflow/workflows_cookbook/">Common Workflow Patterns</a> walks you through common usage patterns
+like looping and state management using simple workflows. It's usually a great place to start.</li>
+<li><a href="../../examples/workflow/rag/">RAG + Reranking</a> shows how to implement a real-world use case with a fairly
+simple workflow that performs both ingestion and querying.</li>
+<li><a href="../../examples/workflow/citation_query_engine/">Citation Query Engine</a> similar to RAG + Reranking, the
+notebook focuses on how to implement intermediate steps in between retrieval and generation. A good example of how to
+use the <a href="#working-with-global-context-state"><code>Context</code></a> object in a workflow.</li>
+<li><a href="../../examples/workflow/corrective_rag_pack/">Corrective RAG</a> adds some more complexity on top of a RAG
+workflow, showcasing how to query a web search engine after an evaluation step.</li>
+<li><a href="../../examples/workflow/parallel_execution/">Utilizing Concurrency</a> explains how to manage the parallel
+execution of steps in a workflow, something that's important to know as your workflows grow in complexity.</li>
+</ul>
+<p>RAG applications are easy to understand and offer a great opportunity to learn the basics of workflows. However, more complex agentic scenarios involving tool calling, memory, and routing are where workflows excel.</p>
+<p>The examples below highlight some of these use-cases.</p>
+<ul>
+<li><a href="../../examples/workflow/react_agent/">ReAct Agent</a> is obviously the perfect example to show how to implement
+tools in a workflow.</li>
+<li><a href="../../examples/workflow/function_calling_agent/">Function Calling Agent</a> is a great example of how to use the
+LlamaIndex framework primitives in a workflow, keeping it small and tidy even in complex scenarios like function
+calling.</li>
+<li><a href="../../examples/agent/from_scratch_code_act_agent/">CodeAct Agent</a> is a great example of how to create a CodeAct Agent from scratch.</li>
+<li><a href="../../examples/workflow/human_in_the_loop_story_crafting/">Human In The Loop: Story Crafting</a> is a powerful
+example showing how workflow runs can be interactive and stateful. In this case, to collect input from a human.</li>
+<li><a href="../../examples/workflow/reflection/">Reliable Structured Generation</a> shows how to implement loops in a
+workflow, in this case to improve structured output through reflection.</li>
+<li><a href="../../examples/workflow/planning_workflow/">Query Planning with Workflows</a> is an example of a workflow
+that plans a query by breaking it down into smaller items, and executing those smaller items. It highlights how
+to stream events from a workflow, execute steps in parallel, and looping until a condition is met.</li>
+<li><a href="../../examples/workflow/checkpointing_workflows/">Checkpointing Workflows</a> is a more exhaustive demonstration of how to make full use of <code>WorkflowCheckpointer</code> to checkpoint Workflow runs.</li>
+</ul>
+<p>Last but not least, a few more advanced use cases that demonstrate how workflows can be extremely handy if you need
+to quickly implement prototypes, for example from literature:</p>
+<ul>
+<li><a href="../../examples/workflow/advanced_text_to_sql/">Advanced Text-to-SQL</a></li>
+<li><a href="../../examples/workflow/JSONalyze_query_engine/">JSON Query Engine</a></li>
+<li><a href="../../examples/workflow/long_rag_pack/">Long RAG</a></li>
+<li><a href="../../examples/workflow/multi_step_query_engine/">Multi-Step Query Engine</a></li>
+<li><a href="../../examples/workflow/multi_strategy_workflow/">Multi-Strategy Workflow</a></li>
+<li><a href="../../examples/workflow/router_query_engine/">Router Query Engine</a></li>
+<li><a href="../../examples/workflow/self_discover_workflow/">Self Discover Workflow</a></li>
+<li><a href="../../examples/workflow/sub_question_query_engine/">Sub-Question Query Engine</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../deploying/agents/tools/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Tools">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Tools
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../evaluating/" class="md-footer__link md-footer__link--next" aria-label="Next: Evaluating">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Evaluating
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../javascript/runllm.js"></script>
+      
+        <script src="../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3281 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/understanding/putting_it_all_together/apps/fullstack_with_delphic/">
+      
+      
+        <link rel="prev" href="../fullstack_app_guide/">
+      
+      
+        <link rel="next" href="../">
+      
+      
+      <link rel="icon" href="../../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>A Guide to Building a Full-Stack LlamaIndex Web App with Delphic - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#a-guide-to-building-a-full-stack-llamaindex-web-app-with-delphic" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              A Guide to Building a Full-Stack LlamaIndex Web App with Delphic
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../use_cases/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../module_guides/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../api_reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../community/integrations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../llama_cloud/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  LlamaCloud
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learn
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_llms/using_llms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using LLMs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../agent/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Building agents
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../workflows/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Building Workflows
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Building a RAG pipeline
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../extraction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Structured Data Extraction
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tracing_and_debugging/tracing_and_debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tracing and Debugging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../evaluating/evaluating/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Evaluating
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Putting it all Together
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Putting it all Together
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Full-stack web application
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9_2" id="__nav_2_9_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_9_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            Full-stack web application
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fullstack_app_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    A Guide to Building a Full-Stack Web App with LLamaIndex
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    A Guide to Building a Full-Stack LlamaIndex Web App with Delphic
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    A Guide to Building a Full-Stack LlamaIndex Web App with Delphic
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-were-building" class="md-nav__link">
+    <span class="md-ellipsis">
+      What We're Building
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architectural Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Backend
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Django Backend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-directory-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Directory Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django-ninja-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Ninja API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intro-to-websockets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intro to Websockets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket Handler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Websocket Handler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket-connect-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket connect listener
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-disconnect-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket disconnect listener
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-receive-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket receive listener
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#react-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      React Frontend
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="React Frontend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frontend-project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frontend Project Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grabbing-collections-from-the-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grabbing Collections from the Backend
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#displaying-collections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Displaying Collections
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat-view-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chat View Component
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chat View Component">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chat-websocket-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chat Websocket Client
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rendering-our-chat-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rendering our Chat Messages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-and-deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build and Deploy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Application
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the Application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup Users
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../q_and_a/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Q&A Patterns
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../chatbots/building_a_chatbot/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Chatbots
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../structured_data/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Structured data
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../use_cases/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Use Cases
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../examples/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../module_guides/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Component Guides
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../api_reference/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../community/integrations/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../llama_cloud/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-were-building" class="md-nav__link">
+    <span class="md-ellipsis">
+      What We're Building
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architectural Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Backend
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Django Backend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-directory-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Directory Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django-ninja-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Ninja API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intro-to-websockets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intro to Websockets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket Handler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Websocket Handler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket-connect-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket connect listener
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-disconnect-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket disconnect listener
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-receive-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      Websocket receive listener
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#react-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      React Frontend
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="React Frontend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frontend-project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frontend Project Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grabbing-collections-from-the-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grabbing Collections from the Backend
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#displaying-collections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Displaying Collections
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat-view-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chat View Component
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chat View Component">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chat-websocket-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chat Websocket Client
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rendering-our-chat-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rendering our Chat Messages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-and-deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build and Deploy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Application
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the Application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup Users
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="a-guide-to-building-a-full-stack-llamaindex-web-app-with-delphic">A Guide to Building a Full-Stack LlamaIndex Web App with Delphic<a class="headerlink" href="#a-guide-to-building-a-full-stack-llamaindex-web-app-with-delphic" title="Permanent link">#</a></h1>
+<p>This guide seeks to walk you through using LlamaIndex with a production-ready web app starter template
+called <a href="https://github.com/JSv4/Delphic">Delphic</a>. All code examples here are available from
+the <a href="https://github.com/JSv4/Delphic">Delphic</a> repo</p>
+<h2 id="what-were-building">What We're Building<a class="headerlink" href="#what-were-building" title="Permanent link">#</a></h2>
+<p>Here's a quick demo of the out-of-the-box functionality of Delphic:</p>
+<p>https://user-images.githubusercontent.com/5049984/233236432-aa4980b6-a510-42f3-887a-81485c9644e6.mp4</p>
+<h2 id="architectural-overview">Architectural Overview<a class="headerlink" href="#architectural-overview" title="Permanent link">#</a></h2>
+<p>Delphic leverages the LlamaIndex python library to let users to create their own document collections they can then
+query in a responsive frontend.</p>
+<p>We chose a stack that provides a responsive, robust mix of technologies that can (1) orchestrate complex python
+processing tasks while providing (2) a modern, responsive frontend and (3) a secure backend to build additional
+functionality upon.</p>
+<p>The core libraries are:</p>
+<ol>
+<li><a href="https://www.djangoproject.com/">Django</a></li>
+<li><a href="https://channels.readthedocs.io/en/stable/">Django Channels</a></li>
+<li><a href="https://django-ninja.rest-framework.com/">Django Ninja</a></li>
+<li><a href="https://redis.io/">Redis</a></li>
+<li><a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html">Celery</a></li>
+<li><a href="https://gpt-index.readthedocs.io/en/latest/">LlamaIndex</a></li>
+<li><a href="https://python.langchain.com/en/latest/index.html">Langchain</a></li>
+<li><a href="https://github.com/facebook/react">React</a></li>
+<li>Docker &amp; Docker Compose</li>
+</ol>
+<p>Thanks to this modern stack built on the super stable Django web framework, the starter Delphic app boasts a streamlined
+developer experience, built-in authentication and user management, asynchronous vector store processing, and
+web-socket-based query connections for a responsive UI. In addition, our frontend is built with TypeScript and is based
+on MUI React for a responsive and modern user interface.</p>
+<h2 id="system-requirements">System Requirements<a class="headerlink" href="#system-requirements" title="Permanent link">#</a></h2>
+<p>Celery doesn't work on Windows. It may be deployable with Windows Subsystem for Linux, but configuring that is beyond
+the scope of this tutorial. For this reason, we recommend you only follow this tutorial if you're running Linux or OSX.
+You will need Docker and Docker Compose installed to deploy the application. Local development will require node version
+manager (nvm).</p>
+<h2 id="django-backend">Django Backend<a class="headerlink" href="#django-backend" title="Permanent link">#</a></h2>
+<h3 id="project-directory-overview">Project Directory Overview<a class="headerlink" href="#project-directory-overview" title="Permanent link">#</a></h3>
+<p>The Delphic application has a structured backend directory organization that follows common Django project conventions.
+From the repo root, in the <code>./delphic</code> subfolder, the main folders are:</p>
+<ol>
+<li><code>contrib</code>: This directory contains custom modifications or additions to Django's built-in <code>contrib</code> apps.</li>
+<li>
+<p><code>indexes</code>: This directory contains the core functionality related to document indexing and LLM integration. It
+   includes:</p>
+</li>
+<li>
+<p><code>admin.py</code>: Django admin configuration for the app</p>
+</li>
+<li><code>apps.py</code>: Application configuration</li>
+<li><code>models.py</code>: Contains the app's database models</li>
+<li><code>migrations</code>: Directory containing database schema migrations for the app</li>
+<li><code>signals.py</code>: Defines any signals for the app</li>
+<li>
+<p><code>tests.py</code>: Unit tests for the app</p>
+</li>
+<li>
+<p><code>tasks</code>: This directory contains tasks for asynchronous processing using Celery. The <code>index_tasks.py</code> file includes
+   the tasks for creating vector indexes.</p>
+</li>
+<li><code>users</code>: This directory is dedicated to user management, including:</li>
+<li><code>utils</code>: This directory contains utility modules and functions that are used across the application, such as custom
+   storage backends, path helpers, and collection-related utilities.</li>
+</ol>
+<h3 id="database-models">Database Models<a class="headerlink" href="#database-models" title="Permanent link">#</a></h3>
+<p>The Delphic application has two core models: <code>Document</code> and <code>Collection</code>. These models represent the central entities
+the application deals with when indexing and querying documents using LLMs. They're defined in
+<a href="https://github.com/JSv4/Delphic/blob/main/delphic/indexes/models.py"><code>./delphic/indexes/models.py</code></a>.</p>
+<ol>
+<li>
+<p><code>Collection</code>:</p>
+</li>
+<li>
+<p><code>api_key</code>: A foreign key that links a collection to an API key. This helps associate jobs with the source API key.</p>
+</li>
+<li><code>title</code>: A character field that provides a title for the collection.</li>
+<li><code>description</code>: A text field that provides a description of the collection.</li>
+<li><code>status</code>: A character field that stores the processing status of the collection, utilizing the <code>CollectionStatus</code>
+  enumeration.</li>
+<li><code>created</code>: A datetime field that records when the collection was created.</li>
+<li><code>modified</code>: A datetime field that records the last modification time of the collection.</li>
+<li><code>model</code>: A file field that stores the model associated with the collection.</li>
+<li>
+<p><code>processing</code>: A boolean field that indicates if the collection is currently being processed.</p>
+</li>
+<li>
+<p><code>Document</code>:</p>
+</li>
+<li>
+<p><code>collection</code>: A foreign key that links a document to a collection. This represents the relationship between documents
+  and collections.</p>
+</li>
+<li><code>file</code>: A file field that stores the uploaded document file.</li>
+<li><code>description</code>: A text field that provides a description of the document.</li>
+<li><code>created</code>: A datetime field that records when the document was created.</li>
+<li><code>modified</code>: A datetime field that records the last modification time of the document.</li>
+</ol>
+<p>These models provide a solid foundation for collections of documents and the indexes created from them with LlamaIndex.</p>
+<h3 id="django-ninja-api">Django Ninja API<a class="headerlink" href="#django-ninja-api" title="Permanent link">#</a></h3>
+<p>Django Ninja is a web framework for building APIs with Django and Python 3.7+ type hints. It provides a simple,
+intuitive, and expressive way of defining API endpoints, leveraging Python’s type hints to automatically generate input
+validation, serialization, and documentation.</p>
+<p>In the Delphic repo,
+the <a href="https://github.com/JSv4/Delphic/blob/main/config/api/endpoints.py"><code>./config/api/endpoints.py</code></a>
+file contains the API routes and logic for the API endpoints. Now, let’s briefly address the purpose of each endpoint
+in the <code>endpoints.py</code> file:</p>
+<ol>
+<li>
+<p><code>/heartbeat</code>: A simple GET endpoint to check if the API is up and running. Returns <code>True</code> if the API is accessible.
+   This is helpful for Kubernetes setups that expect to be able to query your container to ensure it's up and running.</p>
+</li>
+<li>
+<p><code>/collections/create</code>: A POST endpoint to create a new <code>Collection</code>. Accepts form parameters such
+   as <code>title</code>, <code>description</code>, and a list of <code>files</code>. Creates a new <code>Collection</code> and <code>Document</code> instances for each file,
+   and schedules a Celery task to create an index.</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/create&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">create_collection</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">UploadedFile</span><span class="p">]</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+<span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">request</span><span class="o">.</span><span class="n">auth</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="k">await</span> <span class="n">key</span>
+
+    <span class="n">collection_instance</span> <span class="o">=</span> <span class="n">Collection</span><span class="p">(</span>
+        <span class="n">api_key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+        <span class="n">status</span><span class="o">=</span><span class="n">CollectionStatusEnum</span><span class="o">.</span><span class="n">QUEUED</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">collection_instance</span><span class="o">.</span><span class="n">save</span><span class="p">)()</span>
+
+    <span class="k">for</span> <span class="n">uploaded_file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">doc_data</span> <span class="o">=</span> <span class="n">uploaded_file</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">doc_file</span> <span class="o">=</span> <span class="n">ContentFile</span><span class="p">(</span><span class="n">doc_data</span><span class="p">,</span> <span class="n">uploaded_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">document</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">collection</span><span class="o">=</span><span class="n">collection_instance</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">doc_file</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">save</span><span class="p">)()</span>
+
+    <span class="n">create_index</span><span class="o">.</span><span class="n">si</span><span class="p">(</span><span class="n">collection_instance</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">apply_async</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">CollectionModelSchema</span><span class="p">)(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<ol>
+<li><code>/collections/query</code> — a POST endpoint to query a document collection using the LLM. Accepts a JSON payload
+   containing <code>collection_id</code> and <code>query_str</code>, and returns a response generated by querying the collection. We don't
+   actually use this endpoint in our chat GUI (We use a websocket - see below), but you could build an app to integrate
+   to this REST endpoint to query a specific collection.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="s2">&quot;/query&quot;</span><span class="p">,</span>
+    <span class="n">response</span><span class="o">=</span><span class="n">CollectionQueryOutput</span><span class="p">,</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Ask a question of a document collection&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">query_collection_view</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">query_input</span><span class="p">:</span> <span class="n">CollectionQueryInput</span>
+<span class="p">):</span>
+    <span class="n">collection_id</span> <span class="o">=</span> <span class="n">query_input</span><span class="o">.</span><span class="n">collection_id</span>
+    <span class="n">query_str</span> <span class="o">=</span> <span class="n">query_input</span><span class="o">.</span><span class="n">query_str</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">query_collection</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">query_str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><code>/collections/available</code>: A GET endpoint that returns a list of all collections created with the user's API key. The
+   output is serialized using the <code>CollectionModelSchema</code>.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">&quot;/available&quot;</span><span class="p">,</span>
+    <span class="n">response</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">CollectionModelSchema</span><span class="p">],</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Get a list of all of the collections created with my api_key&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_my_collections_view</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">request</span><span class="o">.</span><span class="n">auth</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="k">await</span> <span class="n">key</span>
+
+    <span class="n">collections</span> <span class="o">=</span> <span class="n">Collection</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[{</span><span class="o">...</span><span class="p">}</span> <span class="k">async</span> <span class="k">for</span> <span class="n">collection</span> <span class="ow">in</span> <span class="n">collections</span><span class="p">]</span>
+</code></pre></div>
+<ol>
+<li><code>/collections/{collection_id}/add_file</code>: A POST endpoint to add a file to an existing collection. Accepts
+   a <code>collection_id</code> path parameter, and form parameters such as <code>file</code> and <code>description</code>. Adds the file as a <code>Document</code>
+   instance associated with the specified collection.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="s2">&quot;/</span><span class="si">{collection_id}</span><span class="s2">/add_file&quot;</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Add a file to a collection&quot;</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">add_file_to_collection</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="n">collection_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">file</span><span class="p">:</span> <span class="n">UploadedFile</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+<span class="p">):</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">Collection</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">)(</span><span class="nb">id</span><span class="o">=</span><span class="n">collection_id</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="intro-to-websockets">Intro to Websockets<a class="headerlink" href="#intro-to-websockets" title="Permanent link">#</a></h3>
+<p>WebSockets are a communication protocol that enables bidirectional and full-duplex communication between a client and a
+server over a single, long-lived connection. The WebSocket protocol is designed to work over the same ports as HTTP and
+HTTPS (ports 80 and 443, respectively) and uses a similar handshake process to establish a connection. Once the
+connection is established, data can be sent in both directions as “frames” without the need to reestablish the
+connection each time, unlike traditional HTTP requests.</p>
+<p>There are several reasons to use WebSockets, particularly when working with code that takes a long time to load into
+memory but is quick to run once loaded:</p>
+<ol>
+<li><strong>Performance</strong>: WebSockets eliminate the overhead associated with opening and closing multiple connections for each
+   request, reducing latency.</li>
+<li><strong>Efficiency</strong>: WebSockets allow for real-time communication without the need for polling, resulting in more
+   efficient use of resources and better responsiveness.</li>
+<li><strong>Scalability</strong>: WebSockets can handle a large number of simultaneous connections, making it ideal for applications
+   that require high concurrency.</li>
+</ol>
+<p>In the case of the Delphic application, using WebSockets makes sense as the LLMs can be expensive to load into memory.
+By establishing a WebSocket connection, the LLM can remain loaded in memory, allowing subsequent requests to be
+processed quickly without the need to reload the model each time.</p>
+<p>The ASGI configuration file <a href="https://github.com/JSv4/Delphic/blob/main/config/asgi.py"><code>./config/asgi.py</code></a> defines how
+the application should handle incoming connections, using the Django Channels <code>ProtocolTypeRouter</code> to route connections
+based on their protocol type. In this case, we have two protocol types: "http" and "websocket".</p>
+<p>The “http” protocol type uses the standard Django ASGI application to handle HTTP requests, while the “websocket”
+protocol type uses a custom <code>TokenAuthMiddleware</code> to authenticate WebSocket connections. The <code>URLRouter</code> within
+the <code>TokenAuthMiddleware</code> defines a URL pattern for the <code>CollectionQueryConsumer</code>, which is responsible for handling
+WebSocket connections related to querying document collections.</p>
+<div class="highlight"><pre><span></span><code><span class="n">application</span> <span class="o">=</span> <span class="n">ProtocolTypeRouter</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;http&quot;</span><span class="p">:</span> <span class="n">get_asgi_application</span><span class="p">(),</span>
+        <span class="s2">&quot;websocket&quot;</span><span class="p">:</span> <span class="n">TokenAuthMiddleware</span><span class="p">(</span>
+            <span class="n">URLRouter</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">re_path</span><span class="p">(</span>
+                        <span class="sa">r</span><span class="s2">&quot;ws/collections/(?P&lt;collection_id&gt;\w+)/query/$&quot;</span><span class="p">,</span>
+                        <span class="n">CollectionQueryConsumer</span><span class="o">.</span><span class="n">as_asgi</span><span class="p">(),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>This configuration allows clients to establish WebSocket connections with the Delphic application to efficiently query
+document collections using the LLMs, without the need to reload the models for each request.</p>
+<h3 id="websocket-handler">Websocket Handler<a class="headerlink" href="#websocket-handler" title="Permanent link">#</a></h3>
+<p>The <code>CollectionQueryConsumer</code> class
+in <a href="https://github.com/JSv4/Delphic/blob/main/config/api/websockets/queries.py"><code>config/api/websockets/queries.py</code></a> is
+responsible for handling WebSocket connections related to querying document collections. It inherits from
+the <code>AsyncWebsocketConsumer</code> class provided by Django Channels.</p>
+<p>The <code>CollectionQueryConsumer</code> class has three main methods:</p>
+<ol>
+<li><code>connect</code>: Called when a WebSocket is handshaking as part of the connection process.</li>
+<li><code>disconnect</code>: Called when a WebSocket closes for any reason.</li>
+<li><code>receive</code>: Called when the server receives a message from the WebSocket.</li>
+</ol>
+<h4 id="websocket-connect-listener">Websocket connect listener<a class="headerlink" href="#websocket-connect-listener" title="Permanent link">#</a></h4>
+<p>The <code>connect</code> method is responsible for establishing the connection, extracting the collection ID from the connection
+path, loading the collection model, and accepting the connection.</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_id</span> <span class="o">=</span> <span class="n">extract_connection_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scope</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="k">await</span> <span class="n">load_collection_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_id</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+</code></pre></div>
+<h4 id="websocket-disconnect-listener">Websocket disconnect listener<a class="headerlink" href="#websocket-disconnect-listener" title="Permanent link">#</a></h4>
+<p>The <code>disconnect</code> method is empty in this case, as there are no additional actions to be taken when the WebSocket is
+closed.</p>
+<h4 id="websocket-receive-listener">Websocket receive listener<a class="headerlink" href="#websocket-receive-listener" title="Permanent link">#</a></h4>
+<p>The <code>receive</code> method is responsible for processing incoming messages from the WebSocket. It takes the incoming message,
+decodes it, and then queries the loaded collection model using the provided query. The response is then formatted as a
+markdown string and sent back to the client over the WebSocket connection.</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_data</span><span class="p">):</span>
+    <span class="n">text_data_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text_data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">query_str</span> <span class="o">=</span> <span class="n">text_data_json</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+        <span class="n">modified_query_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Please return a nicely formatted markdown string to this request:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">query_str</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">query_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">modified_query_str</span><span class="p">)</span>
+
+        <span class="n">markdown_response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;## Response</span><span class="se">\n\n</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">source_nodes</span><span class="p">:</span>
+            <span class="n">markdown_sources</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;## Sources</span><span class="se">\n\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">get_formatted_sources</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">markdown_sources</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">formatted_response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">markdown_response</span><span class="si">}{</span><span class="n">markdown_sources</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">formatted_response</span><span class="p">},</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No index loaded for this connection.&quot;</span><span class="p">},</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p>To load the collection model, the <code>load_collection_model</code> function is used, which can be found
+in <a href="https://github.com/JSv4/Delphic/blob/main/delphic/utils/collections.py"><code>delphic/utils/collections.py</code></a>. This
+function retrieves the collection object with the given collection ID, checks if a JSON file for the collection model
+exists, and if not, creates one. Then, it sets up the <code>LLM</code> and <code>Settings</code> before loading
+the <code>VectorStoreIndex</code> using the cache file.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">load_collection_model</span><span class="p">(</span><span class="n">collection_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorStoreIndex</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the Collection model from cache or the database, and return the index.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        collection_id (Union[str, int]): The ID of the Collection model instance.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        VectorStoreIndex: The loaded index.</span>
+
+<span class="sd">    This function performs the following steps:</span>
+<span class="sd">    1. Retrieve the Collection object with the given collection_id.</span>
+<span class="sd">    2. Check if a JSON file with the name &#39;/cache/model_{collection_id}.json&#39; exists.</span>
+<span class="sd">    3. If the JSON file doesn&#39;t exist, load the JSON from the Collection.model FileField and save it to</span>
+<span class="sd">       &#39;/cache/model_{collection_id}.json&#39;.</span>
+<span class="sd">    4. Call VectorStoreIndex.load_from_disk with the cache_file_path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Retrieve the Collection object</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Collection</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">aget</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">collection_id</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;load_collection_model() - loaded collection </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Make sure there&#39;s a model</span>
+    <span class="k">if</span> <span class="n">collection</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;load_collection_model() - Setup local json index file&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if the JSON file exists</span>
+        <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">BASE_DIR</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;cache&quot;</span>
+        <span class="n">cache_file_path</span> <span class="o">=</span> <span class="n">cache_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;model_</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cache_file_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">cache_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">collection</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">model_file</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">cache_file_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+                    <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>
+                <span class="p">)</span> <span class="k">as</span> <span class="n">cache_file</span><span class="p">:</span>
+                    <span class="n">cache_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">model_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+        <span class="c1"># define LLM</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;load_collection_model() - Setup Settings with tokens </span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">MAX_TOKENS</span><span class="si">}</span><span class="s2"> and &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;model </span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">Settings</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+            <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">512</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Call VectorStoreIndex.load_from_disk</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;load_collection_model() - Load llama index&quot;</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">load_from_disk</span><span class="p">(</span>
+            <span class="n">cache_file_path</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;load_collection_model() - Llamaindex loaded and ready for query...&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;load_collection_model() - collection </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> has no model!&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No model exists for this collection!&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">index</span>
+</code></pre></div>
+<h2 id="react-frontend">React Frontend<a class="headerlink" href="#react-frontend" title="Permanent link">#</a></h2>
+<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h3>
+<p>We chose to use TypeScript, React and Material-UI (MUI) for the Delphic project’s frontend for a couple reasons. First,
+as the most popular component library (MUI) for the most popular frontend framework (React), this choice makes this
+project accessible to a huge community of developers. Second, React is, at this point, a stable and generally well-liked
+framework that delivers valuable abstractions in the form of its virtual DOM while still being relatively stable and, in
+our opinion, pretty easy to learn, again making it accessible.</p>
+<h3 id="frontend-project-structure">Frontend Project Structure<a class="headerlink" href="#frontend-project-structure" title="Permanent link">#</a></h3>
+<p>The frontend can be found in the <a href="https://github.com/JSv4/Delphic/tree/main/frontend"><code>/frontend</code></a> directory of the
+repo, with the React-related components being in <code>/frontend/src</code> . You’ll notice there is a DockerFile in the <code>frontend</code>
+directory and several folders and files related to configuring our frontend web
+server — <a href="https://www.nginx.com/">nginx</a>.</p>
+<p>The <code>/frontend/src/App.tsx</code> file serves as the entry point of the application. It defines the main components, such as
+the login form, the drawer layout, and the collection create modal. The main components are conditionally rendered based
+on whether the user is logged in and has an authentication token.</p>
+<p>The DrawerLayout2 component is defined in the<code>DrawerLayour2.tsx</code> file. This component manages the layout of the
+application and provides the navigation and main content areas.</p>
+<p>Since the application is relatively simple, we can get away with not using a complex state management solution like
+Redux and just use React’s useState hooks.</p>
+<h3 id="grabbing-collections-from-the-backend">Grabbing Collections from the Backend<a class="headerlink" href="#grabbing-collections-from-the-backend" title="Permanent link">#</a></h3>
+<p>The collections available to the logged-in user are retrieved and displayed in the DrawerLayout2 component. The process
+can be broken down into the following steps:</p>
+<ol>
+<li>Initializing state variables:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>const [collections, setCollections] = useState&lt;CollectionModelSchema[]&gt;([]);
+const [loading, setLoading] = useState(true);
+</code></pre></div>
+<p>Here, we initialize two state variables: <code>collections</code> to store the list of collections and <code>loading</code> to track whether
+the collections are being fetched.</p>
+<ol>
+<li>Collections are fetched for the logged-in user with the <code>fetchCollections()</code> function:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>const
+fetchCollections = async () = &gt; {
+try {
+const accessToken = localStorage.getItem(&quot;accessToken&quot;);
+if (accessToken) {
+const response = await getMyCollections(accessToken);
+setCollections(response.data);
+}
+} catch (error) {
+console.error(error);
+} finally {
+setLoading(false);
+}
+};
+</code></pre></div>
+<p>The <code>fetchCollections</code> function retrieves the collections for the logged-in user by calling the <code>getMyCollections</code> API
+function with the user's access token. It then updates the <code>collections</code> state with the retrieved data and sets
+the <code>loading</code> state to <code>false</code> to indicate that fetching is complete.</p>
+<h3 id="displaying-collections">Displaying Collections<a class="headerlink" href="#displaying-collections" title="Permanent link">#</a></h3>
+<p>The latest collectios are displayed in the drawer like this:</p>
+<div class="highlight"><pre><span></span><code>&lt; List &gt;
+{collections.map((collection) = &gt; (
+    &lt; div key={collection.id} &gt;
+    &lt; ListItem disablePadding &gt;
+    &lt; ListItemButton
+    disabled={
+    collection.status != = CollectionStatus.COMPLETE | |
+    !collection.has_model
+    }
+    onClick={() = &gt; handleCollectionClick(collection)}
+selected = {
+    selectedCollection &amp; &amp;
+    selectedCollection.id == = collection.id
+}
+&gt;
+&lt; ListItemText
+primary = {collection.title} / &gt;
+          {collection.status == = CollectionStatus.RUNNING ? (
+    &lt; CircularProgress
+    size={24}
+    style={{position: &quot;absolute&quot;, right: 16}}
+    / &gt;
+): null}
+&lt; / ListItemButton &gt;
+    &lt; / ListItem &gt;
+        &lt; / div &gt;
+))}
+&lt; / List &gt;
+</code></pre></div>
+<p>You’ll notice that the <code>disabled</code> property of a collection’s <code>ListItemButton</code> is set based on whether the collection's
+status is not <code>CollectionStatus.COMPLETE</code> or the collection does not have a model (<code>!collection.has_model</code>). If either
+of these conditions is true, the button is disabled, preventing users from selecting an incomplete or model-less
+collection. Where the CollectionStatus is RUNNING, we also show a loading wheel over the button.</p>
+<p>In a separate <code>useEffect</code> hook, we check if any collection in the <code>collections</code> state has a status
+of <code>CollectionStatus.RUNNING</code> or <code>CollectionStatus.QUEUED</code>. If so, we set up an interval to repeatedly call
+the <code>fetchCollections</code> function every 15 seconds (15,000 milliseconds) to update the collection statuses. This way, the
+application periodically checks for completed collections, and the UI is updated accordingly when the processing is
+done.</p>
+<div class="highlight"><pre><span></span><code>useEffect(() = &gt; {
+    let
+interval: NodeJS.Timeout;
+if (
+    collections.some(
+        (collection) = &gt;
+collection.status == = CollectionStatus.RUNNING | |
+collection.status == = CollectionStatus.QUEUED
+)
+) {
+    interval = setInterval(() = &gt; {
+    fetchCollections();
+}, 15000);
+}
+return () = &gt; clearInterval(interval);
+}, [collections]);
+</code></pre></div>
+<h3 id="chat-view-component">Chat View Component<a class="headerlink" href="#chat-view-component" title="Permanent link">#</a></h3>
+<p>The <code>ChatView</code> component in <code>frontend/src/chat/ChatView.tsx</code> is responsible for handling and displaying a chat interface
+for a user to interact with a collection. The component establishes a WebSocket connection to communicate in real-time
+with the server, sending and receiving messages.</p>
+<p>Key features of the <code>ChatView</code> component include:</p>
+<ol>
+<li>Establishing and managing the WebSocket connection with the server.</li>
+<li>Displaying messages from the user and the server in a chat-like format.</li>
+<li>Handling user input to send messages to the server.</li>
+<li>Updating the messages state and UI based on received messages from the server.</li>
+<li>Displaying connection status and errors, such as loading messages, connecting to the server, or encountering errors
+   while loading a collection.</li>
+</ol>
+<p>Together, all of this allows users to interact with their selected collection with a very smooth, low-latency
+experience.</p>
+<h4 id="chat-websocket-client">Chat Websocket Client<a class="headerlink" href="#chat-websocket-client" title="Permanent link">#</a></h4>
+<p>The WebSocket connection in the <code>ChatView</code> component is used to establish real-time communication between the client and
+the server. The WebSocket connection is set up and managed in the <code>ChatView</code> component as follows:</p>
+<p>First, we want to initialize the WebSocket reference:</p>
+<p>const websocket = useRef<WebSocket | null>(null);</p>
+<p>A <code>websocket</code> reference is created using <code>useRef</code>, which holds the WebSocket object that will be used for
+communication. <code>useRef</code> is a hook in React that allows you to create a mutable reference object that persists across
+renders. It is particularly useful when you need to hold a reference to a mutable object, such as a WebSocket
+connection, without causing unnecessary re-renders.</p>
+<p>In the <code>ChatView</code> component, the WebSocket connection needs to be established and maintained throughout the lifetime of
+the component, and it should not trigger a re-render when the connection state changes. By using <code>useRef</code>, you ensure
+that the WebSocket connection is kept as a reference, and the component only re-renders when there are actual state
+changes, such as updating messages or displaying errors.</p>
+<p>The <code>setupWebsocket</code> function is responsible for establishing the WebSocket connection and setting up event handlers to
+handle different WebSocket events.</p>
+<p>Overall, the setupWebsocket function looks like this:</p>
+<div class="highlight"><pre><span></span><code>const setupWebsocket = () =&gt; {
+  setConnecting(true);
+  // Here, a new WebSocket object is created using the specified URL, which includes the
+  // selected collection&#39;s ID and the user&#39;s authentication token.
+
+  websocket.current = new WebSocket(
+    `ws://localhost:8000/ws/collections/${selectedCollection.id}/query/?token=${authToken}`,
+  );
+
+  websocket.current.onopen = (event) =&gt; {
+    //...
+  };
+
+  websocket.current.onmessage = (event) =&gt; {
+    //...
+  };
+
+  websocket.current.onclose = (event) =&gt; {
+    //...
+  };
+
+  websocket.current.onerror = (event) =&gt; {
+    //...
+  };
+
+  return () =&gt; {
+    websocket.current?.close();
+  };
+};
+</code></pre></div>
+<p>Notice in a bunch of places we trigger updates to the GUI based on the information from the web socket client.</p>
+<p>When the component first opens and we try to establish a connection, the <code>onopen</code> listener is triggered. In the
+callback, the component updates the states to reflect that the connection is established, any previous errors are
+cleared, and no messages are awaiting responses:</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onopen = (event) =&gt; {
+  setError(false);
+  setConnecting(false);
+  setAwaitingMessage(false);
+
+  console.log(&quot;WebSocket connected:&quot;, event);
+};
+</code></pre></div>
+<p><code>onmessage</code>is triggered when a new message is received from the server through the WebSocket connection. In the
+callback, the received data is parsed and the <code>messages</code> state is updated with the new message from the server:</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onmessage = (event) =&gt; {
+  const data = JSON.parse(event.data);
+  console.log(&quot;WebSocket message received:&quot;, data);
+  setAwaitingMessage(false);
+
+  if (data.response) {
+    // Update the messages state with the new message from the server
+    setMessages((prevMessages) =&gt; [
+      ...prevMessages,
+      {
+        sender_id: &quot;server&quot;,
+        message: data.response,
+        timestamp: new Date().toLocaleTimeString(),
+      },
+    ]);
+  }
+};
+</code></pre></div>
+<p><code>onclose</code>is triggered when the WebSocket connection is closed. In the callback, the component checks for a specific
+close code (<code>4000</code>) to display a warning toast and update the component states accordingly. It also logs the close
+event:</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onclose = (event) =&gt; {
+  if (event.code === 4000) {
+    toast.warning(
+      &quot;Selected collection&#39;s model is unavailable. Was it created properly?&quot;,
+    );
+    setError(true);
+    setConnecting(false);
+    setAwaitingMessage(false);
+  }
+  console.log(&quot;WebSocket closed:&quot;, event);
+};
+</code></pre></div>
+<p>Finally, <code>onerror</code> is triggered when an error occurs with the WebSocket connection. In the callback, the component
+updates the states to reflect the error and logs the error event:</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onerror = (event) =&gt; {
+  setError(true);
+  setConnecting(false);
+  setAwaitingMessage(false);
+
+  console.error(&quot;WebSocket error:&quot;, event);
+};
+</code></pre></div>
+<h4 id="rendering-our-chat-messages">Rendering our Chat Messages<a class="headerlink" href="#rendering-our-chat-messages" title="Permanent link">#</a></h4>
+<p>In the <code>ChatView</code> component, the layout is determined using CSS styling and Material-UI components. The main layout
+consists of a container with a <code>flex</code> display and a column-oriented <code>flexDirection</code>. This ensures that the content
+within the container is arranged vertically.</p>
+<p>There are three primary sections within the layout:</p>
+<ol>
+<li>The chat messages area: This section takes up most of the available space and displays a list of messages exchanged
+   between the user and the server. It has an overflow-y set to ‘auto’, which allows scrolling when the content
+   overflows the available space. The messages are rendered using the <code>ChatMessage</code> component for each message and
+   a <code>ChatMessageLoading</code> component to show the loading state while waiting for a server response.</li>
+<li>The divider: A Material-UI <code>Divider</code> component is used to separate the chat messages area from the input area,
+   creating a clear visual distinction between the two sections.</li>
+<li>The input area: This section is located at the bottom and allows the user to type and send messages. It contains
+   a <code>TextField</code> component from Material-UI, which is set to accept multiline input with a maximum of 2 rows. The input
+   area also includes a <code>Button</code> component to send the message. The user can either click the "Send" button or press "
+   Enter" on their keyboard to send the message.</li>
+</ol>
+<p>The user inputs accepted in the <code>ChatView</code> component are text messages that the user types in the <code>TextField</code>. The
+component processes these text inputs and sends them to the server through the WebSocket connection.</p>
+<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">#</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">#</a></h3>
+<p>To deploy the app, you're going to need Docker and Docker Compose installed. If you're on Ubuntu or another, common
+Linux distribution, DigitalOcean has
+a <a href="https://www.digitalocean.com/community/tutorial_collections/how-to-install-and-use-docker">great Docker tutorial</a> and
+another great tutorial
+for <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04">Docker Compose</a>
+you can follow. If those don't work for you, try
+the <a href="https://docs.docker.com/engine/install/">official docker documentation.</a></p>
+<h3 id="build-and-deploy">Build and Deploy<a class="headerlink" href="#build-and-deploy" title="Permanent link">#</a></h3>
+<p>The project is based on django-cookiecutter, and it’s pretty easy to get it deployed on a VM and configured to serve
+HTTPs traffic for a specific domain. The configuration is somewhat involved, however — not because of this project, but
+it’s just a fairly involved topic to configure your certificates, DNS, etc.</p>
+<p>For the purposes of this guide, let’s just get running locally. Perhaps we’ll release a guide on production deployment.
+In the meantime, check out
+the <a href="https://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html">Django Cookiecutter project docs</a>
+for starters.</p>
+<p>This guide assumes your goal is to get the application up and running for use. If you want to develop, most likely you
+won’t want to launch the compose stack with the — profiles fullstack flag and will instead want to launch the react
+frontend using the node development server.</p>
+<p>To deploy, first clone the repo:</p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/yourusername/delphic.git
+</code></pre></div>
+<p>Change into the project directory:</p>
+<div class="highlight"><pre><span></span><code>cd delphic
+</code></pre></div>
+<p>Copy the sample environment files:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p ./.envs/.local/
+cp -a ./docs/sample_envs/local/.frontend ./frontend
+cp -a ./docs/sample_envs/local/.django ./.envs/.local
+cp -a ./docs/sample_envs/local/.postgres ./.envs/.local
+</code></pre></div>
+<p>Edit the <code>.django</code> and <code>.postgres</code> configuration files to include your OpenAI API key and set a unique password for your
+database user. You can also set the response token limit in the .django file or switch which OpenAI model you want to
+use. GPT4 is supported, assuming you’re authorized to access it.</p>
+<p>Build the docker compose stack with the <code>--profiles fullstack</code> flag:</p>
+<div class="highlight"><pre><span></span><code>sudo docker-compose --profiles fullstack -f local.yml build
+</code></pre></div>
+<p>The fullstack flag instructs compose to build a docker container from the frontend folder and this will be launched
+along with all of the needed, backend containers. It takes a long time to build a production React container, however,
+so we don’t recommend you develop this way. Follow
+the <a href="https://github.com/JSv4/Delphic#development">instructions in the project readme.md</a> for development environment
+setup instructions.</p>
+<p>Finally, bring up the application:</p>
+<div class="highlight"><pre><span></span><code>sudo docker-compose -f local.yml up
+</code></pre></div>
+<p>Now, visit <code>localhost:3000</code> in your browser to see the frontend, and use the Delphic application locally.</p>
+<h2 id="using-the-application">Using the Application<a class="headerlink" href="#using-the-application" title="Permanent link">#</a></h2>
+<h3 id="setup-users">Setup Users<a class="headerlink" href="#setup-users" title="Permanent link">#</a></h3>
+<p>In order to actually use the application (at the moment, we intend to make it possible to share certain models with
+unauthenticated users), you need a login. You can use either a superuser or non-superuser. In either case, someone needs
+to first create a superuser using the console:</p>
+<p><strong>Why set up a Django superuser?</strong> A Django superuser has all the permissions in the application and can manage all
+aspects of the system, including creating, modifying, and deleting users, collections, and other data. Setting up a
+superuser allows you to fully control and manage the application.</p>
+<p><strong>How to create a Django superuser:</strong></p>
+<p>1 Run the following command to create a superuser:</p>
+<p>sudo docker-compose -f local.yml run django python manage.py createsuperuser</p>
+<p>2 You will be prompted to provide a username, email address, and password for the superuser. Enter the required
+information.</p>
+<p><strong>How to create additional users using Django admin:</strong></p>
+<ol>
+<li>Start your Delphic application locally following the deployment instructions.</li>
+<li>Visit the Django admin interface by navigating to <code>http://localhost:8000/admin</code> in your browser.</li>
+<li>Log in with the superuser credentials you created earlier.</li>
+<li>Click on “Users” under the “Authentication and Authorization” section.</li>
+<li>Click on the “Add user +” button in the top right corner.</li>
+<li>Enter the required information for the new user, such as username and password. Click “Save” to create the user.</li>
+<li>To grant the new user additional permissions or make them a superuser, click on their username in the user list,
+   scroll down to the “Permissions” section, and configure their permissions accordingly. Save your changes.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../fullstack_app_guide/" class="md-footer__link md-footer__link--prev" aria-label="Previous: A Guide to Building a Full-Stack Web App with LLamaIndex">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                A Guide to Building a Full-Stack Web App with LLamaIndex
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--next" aria-label="Next: Full-Stack Web Application">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Full-Stack Web Application
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../../../javascript/runllm.js"></script>
+      
+        <script src="../../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

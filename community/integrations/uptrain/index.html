@@ -1,0 +1,1768 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/community/integrations/uptrain/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Perform Evaluations on LlamaIndex with UpTrain - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#perform-evaluations-on-llamaindex-with-uptrain" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Perform Evaluations on LlamaIndex with UpTrain
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../module_guides/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../llama_cloud/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  LlamaCloud
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Use Cases
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../module_guides/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Component Guides
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../llama_cloud/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="perform-evaluations-on-llamaindex-with-uptrain">Perform Evaluations on LlamaIndex with UpTrain<a class="headerlink" href="#perform-evaluations-on-llamaindex-with-uptrain" title="Permanent link">#</a></h1>
+<p><strong>Overview</strong>: In this example, we will see how to use UpTrain with LlamaIndex. UpTrain (<a href="https://github.com/uptrain-ai/uptrain">github</a> || <a href="https://github.com/uptrain-ai/uptrain/">website</a> || <a href="https://docs.uptrain.ai/">docs</a>) is an open-source platform to evaluate and improve GenAI applications. It provides grades for 20+ preconfigured checks (covering language, code, embedding use cases), performs root cause analysis on failure cases and gives insights on how to resolve them. More details on UpTrain's evaluations can be found <a href="https://github.com/uptrain-ai/uptrain?tab=readme-ov-file#pre-built-evaluations-we-offer-">here</a>.</p>
+<p><strong>Problem</strong>: As an increasing number of companies are graduating their LLM prototypes to production-ready applications, their RAG pipelines are also getting complex. Developers are utilising modules like QueryRewrite, Context ReRank, etc., to enhance the accuracy of their RAG systems.</p>
+<p>With increasing complexity comes more points of failure.</p>
+<ol>
+<li>Advanced Evals are needed to evaluate the quality of these newer modules and determine if they actually improve the system's accuracy.</li>
+<li>A robust experimentation framework is needed to systematically test different modules and make data-driven decisions.</li>
+</ol>
+<p><strong>Solution</strong>: UpTrain helps to solve for both:</p>
+<ol>
+<li>UpTrain provides a series of checks to evaluate the quality of generated response, retrieved-context as well as all the interim steps. The relevant checks are ContextRelevance, SubQueryCompleteness, ContextReranking, ContextConciseness, FactualAccuracy, ContextUtilization, ResponseCompleteness, ResponseConciseness, etc.</li>
+<li>UpTrain also allows you to experiment with different embedding models as well as have an "evaluate_experiments" method to compare different RAG configurations.</li>
+</ol>
+<h1 id="how-to-go-about-it">How to go about it?<a class="headerlink" href="#how-to-go-about-it" title="Permanent link">#</a></h1>
+<p>There are two ways you can use UpTrain with LlamaIndex:</p>
+<ol>
+<li>
+<p><strong>Using the UpTrain Callback Handler</strong>: This method allows you to seamlessly integrate UpTrain with LlamaIndex. You can simply add UpTrainCallbackHandler to your existing LlamaIndex pipeline and it will evaluate all components of your RAG pipeline. This is the recommended method as it is the easiest to use and provides you with dashboards and insights with minimal effort.</p>
+</li>
+<li>
+<p><strong>Using UpTrain's EvalLlamaIndex</strong>: This method allows you to use UpTrain to perform evaluations on the generated responses. You can use the EvalLlamaIndex object to generate responses for the queries and then perform evaluations on the responses. You can find a detailed tutorial on how to do this below. This method offers more flexibility and control over the evaluations, but requires more effort to set up and use.</p>
+</li>
+</ol>
+<h1 id="1-using-the-uptrain-callback-handler">1. Using the UpTrain Callback Handler <a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/callbacks/UpTrainCallback.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a><a class="headerlink" href="#1-using-the-uptrain-callback-handler" title="Permanent link">#</a></h1>
+<p>The following three demonstrations explain how you can use UpTrain Callback Handler to evaluate different components of your RAG pipelines.</p>
+<h2 id="1-rag-query-engine-evaluations">1. <strong>RAG Query Engine Evaluations</strong>:<a class="headerlink" href="#1-rag-query-engine-evaluations" title="Permanent link">#</a></h2>
+<p>The RAG query engine plays a crucial role in retrieving context and generating responses. To ensure its performance and response quality, we conduct the following evaluations:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-relevance">Context Relevance</a></strong>: Determines if the retrieved context has sufficient information to answer the user query or not.</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/factual-accuracy">Factual Accuracy</a></strong>: Assesses if the LLM's response can be verified via the retrieved context.</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-completeness">Response Completeness</a></strong>: Checks if the response contains all the information required to answer the user query comprehensively.</li>
+</ul>
+<h2 id="2-sub-question-query-generation-evaluation">2. <strong>Sub-Question Query Generation Evaluation</strong>:<a class="headerlink" href="#2-sub-question-query-generation-evaluation" title="Permanent link">#</a></h2>
+<p>The SubQuestionQueryGeneration operator decomposes a question into sub-questions, generating responses for each using an RAG query engine. To measure it's accuracy, we use:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/query-quality/sub-query-completeness">Sub Query Completeness</a></strong>: Assures that the sub-questions accurately and comprehensively cover the original query.</li>
+</ul>
+<h2 id="3-re-ranking-evaluations">3. <strong>Re-Ranking Evaluations</strong>:<a class="headerlink" href="#3-re-ranking-evaluations" title="Permanent link">#</a></h2>
+<p>Re-ranking involves reordering nodes based on relevance to the query and choosing the top nodes. Different evaluations are performed based on the number of nodes returned after re-ranking.</p>
+<p>a. Same Number of Nodes</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-reranking">Context Reranking</a></strong>: Checks if the order of re-ranked nodes is more relevant to the query than the original order.</li>
+</ul>
+<p>b. Different Number of Nodes:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-conciseness">Context Conciseness</a></strong>: Examines whether the reduced number of nodes still provides all the required information.</li>
+</ul>
+<p>These evaluations collectively ensure the robustness and effectiveness of the RAG query engine, SubQuestionQueryGeneration operator, and the re-ranking process in the LlamaIndex pipeline.</p>
+<h4 id="note"><strong>Note:</strong><a class="headerlink" href="#note" title="Permanent link">#</a></h4>
+<ul>
+<li>We have performed evaluations using a basic RAG query engine; the same evaluations can be performed using the advanced RAG query engine as well.</li>
+<li>Same is true for Re-Ranking evaluations, we have performed evaluations using SentenceTransformerRerank, the same evaluations can be performed using other re-rankers as well.</li>
+</ul>
+<h2 id="install-dependencies-and-import-libraries">Install Dependencies and Import Libraries<a class="headerlink" href="#install-dependencies-and-import-libraries" title="Permanent link">#</a></h2>
+<p>Install notebook dependencies.</p>
+<div class="highlight"><pre><span></span><code>%pip<span class="w"> </span>install<span class="w"> </span>llama-index-readers-web
+%pip<span class="w"> </span>install<span class="w"> </span>llama-index-callbacks-uptrain
+%pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>html2text<span class="w"> </span>llama-index<span class="w"> </span>pandas<span class="w"> </span>tqdm<span class="w"> </span>uptrain<span class="w"> </span>torch<span class="w"> </span>sentence-transformers
+</code></pre></div>
+<p>Import libraries.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span><span class="p">,</span> <span class="n">VectorStoreIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.node_parser</span> <span class="kn">import</span> <span class="n">SentenceSplitter</span>
+<span class="kn">from</span> <span class="nn">llama_index.readers.web</span> <span class="kn">import</span> <span class="n">SimpleWebPageReader</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
+<span class="kn">from</span> <span class="nn">llama_index.callbacks.uptrain.base</span> <span class="kn">import</span> <span class="n">UpTrainCallbackHandler</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.query_engine</span> <span class="kn">import</span> <span class="n">SubQuestionQueryEngine</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.tools</span> <span class="kn">import</span> <span class="n">QueryEngineTool</span><span class="p">,</span> <span class="n">ToolMetadata</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">SentenceTransformerRerank</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+</code></pre></div>
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">#</a></h2>
+<p>UpTrain provides you with:
+1. Dashboards with advanced drill-down and filtering options
+1. Insights and common topics among failing cases
+1. Observability and real-time monitoring of production data
+1. Regression testing via seamless integration with your CI/CD pipelines</p>
+<p>You can choose between the following options for evaluating using UpTrain:</p>
+<h3 id="1-uptrains-open-source-software-oss">1. <strong>UpTrain's Open-Source Software (OSS)</strong>:<a class="headerlink" href="#1-uptrains-open-source-software-oss" title="Permanent link">#</a></h3>
+<p>You can use the open-source evaluation service to evaluate your model. In this case, you will need to provide an OpenAI API key. You can get yours <a href="https://platform.openai.com/account/api-keys">here</a>.</p>
+<p>In order to view your evaluations in the UpTrain dashboard, you will need to set it up by running the following commands in your terminal:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/uptrain-ai/uptrain
+<span class="nb">cd</span><span class="w"> </span>uptrain
+bash<span class="w"> </span>run_uptrain.sh
+</code></pre></div>
+<p>This will start the UpTrain dashboard on your local machine. You can access it at <code>http://localhost:3000/dashboard</code>.</p>
+<p>Parameters:
+- key_type="openai"
+- api_key="OPENAI_API_KEY"
+- project_name="PROJECT_NAME"</p>
+<h3 id="2-uptrain-managed-service-and-dashboards">2. <strong>UpTrain Managed Service and Dashboards</strong>:<a class="headerlink" href="#2-uptrain-managed-service-and-dashboards" title="Permanent link">#</a></h3>
+<p>Alternatively, you can use UpTrain's managed service to evaluate your model. You can create a free UpTrain account <a href="https://uptrain.ai/">here</a> and get free trial credits. If you want more trial credits, <a href="https://calendly.com/uptrain-sourabh/30min">book a call with the maintainers of UpTrain here</a>.</p>
+<p>The benefits of using the managed service are:
+1. No need to set up the UpTrain dashboard on your local machine.
+1. Access to many LLMs without needing their API keys.</p>
+<p>Once you perform the evaluations, you can view them in the UpTrain dashboard at <code>https://dashboard.uptrain.ai/dashboard</code></p>
+<p>Parameters:
+- key_type="uptrain"
+- api_key="UPTRAIN_API_KEY"
+- project_name="PROJECT_NAME"</p>
+<p><strong>Note:</strong> The <code>project_name</code> will be the project name under which the evaluations performed will be shown in the UpTrain dashboard.</p>
+<h2 id="create-the-uptrain-callback-handler">Create the UpTrain Callback Handler<a class="headerlink" href="#create-the-uptrain-callback-handler" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">()</span>
+
+<span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">],</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;uptrain_llamaindex&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="p">([</span><span class="n">callback_handler</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="load-and-parse-documents">Load and Parse Documents<a class="headerlink" href="#load-and-parse-documents" title="Permanent link">#</a></h2>
+<p>Load documents from Paul Graham's essay "What I Worked On".</p>
+<div class="highlight"><pre><span></span><code><span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleWebPageReader</span><span class="p">()</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;https://raw.githubusercontent.com/run-llama/llama_index/main/docs/docs/examples/data/paul_graham/paul_graham_essay.txt&quot;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Parse the document into nodes.</p>
+<div class="highlight"><pre><span></span><code><span class="n">parser</span> <span class="o">=</span> <span class="n">SentenceSplitter</span><span class="p">()</span>
+<span class="n">nodes</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_nodes_from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="1-rag-query-engine-evaluation">1. RAG Query Engine Evaluation<a class="headerlink" href="#1-rag-query-engine-evaluation" title="Permanent link">#</a></h1>
+<p>UpTrain callback handler will automatically capture the query, context and response once generated and will run the following three evaluations <em>(Graded from 0 to 1)</em> on the response:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-relevance">Context Relevance</a></strong>: Determines if the retrieved context has sufficient information to answer the user query or not.</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/factual-accuracy">Factual Accuracy</a></strong>: Assesses if the LLM's response can be verified via the retrieved context.</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-completeness">Response Completeness</a></strong>: Checks if the response contains all the information required to answer the user query comprehensively.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+
+<span class="n">max_characters_per_line</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">queries</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;What did Paul Graham do growing up?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;When and how did Paul Graham&#39;s mother die?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What, in Paul Graham&#39;s opinion, is the most distinctive thing about YC?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;When and how did Paul Graham meet Jessica Livingston?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What is Bel, and when and where was it written?&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+<pre><code>Question: What did Paul Graham do growing up?
+Response: Paul Graham wrote short stories and started programming on the IBM 1401 in 9th grade using an early version of Fortran. Later, he convinced his father to buy a TRS-80, where he wrote simple games, a program to predict rocket heights, and a word processor.
+
+Context Relevance Score: 0.0
+Factual Accuracy Score: 1.0
+Response Completeness Score: 1.0
+
+
+Question: When and how did Paul Graham's mother die?
+Response: Paul Graham's mother died when he was 18 years old, from a brain tumor.
+
+Context Relevance Score: 0.0
+Factual Accuracy Score: 0.0
+Response Completeness Score: 1.0
+
+
+Question: What, in Paul Graham's opinion, is the most distinctive thing about YC?
+Response: The most distinctive thing about Y Combinator, according to Paul Graham, is that instead of deciding for himself what to work on, the problems come to him. Every 6 months, a new batch of startups brings their problems, which then become the focus of YC's work.
+
+Context Relevance Score: 0.0
+Factual Accuracy Score: 0.5
+Response Completeness Score: 1.0
+
+
+Question: When and how did Paul Graham meet Jessica Livingston?
+Response: Paul Graham met Jessica Livingston at a big party at his house in October 2003.
+
+Context Relevance Score: 1.0
+Factual Accuracy Score: 0.5
+Response Completeness Score: 1.0
+
+
+Question: What is Bel, and when and where was it written?
+Response: Bel is a new Lisp that was written in Arc. It was developed over a period of 4 years, from March 26, 2015 to October 12, 2019. Most of the work on Bel was done in England, where the author had moved to in the summer of 2016.
+
+Context Relevance Score: 1.0
+Factual Accuracy Score: 1.0
+Response Completeness Score: 1.0
+</code></pre>
+<p>Here's an example of the dashboard showing how you can filter and drill down to the failing cases and get insights on the failing cases:
+<img alt="image-2.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/image-2.png" /></p>
+<h1 id="2-sub-question-query-engine-evaluation">2. Sub-Question Query Engine Evaluation<a class="headerlink" href="#2-sub-question-query-engine-evaluation" title="Permanent link">#</a></h1>
+<p>The <strong>sub-question query engine</strong> is used to tackle the problem of answering a complex query using multiple data sources. It first breaks down the complex query into sub-questions for each relevant data source, then gathers all the intermediate responses and synthesizes a final response.</p>
+<p>UpTrain callback handler will automatically capture the sub-question and the responses for each of them once generated and will run the following three evaluations <em>(Graded from 0 to 1)</em> on the response:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-relevance">Context Relevance</a></strong>: Determines if the retrieved context has sufficient information to answer the user query or not.</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/factual-accuracy">Factual Accuracy</a></strong>: Assesses if the LLM's response can be verified via the retrieved context.</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-completeness">Response Completeness</a></strong>: Checks if the response contains all the information required to answer the user query comprehensively.</li>
+</ul>
+<p>In addition to the above evaluations, the callback handler will also run the following evaluation:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/query-quality/sub-query-completeness">Sub Query Completeness</a></strong>: Assures that the sub-questions accurately and comprehensively cover the original query.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># build index and query engine</span>
+<span class="n">vector_query_engine</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+    <span class="n">use_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+
+<span class="n">query_engine_tools</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">QueryEngineTool</span><span class="p">(</span>
+        <span class="n">query_engine</span><span class="o">=</span><span class="n">vector_query_engine</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">ToolMetadata</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;documents&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Paul Graham essay on What I Worked On&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">SubQuestionQueryEngine</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">query_engine_tools</span><span class="o">=</span><span class="n">query_engine_tools</span><span class="p">,</span>
+    <span class="n">use_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="s2">&quot;How was Paul Grahams life different before, during, and after YC?&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<pre><code>Generated 3 sub questions.
+[1;3;38;2;237;90;200m[documents] Q: What did Paul Graham work on before Y Combinator?
+[0m[1;3;38;2;90;149;237m[documents] Q: What did Paul Graham work on during Y Combinator?
+[0m[1;3;38;2;11;159;203m[documents] Q: What did Paul Graham work on after Y Combinator?
+[0m[1;3;38;2;11;159;203m[documents] A: Paul Graham worked on a project with Robert and Trevor after Y Combinator.
+[0m[1;3;38;2;237;90;200m[documents] A: Paul Graham worked on projects with his colleagues Robert and Trevor before Y Combinator.
+[0m[1;3;38;2;90;149;237m[documents] A: Paul Graham worked on writing essays and working on Y Combinator during his time at Y Combinator.
+[0m
+
+
+Question: What did Paul Graham work on after Y Combinator?
+Response: Paul Graham worked on a project with Robert and Trevor after Y Combinator.
+
+Context Relevance Score: 0.0
+Factual Accuracy Score: 1.0
+Response Completeness Score: 0.5
+
+
+Question: What did Paul Graham work on before Y Combinator?
+Response: Paul Graham worked on projects with his colleagues Robert and Trevor before Y Combinator.
+
+Context Relevance Score: 0.0
+Factual Accuracy Score: 1.0
+Response Completeness Score: 0.5
+
+
+Question: What did Paul Graham work on during Y Combinator?
+Response: Paul Graham worked on writing essays and working on Y Combinator during his time at Y Combinator.
+
+Context Relevance Score: 0.0
+Factual Accuracy Score: 0.5
+Response Completeness Score: 0.5
+
+
+Question: How was Paul Grahams life different before, during, and after YC?
+Sub Query Completeness Score: 1.0
+</code></pre>
+<p>Here's an example of the dashboard visualizing the scores of the sub-questions in the form of a bar chart:</p>
+<p><img alt="image.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/image.png" /></p>
+<h1 id="3-re-ranking">3. Re-ranking<a class="headerlink" href="#3-re-ranking" title="Permanent link">#</a></h1>
+<p>Re-ranking is the process of reordering the nodes based on their relevance to the query. There are multiple classes of re-ranking algorithms offered by Llamaindex. We have used LLMRerank for this example.</p>
+<p>The re-ranker allows you to enter the number of top n nodes that will be returned after re-ranking. If this value remains the same as the original number of nodes, the re-ranker will only re-rank the nodes and not change the number of nodes. Otherwise, it will re-rank the nodes and return the top n nodes.</p>
+<p>We will perform different evaluations based on the number of nodes returned after re-ranking.</p>
+<h2 id="3a-re-ranking-with-same-number-of-nodes">3a. Re-ranking (With same number of nodes)<a class="headerlink" href="#3a-re-ranking-with-same-number-of-nodes" title="Permanent link">#</a></h2>
+<p>If the number of nodes returned after re-ranking is the same as the original number of nodes, the following evaluation will be performed:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-reranking">Context Reranking</a></strong>: Checks if the order of re-ranked nodes is more relevant to the query than the original order.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">],</span>
+    <span class="n">project_name_prefix</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="p">([</span><span class="n">callback_handler</span><span class="p">])</span>
+
+<span class="n">rerank_postprocessor</span> <span class="o">=</span> <span class="n">SentenceTransformerRerank</span><span class="p">(</span>
+    <span class="n">top_n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># number of nodes after reranking</span>
+    <span class="n">keep_retrieval_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># number of nodes before reranking</span>
+    <span class="n">node_postprocessors</span><span class="o">=</span><span class="p">[</span><span class="n">rerank_postprocessor</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="s2">&quot;What did Sam Altman do in this essay?&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<pre><code>Question: What did Sam Altman do in this essay?
+Context Reranking Score: 0.0
+
+
+Question: What did Sam Altman do in this essay?
+Response: Sam Altman was asked to become the president of Y Combinator after the original founders decided to step back and reorganize the company for long-term sustainability.
+
+Context Relevance Score: 1.0
+Factual Accuracy Score: 1.0
+Response Completeness Score: 0.5
+</code></pre>
+<h1 id="3b-re-ranking-with-different-number-of-nodes">3b. Re-ranking (With different number of nodes)<a class="headerlink" href="#3b-re-ranking-with-different-number-of-nodes" title="Permanent link">#</a></h1>
+<p>If the number of nodes returned after re-ranking is the lesser as the original number of nodes, the following evaluation will be performed:</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-conciseness">Context Conciseness</a></strong>: Examines whether the reduced number of nodes still provides all the required information.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">],</span>
+    <span class="n">project_name_prefix</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="p">([</span><span class="n">callback_handler</span><span class="p">])</span>
+
+<span class="n">rerank_postprocessor</span> <span class="o">=</span> <span class="n">SentenceTransformerRerank</span><span class="p">(</span>
+    <span class="n">top_n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># Number of nodes after re-ranking</span>
+    <span class="n">keep_retrieval_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># Number of nodes before re-ranking</span>
+    <span class="n">node_postprocessors</span><span class="o">=</span><span class="p">[</span><span class="n">rerank_postprocessor</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Use your advanced RAG</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="s2">&quot;What did Sam Altman do in this essay?&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<pre><code>Question: What did Sam Altman do in this essay?
+Context Conciseness Score: 0.0
+
+
+Question: What did Sam Altman do in this essay?
+Response: Sam Altman offered unsolicited advice to the author during a visit to California for interviews.
+
+
+Context Relevance Score: 1.0
+Factual Accuracy Score: 1.0
+Response Completeness Score: 0.5
+</code></pre>
+<h1 id="uptrains-managed-service-dashboard-and-insights">UpTrain's Managed Service Dashboard and Insights<a class="headerlink" href="#uptrains-managed-service-dashboard-and-insights" title="Permanent link">#</a></h1>
+<p>To use the UpTrain's managed service via the UpTrain callback handler, the only change required is to set the <code>key_type</code> and <code>api_key</code> parameters. The rest of the code remains the same.</p>
+<div class="highlight"><pre><span></span><code><span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;uptrain&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;up-******************************&quot;</span><span class="p">,</span>
+    <span class="n">project_name_prefix</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Here's a short GIF showcasing the dashboard and the insights that you can get from the UpTrain managed service:</p>
+<p><img alt="output.gif" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/output.gif" /></p>
+<h1 id="2-using-uptrains-evalllamaindex">2. Using UpTrain's EvalLlamaIndex <a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/evaluation/UpTrain.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a><a class="headerlink" href="#2-using-uptrains-evalllamaindex" title="Permanent link">#</a></h1>
+<h2 id="install-uptrain-and-llamaindex">Install UpTrain and LlamaIndex<a class="headerlink" href="#install-uptrain-and-llamaindex" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>uptrain<span class="w"> </span>llama_index
+</code></pre></div>
+<h2 id="import-required-libraries">Import required libraries<a class="headerlink" href="#import-required-libraries" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">httpx</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">openai</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span><span class="p">,</span> <span class="n">Settings</span>
+<span class="kn">from</span> <span class="nn">uptrain</span> <span class="kn">import</span> <span class="n">Evals</span><span class="p">,</span> <span class="n">EvalLlamaIndex</span><span class="p">,</span> <span class="n">Settings</span> <span class="k">as</span> <span class="n">UpTrainSettings</span>
+</code></pre></div>
+<h2 id="create-the-dataset-folder-for-the-query-engine">Create the dataset folder for the query engine<a class="headerlink" href="#create-the-dataset-folder-for-the-query-engine" title="Permanent link">#</a></h2>
+<p>You can use any documents that you have to do this. For this tutorial, we will use data on New York City extracted from wikipedia. We will only add one document to the folder, but you can add as many as you want.</p>
+<div class="highlight"><pre><span></span><code><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://uptrain-assets.s3.ap-south-1.amazonaws.com/data/nyc_text.txt&quot;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">)</span>
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;./nyc_wikipedia&quot;</span><span class="p">,</span> <span class="s2">&quot;nyc_text.txt&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="make-the-list-of-queries">Make the list of queries<a class="headerlink" href="#make-the-list-of-queries" title="Permanent link">#</a></h2>
+<p>Before we can generate responses, we need to create a list of queries. Since the query engine is trained on New York City, we will create a list of queries related to New York City.</p>
+<div class="highlight"><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the population of New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the area of New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the largest borough in New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the average temperature in New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the main airport in New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the famous landmark in New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the official language of New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the currency used in New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the time zone of New York City?&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the famous sports team in New York City?&quot;</span><span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div>
+<p><strong>This notebook uses the OpenAI API to generate text for prompts as well as to create the Vector Store Index. So, set openai.api_key to your OpenAI API key.</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">openai</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;sk-************************&quot;</span>  <span class="c1"># your OpenAI API key</span>
+</code></pre></div>
+<h2 id="create-a-query-engine-using-llamaindex">Create a query engine using LlamaIndex<a class="headerlink" href="#create-a-query-engine-using-llamaindex" title="Permanent link">#</a></h2>
+<p>Let's create a vector store index using LLamaIndex and then use that as a query engine to retrieve relevant sections from the documentation.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Settings</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">512</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;./nyc_wikipedia/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="n">vector_index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">vector_index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="setup_1">Setup<a class="headerlink" href="#setup_1" title="Permanent link">#</a></h2>
+<p>UpTrain provides you with:
+1. Dashboards with advanced drill-down and filtering options
+1. Insights and common topics among failing cases
+1. Observability and real-time monitoring of production data
+1. Regression testing via seamless integration with your CI/CD pipelines</p>
+<p>You can choose between the following two alternatives for evaluating using UpTrain:</p>
+<h1 id="alternative-1-evaluate-using-uptrains-open-source-software-oss">Alternative 1: Evaluate using UpTrain's Open-Source Software (OSS)<a class="headerlink" href="#alternative-1-evaluate-using-uptrains-open-source-software-oss" title="Permanent link">#</a></h1>
+<p>You can use the open-source evaluation service to evaluate your model. In this case, you will need to provide an OpenAI API key. You can get yours <a href="https://platform.openai.com/account/api-keys">here</a>.</p>
+<p>In order to view your evaluations in the UpTrain dashboard, you will need to set it up by running the following commands in your terminal:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/uptrain-ai/uptrain
+<span class="nb">cd</span><span class="w"> </span>uptrain
+bash<span class="w"> </span>run_uptrain.sh
+</code></pre></div>
+<p>This will start the UpTrain dashboard on your local machine. You can access it at <code>http://localhost:3000/dashboard</code>.</p>
+<p><strong>Note:</strong> The <code>project_name</code> will be the project name under which the evaluations performed will be shown in the UpTrain dashboard.</p>
+<div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">UpTrainSettings</span><span class="p">(</span>
+    <span class="n">openai_api_key</span><span class="o">=</span><span class="n">openai</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="create-the-evalllamaindex-object">Create the EvalLlamaIndex object<a class="headerlink" href="#create-the-evalllamaindex-object" title="Permanent link">#</a></h2>
+<p>Now that we have created the query engine, we can use it to create an EvalLlamaIndex object. This object will be used to generate responses for the queries.</p>
+<div class="highlight"><pre><span></span><code><span class="n">llamaindex_object</span> <span class="o">=</span> <span class="n">EvalLlamaIndex</span><span class="p">(</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">query_engine</span><span class="o">=</span><span class="n">query_engine</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="run-the-evaluation">Run the evaluation<a class="headerlink" href="#run-the-evaluation" title="Permanent link">#</a></h2>
+<p>Now that we have the list of queries, we can use the EvalLlamaIndex object to generate responses for the queries and then perform evaluations on the responses. You can find an extensive list of the evaluations offered by UpTrain <a href="https://docs.uptrain.ai/key-components/evals">here</a>. We have chosen two that we found to be the most relevant for this tutorial:</p>
+<ol>
+<li>
+<p><strong>Context Relevance</strong>: This evaluation checks whether the retrieved context is relevant to the query. This is important because the retrieved context is used to generate the response. If the retrieved context is not relevant to the query, then the response will not be relevant to the query either.</p>
+</li>
+<li>
+<p><strong>Response Conciseness</strong>: This evaluation checks whether the response is concise. This is important because the response should be concise and should not contain any unnecessary information.</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">llamaindex_object</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;uptrain-llama-index&quot;</span><span class="p">,</span>
+    <span class="n">evaluation_name</span><span class="o">=</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">,</span>  <span class="c1"># adding project and evaluation names allow you to track the results in the UpTrain dashboard</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">checks</span><span class="o">=</span><span class="p">[</span><span class="n">Evals</span><span class="o">.</span><span class="n">CONTEXT_RELEVANCE</span><span class="p">,</span> <span class="n">Evals</span><span class="o">.</span><span class="n">RESPONSE_CONCISENESS</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="alternative-2-evaluate-using-uptrains-managed-service-and-dashboards">Alternative 2: Evaluate using UpTrain's Managed Service and Dashboards<a class="headerlink" href="#alternative-2-evaluate-using-uptrains-managed-service-and-dashboards" title="Permanent link">#</a></h1>
+<p>Alternatively, you can use UpTrain's managed service to evaluate your model. You can create a free UpTrain account <a href="https://uptrain.ai/">here</a> and get free trial credits. If you want more trial credits, <a href="https://calendly.com/uptrain-sourabh/30min">book a call with the maintainers of UpTrain here</a>.</p>
+<p>The benefits of using the managed service are:
+1. No need to set up the UpTrain dashboard on your local machine.
+1. Access to many LLMs without needing their API keys.</p>
+<p>Once you perform the evaluations, you can view them in the UpTrain dashboard at <code>https://dashboard.uptrain.ai/dashboard</code></p>
+<p><strong>Note:</strong> The <code>project_name</code> will be the project name under which the evaluations performed will be shown in the UpTrain dashboard.</p>
+<div class="highlight"><pre><span></span><code><span class="n">UPTRAIN_API_KEY</span> <span class="o">=</span> <span class="s2">&quot;up-**********************&quot;</span>  <span class="c1"># your UpTrain API key</span>
+
+<span class="c1"># We use `uptrain_access_token` parameter instead of &#39;openai_api_key&#39; in settings in this case</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">UpTrainSettings</span><span class="p">(</span>
+    <span class="n">uptrain_access_token</span><span class="o">=</span><span class="n">UPTRAIN_API_KEY</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="create-the-evalllamaindex-object_1">Create the EvalLlamaIndex object<a class="headerlink" href="#create-the-evalllamaindex-object_1" title="Permanent link">#</a></h2>
+<p>Now that we have created the query engine, we can use it to create an EvalLlamaIndex object. This object will be used to generate responses for the queries.</p>
+<div class="highlight"><pre><span></span><code><span class="n">llamaindex_object</span> <span class="o">=</span> <span class="n">EvalLlamaIndex</span><span class="p">(</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">query_engine</span><span class="o">=</span><span class="n">query_engine</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="run-the-evaluation_1">Run the evaluation<a class="headerlink" href="#run-the-evaluation_1" title="Permanent link">#</a></h2>
+<p>Now that we have the list of queries, we can use the EvalLlamaIndex object to generate responses for the queries and then perform evaluations on the responses. You can find an extensive list of the evaluations offered by UpTrain <a href="https://docs.uptrain.ai/key-components/evals">here</a>. We have chosen two that we found to be the most relevant for this tutorial:</p>
+<ol>
+<li>
+<p><strong>Context Relevance</strong>: This evaluation checks whether the retrieved context is relevant to the query. This is important because the retrieved context is used to generate the response. If the retrieved context is not relevant to the query, then the response will not be relevant to the query either.</p>
+</li>
+<li>
+<p><strong>Response Conciseness</strong>: This evaluation checks whether the response is concise. This is important because the response should be concise and should not contain any unnecessary information.</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">llamaindex_object</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;uptrain-llama-index&quot;</span><span class="p">,</span>
+    <span class="n">evaluation_name</span><span class="o">=</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">,</span>  <span class="c1"># adding project and evaluation names allow you to track the results in the UpTrain dashboard</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">checks</span><span class="o">=</span><span class="p">[</span><span class="n">Evals</span><span class="o">.</span><span class="n">CONTEXT_RELEVANCE</span><span class="p">,</span> <span class="n">Evals</span><span class="o">.</span><span class="n">RESPONSE_CONCISENESS</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="dashboards">Dashboards:<a class="headerlink" href="#dashboards" title="Permanent link">#</a></h3>
+<p>Histogram of score vs number of cases with that score</p>
+<p><img alt="nyc_dashboard.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/nyc_dashboard.png" /></p>
+<p>You can filter failure cases and generate common topics among them. This can help identify the core issue and help fix it</p>
+<p><img alt="nyc_insights.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/nyc_insights.png" /></p>
+<h2 id="learn-more">Learn More<a class="headerlink" href="#learn-more" title="Permanent link">#</a></h2>
+<ol>
+<li><a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/callbacks/UpTrainCallback.ipynb">Colab Notebook on UpTrainCallbackHandler</a></li>
+<li><a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/evaluation/UpTrain.ipynb">Colab Notebook on UpTrain Integration with LlamaIndex</a></li>
+<li><a href="https://github.com/uptrain-ai/uptrain">UpTrain Github Repository</a></li>
+<li><a href="https://docs.uptrain.ai/">UpTrain Documentation</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

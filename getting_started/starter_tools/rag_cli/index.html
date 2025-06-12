@@ -1,0 +1,1856 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/getting_started/starter_tools/rag_cli/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../../understanding/">
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>RAG CLI - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rag-cli" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RAG CLI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../module_guides/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../community/integrations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../llama_cloud/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  LlamaCloud
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    High-Level Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation and Setup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to read these docs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../starter_example/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Starter Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../discover_llamaindex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Discover LlamaIndex Video Series
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Frequently Asked Questions (FAQ)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_8" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Starter Tools
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1_8" id="__nav_1_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_8">
+            <span class="md-nav__icon md-icon"></span>
+            Starter Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    RAG CLI
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    RAG CLI
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-llamaindex-chat-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a LlamaIndex chat application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported File Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customization
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Use Cases
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../module_guides/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Component Guides
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../community/integrations/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../llama_cloud/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-llamaindex-chat-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a LlamaIndex chat application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-file-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported File Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customization
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="rag-cli">RAG CLI<a class="headerlink" href="#rag-cli" title="Permanent link">#</a></h1>
+<p>One common use case is chatting with an LLM about files you have saved locally on your computer.</p>
+<p>We have written a CLI tool to help you do just that! You can point the rag CLI tool to a set of files you've saved locally, and it will ingest those files into a local vector database that is then used for a Chat Q&amp;A repl within your terminal.</p>
+<p>By default, this tool uses OpenAI for the embeddings &amp; LLM as well as a local Chroma Vector DB instance. <strong>Warning</strong>: this means that, by default, the local data you ingest with this tool <em>will</em> be sent to OpenAI's API.</p>
+<p>However, you do have the ability to customize the models and databases used in this tool. This includes the possibility of running all model execution locally! See the <strong>Customization</strong> section below.</p>
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">#</a></h2>
+<p>To set-up the CLI tool, make sure you've installed the library:</p>
+<p><code>$ pip install -U llama-index</code></p>
+<p>You will also need to install <a href="../../../examples/vector_stores/ChromaIndexDemo/">Chroma</a>:</p>
+<p><code>$ pip install -U chromadb</code></p>
+<p>After that, you can start using the tool:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>llamaindex-cli<span class="w"> </span>rag<span class="w"> </span>-h
+usage:<span class="w"> </span>llamaindex-cli<span class="w"> </span>rag<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>-q<span class="w"> </span>QUESTION<span class="o">]</span><span class="w"> </span><span class="o">[</span>-f<span class="w"> </span>FILES<span class="w"> </span><span class="o">[</span>FILES<span class="w"> </span>...<span class="o">]]</span><span class="w"> </span><span class="o">[</span>-c<span class="o">]</span><span class="w"> </span><span class="o">[</span>-v<span class="o">]</span><span class="w"> </span><span class="o">[</span>--clear<span class="o">]</span><span class="w"> </span><span class="o">[</span>--create-llama<span class="o">]</span>
+
+options:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>-q<span class="w"> </span>QUESTION,<span class="w"> </span>--question<span class="w"> </span>QUESTION
+<span class="w">                        </span>The<span class="w"> </span>question<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>ask.
+<span class="w">  </span>-f,<span class="w"> </span>--files<span class="w"> </span>FILES<span class="w"> </span><span class="o">[</span>FILES<span class="w"> </span>...<span class="o">]</span>
+<span class="w">                        </span>The<span class="w"> </span>name<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>file<span class="o">(</span>s<span class="o">)</span><span class="w"> </span>or<span class="w"> </span>directory<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>ask<span class="w"> </span>a<span class="w"> </span>question<span class="w"> </span>about,such
+<span class="w">                        </span>as<span class="w"> </span><span class="s2">&quot;file.pdf&quot;</span>.<span class="w"> </span>Supports<span class="w"> </span>globs<span class="w"> </span>like<span class="w"> </span><span class="s2">&quot;*.py&quot;</span>.
+<span class="w">  </span>-c,<span class="w"> </span>--chat<span class="w">            </span>If<span class="w"> </span>flag<span class="w"> </span>is<span class="w"> </span>present,<span class="w"> </span>opens<span class="w"> </span>a<span class="w"> </span>chat<span class="w"> </span>REPL.
+<span class="w">  </span>-v,<span class="w"> </span>--verbose<span class="w">         </span>Whether<span class="w"> </span>to<span class="w"> </span>print<span class="w"> </span>out<span class="w"> </span>verbose<span class="w"> </span>information<span class="w"> </span>during<span class="w"> </span>execution.
+<span class="w">  </span>--clear<span class="w">               </span>Clears<span class="w"> </span>out<span class="w"> </span>all<span class="w"> </span>currently<span class="w"> </span>embedded<span class="w"> </span>data.
+<span class="w">  </span>--create-llama<span class="w">        </span>Create<span class="w"> </span>a<span class="w"> </span>LlamaIndex<span class="w"> </span>application<span class="w"> </span>based<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>selected<span class="w"> </span>files.
+</code></pre></div>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<p>Here are some high level steps to get you started:</p>
+<ol>
+<li><strong>Set the <code>OPENAI_API_KEY</code> environment variable:</strong> By default, this tool uses OpenAI's API. As such, you'll need to ensure the OpenAI API Key is set under the <code>OPENAI_API_KEY</code> environment variable whenever you use the tool.
+   <div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>&lt;api_key&gt;
+</code></pre></div></li>
+<li><strong>Ingest some files:</strong> Now, you need to point the tool at some local files that it can ingest into the local vector database. For this example, we'll ingest the LlamaIndex <code>README.md</code> file:
+   <div class="highlight"><pre><span></span><code>$<span class="w"> </span>llamaindex-cli<span class="w"> </span>rag<span class="w"> </span>--files<span class="w"> </span><span class="s2">&quot;./README.md&quot;</span>
+</code></pre></div>
+   You can also specify a file glob pattern such as:
+   <div class="highlight"><pre><span></span><code>$<span class="w"> </span>llamaindex-cli<span class="w"> </span>rag<span class="w"> </span>--files<span class="w"> </span><span class="s2">&quot;./docs/**/*.rst&quot;</span>
+</code></pre></div></li>
+<li><strong>Ask a Question</strong>: You can now start asking questions about any of the documents you'd ingested in the prior step:
+   <div class="highlight"><pre><span></span><code>$<span class="w"> </span>llamaindex-cli<span class="w"> </span>rag<span class="w"> </span>--question<span class="w"> </span><span class="s2">&quot;What is LlamaIndex?&quot;</span>
+LlamaIndex<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>data<span class="w"> </span>framework<span class="w"> </span>that<span class="w"> </span>helps<span class="w"> </span><span class="k">in</span><span class="w"> </span>ingesting,<span class="w"> </span>structuring,<span class="w"> </span>and<span class="w"> </span>accessing<span class="w"> </span>private<span class="w"> </span>or<span class="w"> </span>domain-specific<span class="w"> </span>data<span class="w"> </span><span class="k">for</span><span class="w"> </span>LLM-based<span class="w"> </span>applications.<span class="w"> </span>It<span class="w"> </span>provides<span class="w"> </span>tools<span class="w"> </span>such<span class="w"> </span>as<span class="w"> </span>data<span class="w"> </span>connectors<span class="w"> </span>to<span class="w"> </span>ingest<span class="w"> </span>data<span class="w"> </span>from<span class="w"> </span>various<span class="w"> </span>sources,<span class="w"> </span>data<span class="w"> </span>indexes<span class="w"> </span>to<span class="w"> </span>structure<span class="w"> </span>the<span class="w"> </span>data,<span class="w"> </span>and<span class="w"> </span>engines<span class="w"> </span><span class="k">for</span><span class="w"> </span>natural<span class="w"> </span>language<span class="w"> </span>access<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>data.<span class="w"> </span>LlamaIndex<span class="w"> </span>follows<span class="w"> </span>a<span class="w"> </span>Retrieval-Augmented<span class="w"> </span>Generation<span class="w"> </span><span class="o">(</span>RAG<span class="o">)</span><span class="w"> </span>approach,<span class="w"> </span>where<span class="w"> </span>it<span class="w"> </span>retrieves<span class="w"> </span>information<span class="w"> </span>from<span class="w"> </span>data<span class="w"> </span>sources,<span class="w"> </span>adds<span class="w"> </span>it<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>question<span class="w"> </span>as<span class="w"> </span>context,<span class="w"> </span>and<span class="w"> </span><span class="k">then</span><span class="w"> </span>asks<span class="w"> </span>the<span class="w"> </span>LLM<span class="w"> </span>to<span class="w"> </span>generate<span class="w"> </span>an<span class="w"> </span>answer<span class="w"> </span>based<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>enriched<span class="w"> </span>prompt.<span class="w"> </span>This<span class="w"> </span>approach<span class="w"> </span>overcomes<span class="w"> </span>the<span class="w"> </span>limitations<span class="w"> </span>of<span class="w"> </span>fine-tuning<span class="w"> </span>LLMs<span class="w"> </span>and<span class="w"> </span>provides<span class="w"> </span>a<span class="w"> </span>more<span class="w"> </span>cost-effective,<span class="w"> </span>up-to-date,<span class="w"> </span>and<span class="w"> </span>trustworthy<span class="w"> </span>solution<span class="w"> </span><span class="k">for</span><span class="w"> </span>data<span class="w"> </span>augmentation.<span class="w"> </span>LlamaIndex<span class="w"> </span>is<span class="w"> </span>designed<span class="w"> </span><span class="k">for</span><span class="w"> </span>both<span class="w"> </span>beginner<span class="w"> </span>and<span class="w"> </span>advanced<span class="w"> </span>users,<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>high-level<span class="w"> </span>API<span class="w"> </span><span class="k">for</span><span class="w"> </span>easy<span class="w"> </span>usage<span class="w"> </span>and<span class="w"> </span>lower-level<span class="w"> </span>APIs<span class="w"> </span><span class="k">for</span><span class="w"> </span>customization<span class="w"> </span>and<span class="w"> </span>extension.
+</code></pre></div></li>
+<li><strong>Open a Chat REPL</strong>: You can even open a chat interface within your terminal! Just run <code>$ llamaindex-cli rag --chat</code> and start asking questions about the files you've ingested.</li>
+</ol>
+<h3 id="create-a-llamaindex-chat-application">Create a LlamaIndex chat application<a class="headerlink" href="#create-a-llamaindex-chat-application" title="Permanent link">#</a></h3>
+<p>You can also create a full-stack chat application with a FastAPI backend and NextJS frontend based on the files that you have selected.</p>
+<p>To bootstrap the application, make sure you have NodeJS and npx installed on your machine. If not, please refer to the <a href="https://ts.llamaindex.ai/docs/llamaindex/getting_started">LlamaIndex.TS</a> documentation for instructions.</p>
+<p>Once you have everything set up, creating a new application is easy. Simply run the following command:</p>
+<p><code>$ llamaindex-cli rag --create-llama</code></p>
+<p>It will call our <code>create-llama</code> tool, so you will need to provide several pieces of information to create the app. You can find more information about the <code>create-llama</code> on <a href="https://www.npmjs.com/package/create-llama#example">npmjs - create-llama</a></p>
+<div class="highlight"><pre><span></span><code>❯<span class="w"> </span>llamaindex-cli<span class="w"> </span>rag<span class="w"> </span>--create-llama
+
+Calling<span class="w"> </span>create-llama<span class="w"> </span>using<span class="w"> </span>data<span class="w"> </span>from<span class="w"> </span>/tmp/rag-data/...
+
+✔<span class="w"> </span>What<span class="w"> </span>is<span class="w"> </span>your<span class="w"> </span>project<span class="w"> </span>named?<span class="w"> </span>…<span class="w"> </span>my-app
+✔<span class="w"> </span>Which<span class="w"> </span>model<span class="w"> </span>would<span class="w"> </span>you<span class="w"> </span>like<span class="w"> </span>to<span class="w"> </span>use?<span class="w"> </span>›<span class="w"> </span>gpt-3.5-turbo
+✔<span class="w"> </span>Please<span class="w"> </span>provide<span class="w"> </span>your<span class="w"> </span>OpenAI<span class="w"> </span>API<span class="w"> </span>key<span class="w"> </span><span class="o">(</span>leave<span class="w"> </span>blank<span class="w"> </span>to<span class="w"> </span>skip<span class="o">)</span>:<span class="w"> </span>…
+?<span class="w"> </span>How<span class="w"> </span>would<span class="w"> </span>you<span class="w"> </span>like<span class="w"> </span>to<span class="w"> </span>proceed?<span class="w"> </span>›<span class="w"> </span>-<span class="w"> </span>Use<span class="w"> </span>arrow-keys.<span class="w"> </span>Return<span class="w"> </span>to<span class="w"> </span>submit.
+<span class="w">   </span>Just<span class="w"> </span>generate<span class="w"> </span>code<span class="w"> </span><span class="o">(</span>~1<span class="w"> </span>sec<span class="o">)</span>
+<span class="w">   </span>Generate<span class="w"> </span>code<span class="w"> </span>and<span class="w"> </span>install<span class="w"> </span>dependencies<span class="w"> </span><span class="o">(</span>~2<span class="w"> </span>min<span class="o">)</span>
+❯<span class="w">  </span>Generate<span class="w"> </span>code,<span class="w"> </span>install<span class="w"> </span>dependencies,<span class="w"> </span>and<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>app<span class="w"> </span><span class="o">(</span>~2<span class="w"> </span>min<span class="o">)</span>
+...
+</code></pre></div>
+<p>If you choose the option <code>Generate code, install dependencies, and run the app (~2 min)</code>, all dependencies will be installed and the app will run automatically. You can then access the application by going to this address: <a href="http://localhost:3000">http://localhost:3000</a>.</p>
+<h3 id="supported-file-types">Supported File Types<a class="headerlink" href="#supported-file-types" title="Permanent link">#</a></h3>
+<p>Internally, the <code>rag</code> CLI tool uses the <a href="../../../module_guides/loading/simpledirectoryreader/">SimpleDirectoryReader</a> to parse the raw files in your local filesystem into strings.</p>
+<p>This module has custom readers for a wide variety of file types. Some of those may require that you <code>pip install</code> another module that is needed for parsing that particular file type.</p>
+<p>If a file type is encountered with a file extension that the <code>SimpleDirectoryReader</code> does not have a custom reader for, it will just read the file as a plain text file.</p>
+<p>See the next section for information on how to add your own custom file readers + customize other aspects of the CLI tool!</p>
+<h2 id="customization">Customization<a class="headerlink" href="#customization" title="Permanent link">#</a></h2>
+<p>The <code>rag</code> CLI tool is highly customizable! The tool is powered by combining the <a href="../../../module_guides/loading/ingestion_pipeline/"><code>IngestionPipeline</code></a> &amp; <a href="../../../module_guides/querying/pipeline/"><code>QueryPipeline</code></a> modules within the <a href="https://github.com/run-llama/llama_index/blob/main/llama-index-cli/llama_index/cli/rag/base.py"><code>RagCLI</code></a> module.</p>
+<p>To create your own custom rag CLI tool, you can simply create a script that instantiates the <code>RagCLI</code> class with a <code>IngestionPipeline</code> &amp; <code>QueryPipeline</code> that you've configured yourself. From there, you can simply run <code>rag_cli_instance.cli()</code> in your script to run the same ingestion and Q&amp;A commands against your own choice of embedding models, LLMs, vector DBs, etc.</p>
+<p>Here's some high-level code to show the general setup:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/path/to/your/virtualenv/bin/python</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.ingestion</span> <span class="kn">import</span> <span class="n">IngestionPipeline</span><span class="p">,</span> <span class="n">IngestionCache</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.query_pipeline</span> <span class="kn">import</span> <span class="n">QueryPipeline</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.storage.docstore</span> <span class="kn">import</span> <span class="n">SimpleDocumentStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.cli.rag</span> <span class="kn">import</span> <span class="n">RagCLI</span>
+
+
+<span class="c1"># optional, set any API keys your script may need (perhaps using python-dotenv library instead)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sk-xxx&quot;</span>
+
+<span class="n">docstore</span> <span class="o">=</span> <span class="n">SimpleDocumentStore</span><span class="p">()</span>
+
+<span class="n">vec_store</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># your vector store instance</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># your LLM instance - optional, will default to OpenAI gpt-3.5-turbo</span>
+
+<span class="n">custom_ingestion_pipeline</span> <span class="o">=</span> <span class="n">IngestionPipeline</span><span class="p">(</span>
+    <span class="n">transformations</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vec_store</span><span class="p">,</span>
+    <span class="n">docstore</span><span class="o">=</span><span class="n">docstore</span><span class="p">,</span>
+    <span class="n">cache</span><span class="o">=</span><span class="n">IngestionCache</span><span class="p">(),</span>
+<span class="p">)</span>
+
+<span class="c1"># Setting up the custom QueryPipeline is optional!</span>
+<span class="c1"># You can still customize the vector store, LLM, and ingestion transformations without</span>
+<span class="c1"># having to customize the QueryPipeline</span>
+<span class="n">custom_query_pipeline</span> <span class="o">=</span> <span class="n">QueryPipeline</span><span class="p">()</span>
+<span class="n">custom_query_pipeline</span><span class="o">.</span><span class="n">add_modules</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">custom_query_pipeline</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># you can optionally specify your own custom readers to support additional file types.</span>
+<span class="n">file_extractor</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;.html&quot;</span><span class="p">:</span> <span class="o">...</span><span class="p">}</span>
+
+<span class="n">rag_cli_instance</span> <span class="o">=</span> <span class="n">RagCLI</span><span class="p">(</span>
+    <span class="n">ingestion_pipeline</span><span class="o">=</span><span class="n">custom_ingestion_pipeline</span><span class="p">,</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>  <span class="c1"># optional</span>
+    <span class="n">query_pipeline</span><span class="o">=</span><span class="n">custom_query_pipeline</span><span class="p">,</span>  <span class="c1"># optional</span>
+    <span class="n">file_extractor</span><span class="o">=</span><span class="n">file_extractor</span><span class="p">,</span>  <span class="c1"># optional</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">rag_cli_instance</span><span class="o">.</span><span class="n">cli</span><span class="p">()</span>
+</code></pre></div>
+<p>From there, you're just a few steps away from being able to use your custom CLI script:</p>
+<ol>
+<li>
+<p>Make sure to replace the python path at the top to the one your virtual environment is using <em>(run <code>$ which python</code> while your virtual environment is activated)</em></p>
+</li>
+<li>
+<p>Let's say you saved your file at <code>/path/to/your/script/my_rag_cli.py</code>. From there, you can simply modify your shell's configuration file <em>(like <code>.bashrc</code> or <code>.zshrc</code>)</em> with a line like <code>$ export PATH="/path/to/your/script:$PATH"</code>.</p>
+</li>
+<li>After that do <code>$ chmod +x my_rag_cli.py</code> to give executable permissions to the file.</li>
+<li>That's it! You can now just open a new terminal session and run <code>$ my_rag_cli.py -h</code>. You can now run the script with the same parameters but using your custom code configurations!</li>
+<li>Note: you can remove the <code>.py</code> file extension from your <code>my_rag_cli.py</code> file if you just want to run the command as <code>$ my_rag_cli --chat</code></li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Starter Tools">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Starter Tools
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../understanding/" class="md-footer__link md-footer__link--next" aria-label="Next: Building an LLM Application">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Building an LLM Application
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

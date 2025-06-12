@@ -1,0 +1,2631 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/memory/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../tools/">
+      
+      
+      <link rel="icon" href="../../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Memory - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Memory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../understanding/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../use_cases/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../api_reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../community/integrations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../llama_cloud/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  LlamaCloud
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../understanding/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../use_cases/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Use Cases
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../examples/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Component Guides
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../models/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Models
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../models/prompts/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Prompts
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../loading/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Loading
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../indexing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Indexing
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../storing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Storing
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../querying/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Querying
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Agents
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            Agents
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Memory
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Memory
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concept
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-memory-for-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring Memory for an Agent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-the-memory-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing the Memory Manually
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retrieving-the-latest-memory-from-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieving the Latest Memory from an Agent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customizing Memory
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Memory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-term-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Short-Term Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Long-Term Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-memory-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customizing Memory Blocks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Memory Blocks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remote-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-vs-workflow-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory vs. Workflow Context
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecated-memory-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Deprecated) Memory Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../workflow/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Workflows
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../evaluating/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Evaluation
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../observability/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../llama_deploy" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../api_reference/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../community/integrations/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../llama_cloud/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concept
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-memory-for-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring Memory for an Agent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-the-memory-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing the Memory Manually
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retrieving-the-latest-memory-from-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieving the Latest Memory from an Agent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customizing Memory
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Memory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-term-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Short-Term Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-term-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Long-Term Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-memory-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customizing Memory Blocks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing Memory Blocks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remote-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-vs-workflow-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory vs. Workflow Context
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deprecated-memory-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Deprecated) Memory Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="memory">Memory<a class="headerlink" href="#memory" title="Permanent link">#</a></h1>
+<h2 id="concept">Concept<a class="headerlink" href="#concept" title="Permanent link">#</a></h2>
+<p>Memory is a core component of agentic systems. It allows you to store and retrieve information from the past.</p>
+<p>In LlamaIndex, you can typically customize memory by using an existing <code>BaseMemory</code> class, or by creating a custom one.</p>
+<p>As the agent runs, it will make calls to <code>memory.put()</code> to store information, and <code>memory.get()</code> to retrieve information.</p>
+<p><strong>NOTE:</strong> The <code>ChatMemoryBuffer</code> is deprecated. In a future release, the default will be replaced with the <code>Memory</code> class, which is more flexible and allows for more complex memory configurations. Examples in this section will use the <code>Memory</code> class. By default, the <code>ChatMemoryBuffer</code> is used across the framework, to create a basic buffer of chat history, which gives the agent the last X messages that fit into a token limit. The <code>Memory</code> class operates similarly, but is more flexible and allows for more complex memory configurations.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h2>
+<p>Using the <code>Memory</code> class, you can create a memory that has both short-term memory (i.e. a FIFO queue of messages) and optionally long-term memory (i.e. extracting information over time).</p>
+<h3 id="configuring-memory-for-an-agent">Configuring Memory for an Agent<a class="headerlink" href="#configuring-memory-for-an-agent" title="Permanent link">#</a></h3>
+<p>You can set the memory for an agent by passing it into the <code>run()</code> method:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.agent.workflow</span> <span class="kn">import</span> <span class="n">FunctionAgent</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">Memory</span>
+
+<span class="n">memory</span> <span class="o">=</span> <span class="n">Memory</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">session_id</span><span class="o">=</span><span class="s2">&quot;my_session&quot;</span><span class="p">,</span> <span class="n">token_limit</span><span class="o">=</span><span class="mi">40000</span><span class="p">)</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">FunctionAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;&lt;question that invokes tool&gt;&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="managing-the-memory-manually">Managing the Memory Manually<a class="headerlink" href="#managing-the-memory-manually" title="Permanent link">#</a></h3>
+<p>You can also manage the memory manually by calling <code>memory.put_messages()</code> and <code>memory.get()</code> directly, and passing in the chat history.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.agent.workflow</span> <span class="kn">import</span> <span class="n">FunctionAgent</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.llms</span> <span class="kn">import</span> <span class="n">ChatMessage</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">Memory</span>
+
+
+<span class="n">memory</span> <span class="o">=</span> <span class="n">Memory</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">session_id</span><span class="o">=</span><span class="s2">&quot;my_session&quot;</span><span class="p">,</span> <span class="n">token_limit</span><span class="o">=</span><span class="mi">40000</span><span class="p">)</span>
+<span class="n">memory</span><span class="o">.</span><span class="n">put_messages</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">),</span>
+        <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Hello, world to you too!&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">chat_history</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">FunctionAgent</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">)</span>
+
+<span class="c1"># passing in the chat history overrides any existing memory</span>
+<span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="s2">&quot;&lt;question that invokes tool&gt;&quot;</span><span class="p">,</span> <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="retrieving-the-latest-memory-from-an-agent">Retrieving the Latest Memory from an Agent<a class="headerlink" href="#retrieving-the-latest-memory-from-an-agent" title="Permanent link">#</a></h3>
+<p>You can get the latest memory from an agent by grabbing it from the agent context:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">Context</span>
+
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;&lt;question that invokes tool&gt;&quot;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
+
+<span class="c1"># get the memory</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="n">chat_history</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="customizing-memory">Customizing Memory<a class="headerlink" href="#customizing-memory" title="Permanent link">#</a></h2>
+<h3 id="short-term-memory">Short-Term Memory<a class="headerlink" href="#short-term-memory" title="Permanent link">#</a></h3>
+<p>By default, the <code>Memory</code> class will store the last X messages that fit into a token limit. You can customize this by passing in <code>token_limit</code> and <code>chat_history_token_ratio</code> arguments to the <code>Memory</code> class.</p>
+<ul>
+<li><code>token_limit</code> (default: 30000): The maximum number of short-term and long-term tokens to store.</li>
+<li><code>chat_history_token_ratio</code> (default: 0.7): The ratio of tokens in the short-term chat history to the total token limit. If the chat history exceeds this ratio, the oldest messages will be flushed into long-term memory (if long-term memory is enabled).</li>
+<li><code>token_flush_size</code> (default: 3000): The number of tokens to flush into long-term memory when the chat history exceeds the token limit.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">memory</span> <span class="o">=</span> <span class="n">Memory</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">session_id</span><span class="o">=</span><span class="s2">&quot;my_session&quot;</span><span class="p">,</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">40000</span><span class="p">,</span>
+    <span class="n">chat_history_token_ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">token_flush_size</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="long-term-memory">Long-Term Memory<a class="headerlink" href="#long-term-memory" title="Permanent link">#</a></h3>
+<p>Long-term memory is represented as <code>Memory Block</code> objects. These objects receive the messages that are flushed from short-term memory, and optionally process them to extract information. Then when memory is retrieved, the short-term and long-term memories are merged together.</p>
+<p>Currently, there are three predefined memory blocks:</p>
+<ul>
+<li><code>StaticMemoryBlock</code>: A memory block that stores a static piece of information.</li>
+<li><code>FactExtractionMemoryBlock</code>: A memory block that extracts facts from the chat history.</li>
+<li><code>VectorMemoryBlock</code>: A memory block that stores and retrieves batches of chat messages from a vector database.</li>
+</ul>
+<p>By default, depending on the <code>insert_method</code> argument, the memory blocks will be inserted into the system message or the latest user message.</p>
+<p>This sounds a bit complicated, but it's actually quite simple. Let's look at an example:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">StaticMemoryBlock</span><span class="p">,</span>
+    <span class="n">FactExtractionMemoryBlock</span><span class="p">,</span>
+    <span class="n">VectorMemoryBlock</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">StaticMemoryBlock</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;core_info&quot;</span><span class="p">,</span>
+        <span class="n">static_content</span><span class="o">=</span><span class="s2">&quot;My name is Logan, and I live in Saskatoon. I work at LlamaIndex.&quot;</span><span class="p">,</span>
+        <span class="n">priority</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">FactExtractionMemoryBlock</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;extracted_info&quot;</span><span class="p">,</span>
+        <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+        <span class="n">max_facts</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">VectorMemoryBlock</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;vector_memory&quot;</span><span class="p">,</span>
+        <span class="c1"># required: pass in a vector store like qdrant, chroma, weaviate, milvus, etc.</span>
+        <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+        <span class="n">priority</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">embed_model</span><span class="o">=</span><span class="n">embed_model</span><span class="p">,</span>
+        <span class="c1"># The top-k message batches to retrieve</span>
+        <span class="c1"># similarity_top_k=2,</span>
+        <span class="c1"># optional: How many previous messages to include in the retrieval query</span>
+        <span class="c1"># retrieval_context_window=5</span>
+        <span class="c1"># optional: pass optional node-postprocessors for things like similarity threshold, etc.</span>
+        <span class="c1"># node_postprocessors=[...],</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>Here, we've setup three memory blocks:</p>
+<ul>
+<li><code>core_info</code>: A static memory block that stores some core information about the user. The static content can either be a string or a list of <code>ContentBlock</code> objects like <code>TextBlock</code>, <code>ImageBlock</code>, etc. This information will always be inserted into the memory.</li>
+<li><code>extracted_info</code>: An extracted memory block that will extract information from the chat history. Here we've passed in the <code>llm</code> to use to extarct facts from the flushed chat history, and set the <code>max_facts</code> to 50. If the number of extracted facts exceeds this limit, the <code>max_facts</code> will be automatically summarized and reduced to leave room for new information.</li>
+<li><code>vector_memory</code>: A vector memory block that will store and retrieve batches of chat messages from a vector database. Each batch is a list of the flushed chat messages. Here we've passed in the <code>vector_store</code> and <code>embed_model</code> to use to store and retrieve the chat messages.</li>
+</ul>
+<p>You'll also notice that we've set the <code>priority</code> for each block. This is used to determine the handling when the memory blocks content (i.e. long-term memory) + short-term memory exceeds the token limit on the <code>Memory</code> object.</p>
+<p>When memory blocks get too long, they are automatically "truncated". By default, this just means they are removed from memory until there is room again. This can be customized with subclasses of memory blocks that implement their own truncation logic.</p>
+<ul>
+<li><code>priority=0</code>: This block will always be kept in memory.</li>
+<li><code>priority=1, 2, 3, etc</code>: This determines the order in which memory blocks are truncated when the memory exceeds the token limit, to help the overall short-term memory + long-term memory content be less than or equal to the <code>token_limit</code>.</li>
+</ul>
+<p>Now, let's pass these blocks into the <code>Memory</code> class:</p>
+<div class="highlight"><pre><span></span><code><span class="n">memory</span> <span class="o">=</span> <span class="n">Memory</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">session_id</span><span class="o">=</span><span class="s2">&quot;my_session&quot;</span><span class="p">,</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">40000</span><span class="p">,</span>
+    <span class="n">memory_blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+    <span class="n">insert_method</span><span class="o">=</span><span class="s2">&quot;system&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>As the memory is used, the short-term memory will fill up. Once the short-term memory exceeds the <code>chat_history_token_ratio</code>, the oldest messages that fit into the <code>token_flush_size</code> will be flushed and sent to each memory block for processing.</p>
+<p>When memory is retrieved, the short-term and long-term memories are merged together. The <code>Memory</code> object will ensure that the short-term memory + long-term memory content is less than or equal to the <code>token_limit</code>. If it is longer, the <code>.truncate()</code> method will be called on the memory blocks, using the <code>priority</code> to determine the truncation order.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>By default, tokens are counted using tiktoken. To customize this, you can set the <code>tokenizer_fn</code> argument to a custom callable that given a string, returns a list. The length of the list is then used to determine the token count.</p>
+</div>
+<p>Once the memory has collected enough information, we might see something like this from the memory:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># optionally pass in a list of messages to get, which will be forwarded to the memory blocks</span>
+<span class="n">chat_history</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">chat_history</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+<p>Which will print something like this:</p>
+<div class="highlight"><pre><span></span><code>&lt;memory&gt;
+&lt;static_memory&gt;
+My name is Logan, and I live in Saskatoon. I work at LlamaIndex.
+&lt;/static_memory&gt;
+&lt;fact_extraction_memory&gt;
+&lt;fact&gt;Fact 1&lt;/fact&gt;
+&lt;fact&gt;Fact 2&lt;/fact&gt;
+&lt;fact&gt;Fact 3&lt;/fact&gt;
+&lt;/fact_extraction_memory&gt;
+&lt;retrieval_based_memory&gt;
+&lt;message role=&#39;user&#39;&gt;Msg 1&lt;/message&gt;
+&lt;message role=&#39;assistant&#39;&gt;Msg 2&lt;/message&gt;
+&lt;message role=&#39;user&#39;&gt;Msg 3&lt;/message&gt;
+&lt;/retrieval_based_memory&gt;
+&lt;/memory&gt;
+</code></pre></div>
+<p>Here, the memory was inserted into the system message, with specific sections for each memory block.</p>
+<h2 id="customizing-memory-blocks">Customizing Memory Blocks<a class="headerlink" href="#customizing-memory-blocks" title="Permanent link">#</a></h2>
+<p>While predefined memory blocks are available, you can also create your own custom memory blocks.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.llms</span> <span class="kn">import</span> <span class="n">ChatMessage</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory.memory</span> <span class="kn">import</span> <span class="n">BaseMemoryBlock</span>
+
+
+<span class="c1"># use generics to define the output type of the memory block</span>
+<span class="c1"># can be str or List[ContentBlock]</span>
+<span class="k">class</span> <span class="nc">MentionCounter</span><span class="p">(</span><span class="n">BaseMemoryBlock</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A memory block that counts the number of times a user mentions a specific name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mention_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Logan&quot;</span>
+    <span class="n">mention_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_aget</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ChatMessage</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">block_kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Logan was mentioned </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mention_count</span><span class="si">}</span><span class="s2"> times.&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_aput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ChatMessage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mention_name</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mention_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">atruncate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tokens_to_truncate</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</code></pre></div>
+<p>Here, we've defined a memory block that counts the number of times a user mentions a specific name.</p>
+<p>Its truncate method is basic, just returning an empty string.</p>
+<h3 id="remote-memory">Remote Memory<a class="headerlink" href="#remote-memory" title="Permanent link">#</a></h3>
+<p>By default, the <code>Memory</code> class is using an in-memory SQLite database. You can plug in any remote database by changing the database URI.</p>
+<p>You can customize the table name, and also optionally pass in an async engine directly. This is useful for managing your own connection pool.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">Memory</span>
+
+<span class="n">memory</span> <span class="o">=</span> <span class="n">Memory</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">session_id</span><span class="o">=</span><span class="s2">&quot;my_session&quot;</span><span class="p">,</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">40000</span><span class="p">,</span>
+    <span class="n">async_database_uri</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://postgres:mark90@localhost:5432/postgres&quot;</span><span class="p">,</span>
+    <span class="c1"># Optional: specify a table name</span>
+    <span class="c1"># table_name=&quot;memory_table&quot;,</span>
+    <span class="c1"># Optional: pass in an async engine directly</span>
+    <span class="c1"># this is useful for managing your own connection pool</span>
+    <span class="c1"># async_engine=engine,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="memory-vs-workflow-context">Memory vs. Workflow Context<a class="headerlink" href="#memory-vs-workflow-context" title="Permanent link">#</a></h2>
+<p>At this point in the documentation, you may have encountered cases where you are using a Workflow and are serializing a <code>Context</code> object to save and resume a specific workflow state. The workflow <code>Context</code> is a complex object that holds runtime information about the workflow, as well as key/value pairs that are shared across workflow steps.</p>
+<p>In comparison, the <code>Memory</code> object is a simpler object, holding only <code>ChatMessage</code> objects, and optionally a list of <code>MemoryBlock</code> objects for long-term memory.</p>
+<p>In most practical cases, you will end up using both. If you aren't customizing the memory, then serializing the <code>Context</code> object will be sufficient.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">Context</span>
+
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="n">workflow</span><span class="p">)</span>
+
+<span class="c1"># serialize the context</span>
+<span class="n">ctx_dict</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+<span class="c1"># deserialize the context</span>
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">ctx_dict</span><span class="p">)</span>
+</code></pre></div>
+<p>In other cases, like when using <code>FunctionAgent</code>, <code>AgentWorkflow</code>, or <code>ReActAgent</code>, if you customize the memory, then you will want to provide that as a separate runtime argument (especially since beyond the default, the <code>Memory</code> object is not serializable).</p>
+<div class="highlight"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">)</span>
+</code></pre></div>
+<p>Lastly, there are cases (<a href="../../../../understanding/agent/human_in_the_loop/">like human-in-the-loop</a>) where you will need to provide both the <code>Context</code> (to resume the workflow) and the <code>Memory</code> (to store the chat history).</p>
+<div class="highlight"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="deprecated-memory-types">(Deprecated) Memory Types<a class="headerlink" href="#deprecated-memory-types" title="Permanent link">#</a></h2>
+<p>In <code>llama_index.core.memory</code>, we offer a few different memory types:</p>
+<ul>
+<li><code>ChatMemoryBuffer</code>: A basic memory buffer that stores the last X messages that fit into a token limit.</li>
+<li><code>ChatSummaryMemoryBuffer</code>: A memory buffer that stores the last X messages that fit into a token limit, and also summarizes the conversation periodically when it gets too long.</li>
+<li><code>VectorMemory</code>: A memory that stores and retrieves chat messages from a vector database. It makes no guarantees about the order of the messages, and returns the most similar messages to the latest user message.</li>
+<li><code>SimpleComposableMemory</code>: A memory that composes multiple memories together. Usually used to combine <code>VectorMemory</code> with <code>ChatMemoryBuffer</code> or <code>ChatSummaryMemoryBuffer</code>.</li>
+</ul>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h2>
+<p>You can find a few examples of memory in action below:</p>
+<ul>
+<li><a href="../../../../examples/memory/memory/">Memory</a></li>
+<li><a href="../../../../examples/memory/custom_memory/">Manipulating Memory at Runtime</a></li>
+<li><a href="../../../../examples/memory/custom_multi_turn_memory/">Limiting Multi-Turn Confusion with Custom Memory</a></li>
+</ul>
+<p><strong>NOTE:</strong> Deprecated examples:
+- <a href="../../../../examples/agent/memory/chat_memory_buffer/">Chat Memory Buffer</a>
+- <a href="../../../../examples/agent/memory/summary_memory_buffer/">Chat Summary Memory Buffer</a>
+- <a href="../../../../examples/agent/memory/composable_memory/">Composable Memory</a>
+- <a href="../../../../examples/agent/memory/vector_memory/">Vector Memory</a>
+- <a href="../../../../examples/memory/Mem0Memory/">Mem0 Memory</a></p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Agents">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Agents
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../tools/" class="md-footer__link md-footer__link--next" aria-label="Next: Tools">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Tools
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../../../javascript/runllm.js"></script>
+      
+        <script src="../../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

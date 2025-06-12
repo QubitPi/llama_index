@@ -1,0 +1,2257 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/community/integrations/vector_stores/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Using Vector Stores - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-vector-stores" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Using Vector Stores
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../module_guides/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../llama_cloud/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  LlamaCloud
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Use Cases
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../module_guides/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Component Guides
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../llama_cloud/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-a-vector-store-as-an-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a Vector Store as an Index
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loading-data-from-vector-stores-using-data-connector" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading Data from Vector Stores using Data Connector
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vector-store-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vector Store Examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="using-vector-stores">Using Vector Stores<a class="headerlink" href="#using-vector-stores" title="Permanent link">#</a></h1>
+<p>LlamaIndex offers multiple integration points with vector stores / vector databases:</p>
+<ol>
+<li>LlamaIndex can use a vector store itself as an index. Like any other index, this index can store documents and be used to answer queries.</li>
+<li>LlamaIndex can load data from vector stores, similar to any other data connector. This data can then be used within LlamaIndex data structures.</li>
+</ol>
+<h2 id="using-a-vector-store-as-an-index">Using a Vector Store as an Index<a class="headerlink" href="#using-a-vector-store-as-an-index" title="Permanent link">#</a></h2>
+<p>LlamaIndex also supports different vector stores
+as the storage backend for <code>VectorStoreIndex</code>.</p>
+<ul>
+<li>Alibaba Cloud OpenSearch (<code>AlibabaCloudOpenSearchStore</code>). <a href="https://help.aliyun.com/zh/open-search/vector-search-edition">QuickStart</a>.</li>
+<li>Amazon Neptune - Neptune Analytics (<code>NeptuneAnalyticsVectorStore</code>). <a href="https://docs.aws.amazon.com/neptune-analytics/latest/userguide/vector-similarity.html">Working with vector similarity in Neptune Analytics</a>.</li>
+<li>Apache Cassandra® and Astra DB through CQL (<code>CassandraVectorStore</code>). <a href="https://cassandra.apache.org/doc/stable/cassandra/getting_started/installing.html">Installation</a> <a href="https://docs.datastax.com/en/astra-serverless/docs/vector-search/overview.html">Quickstart</a></li>
+<li>Astra DB (<code>AstraDBVectorStore</code>). <a href="https://docs.datastax.com/en/astra/home/astra.html">Quickstart</a>.</li>
+<li>AWS Document DB (<code>AWSDocDbVectorStore</code>). <a href="https://docs.aws.amazon.com/documentdb/latest/developerguide/get-started-guide.html">Quickstart</a>.</li>
+<li>Azure AI Search (<code>AzureAISearchVectorStore</code>). <a href="https://learn.microsoft.com/en-us/azure/search/search-get-started-vector">Quickstart</a></li>
+<li>Chroma (<code>ChromaVectorStore</code>) <a href="https://docs.trychroma.com/getting-started">Installation</a></li>
+<li>ClickHouse (<code>ClickHouseVectorStore</code>) <a href="https://clickhouse.com/docs/en/install">Installation</a></li>
+<li>Couchbase (<code>CouchbaseSearchVectorStore</code>) <a href="https://www.couchbase.com/products/capella/">Installation</a></li>
+<li>DashVector (<code>DashVectorStore</code>). <a href="https://help.aliyun.com/document_detail/2510230.html">Installation</a>.</li>
+<li>DeepLake (<code>DeepLakeVectorStore</code>) <a href="https://docs.deeplake.ai/en/latest/Installation.html">Installation</a></li>
+<li>DocArray (<code>DocArrayHnswVectorStore</code>, <code>DocArrayInMemoryVectorStore</code>). <a href="https://github.com/docarray/docarray#installation">Installation/Python Client</a>.</li>
+<li>Elasticsearch (<code>ElasticsearchStore</code>) <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html">Installation</a></li>
+<li>Epsilla (<code>EpsillaVectorStore</code>) <a href="https://epsilla-inc.gitbook.io/epsilladb/quick-start">Installation/Quickstart</a></li>
+<li>Faiss (<code>FaissVectorStore</code>). <a href="https://github.com/facebookresearch/faiss/blob/main/INSTALL.md">Installation</a>.</li>
+<li>Google AlloyDB for PostgreSQL (<code>AlloyDBVectorStore</code>). <a href="https://github.com/googleapis/llama-index-alloydb-pg-python/blob/main/samples/llama_index_vector_store.ipynb">QuickStart</a>.</li>
+<li>Google Cloud SQL for PostgreSQL (<code>PostgresVectorStore</code>). <a href="https://github.com/googleapis/llama-index-cloud-sql-pg-python/blob/main/samples/llama_index_vector_store.ipynb">Quickstart</a></li>
+<li>Hnswlib (<code>HnswlibVectorStore</code>). <a href="https://github.com/nmslib/hnswlib?tab=readme-ov-file#bindings-installation">Installation</a>.</li>
+<li>txtai (<code>TxtaiVectorStore</code>). <a href="https://neuml.github.io/txtai/install/">Installation</a>.</li>
+<li>Jaguar (<code>JaguarVectorStore</code>). <a href="http://www.jaguardb.com/docsetup.html">Installation</a>.</li>
+<li>Lantern (<code>LanternVectorStore</code>). <a href="https://docs.lantern.dev/get-started/overview">Quickstart</a>.</li>
+<li>MariaDB (<code>MariaDBVectorStore</code>). <a href="https://mariadb.com/kb/en/vector-overview/">MariaDB Vector Overview</a></li>
+<li>Milvus (<code>MilvusVectorStore</code>). <a href="https://milvus.io/docs">Installation</a></li>
+<li>MongoDB Atlas (<code>MongoDBAtlasVectorSearch</code>). <a href="https://www.mongodb.com/atlas/database">Installation/Quickstart</a>.</li>
+<li>MyScale (<code>MyScaleVectorStore</code>). <a href="https://docs.myscale.com/en/quickstart/">Quickstart</a>. <a href="https://docs.myscale.com/en/python-client/">Installation/Python Client</a>.</li>
+<li>Neo4j (<code>Neo4jVectorIndex</code>). <a href="https://neo4j.com/docs/operations-manual/current/installation/">Installation</a>.</li>
+<li>OceanBase (<code>OceanBaseVectorStore</code>). <a href="https://github.com/oceanbase/oceanbase">OceanBase Overview</a>. <a href="../../../examples/vector_stores/OceanBaseVectorStore/">Quickstart</a>. <a href="https://github.com/oceanbase/pyobvector">Python Client</a></li>
+<li>Opensearch (<code>OpensearchVectorStore</code>) <a href="https://opensearch.org/platform/search/vector-database.html">Opensearch as vector database</a>. <a href="https://opensearch.org/docs/latest/search-plugins/knn/index/">QuickStart</a></li>
+<li>Pinecone (<code>PineconeVectorStore</code>). <a href="https://docs.pinecone.io/docs/quickstart">Installation/Quickstart</a>.</li>
+<li>Qdrant (<code>QdrantVectorStore</code>) <a href="https://qdrant.tech/documentation/install/">Installation</a> <a href="https://qdrant.tech/documentation/install/#python-client">Python Client</a></li>
+<li>LanceDB (<code>LanceDBVectorStore</code>) <a href="https://lancedb.github.io/lancedb/basic/">Installation/Quickstart</a></li>
+<li>Redis (<code>RedisVectorStore</code>). <a href="https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/">Installation</a>.</li>
+<li>Relyt (<code>RelytVectorStore</code>). <a href="https://docs.relyt.cn/docs/vector-engine/">Quickstart</a>.</li>
+<li>Supabase (<code>SupabaseVectorStore</code>). <a href="https://supabase.github.io/vecs/api/">Quickstart</a>.</li>
+<li>Tablestore (<code>Tablestore</code>). <a href="https://www.aliyun.com/product/ots">Tablestore Overview</a>. <a href="../../../examples/vector_stores/TablestoreDemo/">Quickstart</a>. <a href="https://github.com/aliyun/aliyun-tablestore-python-sdk">Python Client</a>.</li>
+<li>TiDB (<code>TiDBVectorStore</code>). <a href="../../../examples/vector_stores/TiDBVector/">Quickstart</a>. <a href="https://tidb.cloud/ai">Installation</a>. <a href="https://github.com/pingcap/tidb-vector-python">Python Client</a>.</li>
+<li>TimeScale (<code>TimescaleVectorStore</code>). <a href="https://github.com/timescale/python-vector">Installation</a>.</li>
+<li>Upstash (<code>UpstashVectorStore</code>). <a href="https://upstash.com/docs/vector/overall/getstarted">Quickstart</a></li>
+<li>Vertex AI Vector Search (<code>VertexAIVectorStore</code>). <a href="https://cloud.google.com/vertex-ai/docs/vector-search/quickstart">Quickstart</a></li>
+<li>Weaviate (<code>WeaviateVectorStore</code>). <a href="https://weaviate.io/developers/weaviate/installation">Installation</a>. <a href="https://weaviate.io/developers/weaviate/client-libraries/python">Python Client</a>.</li>
+<li>WordLift (<code>WordliftVectorStore</code>). <a href="https://docs.wordlift.io/llm-connectors/wordlift-vector-store/">Quickstart</a>. <a href="https://pypi.org/project/wordlift-client/">Python Client</a>.</li>
+<li>Zep (<code>ZepVectorStore</code>). <a href="https://docs.getzep.com/deployment/quickstart/">Installation</a>. <a href="https://docs.getzep.com/sdk/">Python Client</a>.</li>
+<li>Zilliz (<code>MilvusVectorStore</code>). <a href="https://zilliz.com/doc/quick_start">Quickstart</a></li>
+</ul>
+<p>A detailed API reference is <a href="../../../api_reference/storage/vector_store/">found here</a>.</p>
+<p>Similar to any other index within LlamaIndex (tree, keyword table, list), <code>VectorStoreIndex</code> can be constructed upon any collection
+of documents. We use the vector store within the index to store embeddings for the input text chunks.</p>
+<p>Once constructed, the index can be used for querying.</p>
+<p><strong>Default Vector Store Index Construction/Querying</strong></p>
+<p>By default, <code>VectorStoreIndex</code> uses an in-memory <code>SimpleVectorStore</code>
+that's initialized as part of the default storage context.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span>
+
+<span class="c1"># Load documents and build index</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;../paul_graham_essay/data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="c1"># Query index</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What did the author do growing up?&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Custom Vector Store Index Construction/Querying</strong></p>
+<p>We can query over a custom vector store as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VectorStoreIndex</span><span class="p">,</span>
+    <span class="n">SimpleDirectoryReader</span><span class="p">,</span>
+    <span class="n">StorageContext</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.deeplake</span> <span class="kn">import</span> <span class="n">DeepLakeVectorStore</span>
+
+<span class="c1"># construct vector store and customize storage context</span>
+<span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">DeepLakeVectorStore</span><span class="p">(</span><span class="n">dataset_path</span><span class="o">=</span><span class="s2">&quot;&lt;dataset_path&gt;&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Load documents and build index</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;../paul_graham_essay/data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span> <span class="n">storage_context</span><span class="o">=</span><span class="n">storage_context</span>
+<span class="p">)</span>
+
+<span class="c1"># Query index</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What did the author do growing up?&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Below we show more examples of how to construct various vector stores we support.</p>
+<p><strong>Alibaba Cloud OpenSearch</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.alibabacloud_opensearch</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AlibabaCloudOpenSearchStore</span><span class="p">,</span>
+    <span class="n">AlibabaCloudOpenSearchConfig</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">AlibabaCloudOpenSearchConfig</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;***&quot;</span><span class="p">,</span>
+    <span class="n">instance_id</span><span class="o">=</span><span class="s2">&quot;***&quot;</span><span class="p">,</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;your_username&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;your_password&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AlibabaCloudOpenSearchStore</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Google AlloyDB for PostgreSQL</strong></p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-alloydb-pg
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-llms-vertex
+gcloud<span class="w"> </span>services<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>aiplatform.googleapis.com
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index_alloydb_pg</span> <span class="kn">import</span> <span class="n">AlloyDBEngine</span><span class="p">,</span> <span class="n">AlloyDBVectorStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+<span class="kn">from</span> <span class="nn">llama_index.embeddings.vertex</span> <span class="kn">import</span> <span class="n">VertexTextEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.vertex</span> <span class="kn">import</span> <span class="n">Vertex</span>
+<span class="kn">import</span> <span class="nn">google.auth</span>
+
+<span class="c1"># Replace with your own AlloyDB info</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">AlloyDBEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="n">CLUSTER</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">engine</span><span class="o">.</span><span class="n">init_vector_store_table</span><span class="p">(</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+    <span class="n">vector_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>  <span class="c1"># Vector size for VertexAI model(textembedding-gecko@latest)</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AlloyDBVectorStore</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Amazon Neptune - Neptune Analytics</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.neptune</span> <span class="kn">import</span> <span class="n">NeptuneAnalyticsVectorStore</span>
+
+<span class="n">graph_identifier</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">embed_dim</span> <span class="o">=</span> <span class="mi">1536</span>
+
+<span class="n">neptune_vector_store</span> <span class="o">=</span> <span class="n">NeptuneAnalyticsVectorStore</span><span class="p">(</span>
+    <span class="n">graph_identifier</span><span class="o">=</span><span class="n">graph_identifier</span><span class="p">,</span> <span class="n">embedding_dimension</span><span class="o">=</span><span class="mi">1536</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Apache Cassandra®</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.cassandra</span> <span class="kn">import</span> <span class="n">CassandraVectorStore</span>
+<span class="kn">import</span> <span class="nn">cassio</span>
+
+<span class="c1"># To use an Astra DB cloud instance through CQL:</span>
+<span class="n">cassio</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">database_id</span><span class="o">=</span><span class="s2">&quot;1234abcd-...&quot;</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="s2">&quot;AstraCS:...&quot;</span><span class="p">)</span>
+
+<span class="c1"># For a Cassandra cluster:</span>
+<span class="kn">from</span> <span class="nn">cassandra.cluster</span> <span class="kn">import</span> <span class="n">Cluster</span>
+
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">([</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">])</span>
+<span class="n">cassio</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">cluster</span><span class="o">.</span><span class="n">connect</span><span class="p">(),</span> <span class="n">keyspace</span><span class="o">=</span><span class="s2">&quot;my_keyspace&quot;</span><span class="p">)</span>
+
+<span class="c1"># After the above `cassio.init(...)`, create a vector store:</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">CassandraVectorStore</span><span class="p">(</span>
+    <span class="n">table</span><span class="o">=</span><span class="s2">&quot;cass_v_table&quot;</span><span class="p">,</span> <span class="n">embedding_dimension</span><span class="o">=</span><span class="mi">1536</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Astra DB</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.astra_db</span> <span class="kn">import</span> <span class="n">AstraDBVectorStore</span>
+
+<span class="n">astra_db_store</span> <span class="o">=</span> <span class="n">AstraDBVectorStore</span><span class="p">(</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;AstraCS:xY3b...&quot;</span><span class="p">,</span>  <span class="c1"># Your Astra DB token</span>
+    <span class="n">api_endpoint</span><span class="o">=</span><span class="s2">&quot;https://012...abc-us-east1.apps.astra.datastax.com&quot;</span><span class="p">,</span>  <span class="c1"># Your Astra DB API endpoint</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;astra_v_table&quot;</span><span class="p">,</span>  <span class="c1"># Table name of your choice</span>
+    <span class="n">embedding_dimension</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>  <span class="c1"># Embedding dimension of the embeddings model used</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Azure Cognitive Search</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">azure.core.credentials</span> <span class="kn">import</span> <span class="n">AzureKeyCredential</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.azureaisearch</span> <span class="kn">import</span> <span class="n">AzureAISearchVectorStore</span>
+
+<span class="n">search_service_api_key</span> <span class="o">=</span> <span class="s2">&quot;YOUR-AZURE-SEARCH-SERVICE-ADMIN-KEY&quot;</span>
+<span class="n">search_service_endpoint</span> <span class="o">=</span> <span class="s2">&quot;YOUR-AZURE-SEARCH-SERVICE-ENDPOINT&quot;</span>
+<span class="n">search_service_api_version</span> <span class="o">=</span> <span class="s2">&quot;2023-11-01&quot;</span>
+<span class="n">credential</span> <span class="o">=</span> <span class="n">AzureKeyCredential</span><span class="p">(</span><span class="n">search_service_api_key</span><span class="p">)</span>
+
+<span class="c1"># Index name to use</span>
+<span class="n">index_name</span> <span class="o">=</span> <span class="s2">&quot;llamaindex-vector-demo&quot;</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">SearchIndexClient</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="n">search_service_endpoint</span><span class="p">,</span>
+    <span class="n">credential</span><span class="o">=</span><span class="n">credential</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AzureAISearchVectorStore</span><span class="p">(</span>
+    <span class="n">search_or_index_client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+    <span class="n">embedding_dimensionality</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Chroma</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">chromadb</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.chroma</span> <span class="kn">import</span> <span class="n">ChromaVectorStore</span>
+
+<span class="c1"># Creating a Chroma client</span>
+<span class="c1"># EphemeralClient operates purely in-memory, PersistentClient will also save to disk</span>
+<span class="n">chroma_client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">EphemeralClient</span><span class="p">()</span>
+<span class="n">chroma_collection</span> <span class="o">=</span> <span class="n">chroma_client</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span><span class="s2">&quot;quickstart&quot;</span><span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">ChromaVectorStore</span><span class="p">(</span>
+    <span class="n">chroma_collection</span><span class="o">=</span><span class="n">chroma_collection</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>ClickHouse</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">clickhouse_connect</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores</span> <span class="kn">import</span> <span class="n">ClickHouseVectorStore</span>
+
+<span class="c1"># Creating a ClickHouse client</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">clickhouse_connect</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;YOUR_CLUSTER_HOST&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="mi">8123</span><span class="p">,</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;YOUR_USERNAME&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;YOUR_CLUSTER_PASSWORD&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">ClickHouseVectorStore</span><span class="p">(</span><span class="n">clickhouse_client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Couchbase</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">couchbase.auth</span> <span class="kn">import</span> <span class="n">PasswordAuthenticator</span>
+<span class="kn">from</span> <span class="nn">couchbase.cluster</span> <span class="kn">import</span> <span class="n">Cluster</span>
+<span class="kn">from</span> <span class="nn">couchbase.options</span> <span class="kn">import</span> <span class="n">ClusterOptions</span>
+
+<span class="c1"># Create a Couchbase Cluster object</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">PasswordAuthenticator</span><span class="p">(</span><span class="s2">&quot;DATABASE_USERNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DATABASE_PASSWORD&quot;</span><span class="p">)</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">ClusterOptions</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="s2">&quot;CLUSTER_CONNECTION_STRING&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+
+<span class="c1"># Wait until the cluster is ready for use.</span>
+<span class="n">cluster</span><span class="o">.</span><span class="n">wait_until_ready</span><span class="p">(</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Create the Vector Store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">CouchbaseSearchVectorStore</span><span class="p">(</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="n">cluster</span><span class="p">,</span>
+    <span class="n">bucket_name</span><span class="o">=</span><span class="s2">&quot;BUCKET_NAME&quot;</span><span class="p">,</span>
+    <span class="n">scope_name</span><span class="o">=</span><span class="s2">&quot;SCOPE_NAME&quot;</span><span class="p">,</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;COLLECTION_NAME&quot;</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="s2">&quot;SEARCH_INDEX_NAME&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>DashVector</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dashvector</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.dashvector</span> <span class="kn">import</span> <span class="n">DashVectorStore</span>
+
+<span class="c1"># init dashvector client</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">dashvector</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;your-dashvector-api-key&quot;</span><span class="p">,</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;your-dashvector-cluster-endpoint&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># creating a DashVector collection</span>
+<span class="n">client</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;quickstart&quot;</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">1536</span><span class="p">)</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;quickstart&quot;</span><span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">DashVectorStore</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>DeepLake</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">getpath</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.deeplake</span> <span class="kn">import</span> <span class="n">DeepLakeVectorStore</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpath</span><span class="o">.</span><span class="n">getpath</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY: &quot;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ACTIVELOOP_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpath</span><span class="o">.</span><span class="n">getpath</span><span class="p">(</span><span class="s2">&quot;ACTIVELOOP_TOKEN: &quot;</span><span class="p">)</span>
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="s2">&quot;hub://adilkhan/paul_graham_essay&quot;</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">DeepLakeVectorStore</span><span class="p">(</span><span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>DocArray</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.docarray</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DocArrayHnswVectorStore</span><span class="p">,</span>
+    <span class="n">DocArrayInMemoryVectorStore</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">DocArrayHnswVectorStore</span><span class="p">(</span><span class="n">work_dir</span><span class="o">=</span><span class="s2">&quot;hnsw_index&quot;</span><span class="p">)</span>
+
+<span class="c1"># alternatively, construct the in-memory vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">DocArrayInMemoryVectorStore</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Elasticsearch</strong></p>
+<p>First, you can start Elasticsearch either locally or on <a href="https://cloud.elastic.co/registration?utm_source=llama-index&amp;utm_content=documentation">Elastic cloud</a>.</p>
+<p>To start Elasticsearch locally with docker, run the following command:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">9200</span>:9200<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;discovery.type=single-node&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;xpack.security.enabled=false&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;xpack.security.http.ssl.enabled=false&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;xpack.license.self_generated.type=trial&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>docker.elastic.co/elasticsearch/elasticsearch:8.9.0
+</code></pre></div>
+<p>Then connect and use Elasticsearch as a vector database with LlamaIndex</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.elasticsearch</span> <span class="kn">import</span> <span class="n">ElasticsearchStore</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">ElasticsearchStore</span><span class="p">(</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="s2">&quot;llm-project&quot;</span><span class="p">,</span>
+    <span class="n">es_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:9200&quot;</span><span class="p">,</span>
+    <span class="c1"># Cloud connection options:</span>
+    <span class="c1"># es_cloud_id=&quot;&lt;cloud_id&gt;&quot;,</span>
+    <span class="c1"># es_user=&quot;elastic&quot;,</span>
+    <span class="c1"># es_password=&quot;&lt;password&gt;&quot;,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>This can be used with the <code>VectorStoreIndex</code> to provide a query interface for retrieval, querying, deleting, persisting the index, and more.</p>
+<p><strong>Epsilla</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pyepsilla</span> <span class="kn">import</span> <span class="n">vectordb</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.epsilla</span> <span class="kn">import</span> <span class="n">EpsillaVectorStore</span>
+
+<span class="c1"># Creating an Epsilla client</span>
+<span class="n">epsilla_client</span> <span class="o">=</span> <span class="n">vectordb</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+
+<span class="c1"># Construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">EpsillaVectorStore</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">epsilla_client</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Note</strong>: <code>EpsillaVectorStore</code> depends on the <code>pyepsilla</code> library and a running Epsilla vector database.
+Use <code>pip/pip3 install pyepsilla</code> if not installed yet.
+A running Epsilla vector database could be found through docker image.
+For complete instructions, see the following documentation:
+https://epsilla-inc.gitbook.io/epsilladb/quick-start</p>
+<p><strong>Faiss</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">faiss</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.faiss</span> <span class="kn">import</span> <span class="n">FaissVectorStore</span>
+
+<span class="c1"># create faiss index</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">1536</span>
+<span class="n">faiss_index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">FaissVectorStore</span><span class="p">(</span><span class="n">faiss_index</span><span class="p">)</span>
+
+<span class="c1"># if update/delete functionality is needed you can leverage the FaissMapVectorStore</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">1536</span>
+<span class="n">faiss_index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">id_map_index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexIDMap2</span><span class="p">(</span><span class="n">faiss_index</span><span class="p">)</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">FaissMapVectorStore</span><span class="p">(</span><span class="n">id_map_index</span><span class="p">)</span>
+
+<span class="o">...</span>
+
+<span class="c1"># NOTE: since faiss index is in-memory, we need to explicitly call</span>
+<span class="c1">#       vector_store.persist() or storage_context.persist() to save it to disk.</span>
+<span class="c1">#       persist() takes in optional arg persist_path. If none give, will use default paths.</span>
+<span class="n">storage_context</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Google Cloud SQL for PostgreSQL</strong></p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-cloud-sql-pg
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-llms-vertex
+gcloud<span class="w"> </span>services<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>aiplatform.googleapis.com
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index_cloud_sql_pg</span> <span class="kn">import</span> <span class="n">PostgresEngine</span><span class="p">,</span> <span class="n">PostgresVectorStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+<span class="kn">from</span> <span class="nn">llama_index.embeddings.vertex</span> <span class="kn">import</span> <span class="n">VertexTextEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.vertex</span> <span class="kn">import</span> <span class="n">Vertex</span>
+<span class="kn">import</span> <span class="nn">google.auth</span>
+
+<span class="c1"># Replace with your own Cloud SQL info</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">PostgresEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">engine</span><span class="o">.</span><span class="n">init_vector_store_table</span><span class="p">(</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+    <span class="n">vector_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>  <span class="c1"># Vector size for VertexAI model(textembedding-gecko@latest)</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">PostgresVectorStore</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>txtai</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">txtai</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.txtai</span> <span class="kn">import</span> <span class="n">TxtaiVectorStore</span>
+
+<span class="c1"># create txtai index</span>
+<span class="n">txtai_index</span> <span class="o">=</span> <span class="n">txtai</span><span class="o">.</span><span class="n">ann</span><span class="o">.</span><span class="n">ANNFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;backend&quot;</span><span class="p">:</span> <span class="s2">&quot;numpy&quot;</span><span class="p">,</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">TxtaiVectorStore</span><span class="p">(</span><span class="n">txtai_index</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Jaguar</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.schema</span> <span class="kn">import</span> <span class="n">TextNode</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.vector_stores</span> <span class="kn">import</span> <span class="n">VectorStoreQuery</span>
+<span class="kn">from</span> <span class="nn">jaguardb_http_client.JaguarHttpClient</span> <span class="kn">import</span> <span class="n">JaguarHttpClient</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.jaguar</span> <span class="kn">import</span> <span class="n">JaguarVectorStore</span>
+
+
+<span class="c1"># construct vector store client</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:8080/fwww/&quot;</span>
+<span class="n">pod</span> <span class="o">=</span> <span class="s2">&quot;vdb&quot;</span>
+<span class="n">store</span> <span class="o">=</span> <span class="s2">&quot;llamaindex_rag_store&quot;</span>
+<span class="n">vector_index</span> <span class="o">=</span> <span class="s2">&quot;v&quot;</span>
+<span class="n">vector_type</span> <span class="o">=</span> <span class="s2">&quot;cosine_fraction_float&quot;</span>
+<span class="n">vector_dimension</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># require JAGUAR_API_KEY environment variable or file $HOME/.jagrc to hold the</span>
+<span class="c1"># jaguar API key to connect to jaguar store server</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">JaguarVectorStore</span><span class="p">(</span>
+    <span class="n">pod</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">vector_index</span><span class="p">,</span> <span class="n">vector_type</span><span class="p">,</span> <span class="n">vector_dimension</span><span class="p">,</span> <span class="n">url</span>
+<span class="p">)</span>
+
+<span class="c1"># login to jaguar server for security authentication</span>
+<span class="n">vector_store</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>
+
+<span class="c1"># create a vector store on the back-end server</span>
+<span class="n">metadata_fields</span> <span class="o">=</span> <span class="s2">&quot;author char(32), category char(16)&quot;</span>
+<span class="n">text_size</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">vector_store</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">metadata_fields</span><span class="p">,</span> <span class="n">text_size</span><span class="p">)</span>
+
+<span class="c1"># store some text</span>
+<span class="n">node</span> <span class="o">=</span> <span class="n">TextNode</span><span class="p">(</span>
+    <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Return of King Lear&quot;</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;William&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;Tragedy&quot;</span><span class="p">},</span>
+    <span class="n">embedding</span><span class="o">=</span><span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">vector_store</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="n">node</span><span class="p">],</span> <span class="n">use_node_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># make a query</span>
+<span class="n">qembedding</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+<span class="n">vsquery</span> <span class="o">=</span> <span class="n">VectorStoreQuery</span><span class="p">(</span><span class="n">query_embedding</span><span class="o">=</span><span class="n">qembedding</span><span class="p">,</span> <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">vsquery</span><span class="p">)</span>
+
+<span class="c1"># make a query with metadata filter (where condition)</span>
+<span class="n">qembedding</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>
+<span class="n">vsquery</span> <span class="o">=</span> <span class="n">VectorStoreQuery</span><span class="p">(</span><span class="n">query_embedding</span><span class="o">=</span><span class="n">qembedding</span><span class="p">,</span> <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;author=&#39;Eve&#39; or (author=&#39;Adam&#39; and category=&#39;History&#39;)&quot;</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">vsquery</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+
+<span class="c1"># make a query ignoring old data (with time cutoff)</span>
+<span class="n">qembedding</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+<span class="n">vsquery</span> <span class="o">=</span> <span class="n">VectorStoreQuery</span><span class="p">(</span><span class="n">query_embedding</span><span class="o">=</span><span class="n">qembedding</span><span class="p">,</span> <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;day_cutoff=180&quot;</span>  <span class="c1"># only search recent 180 days data</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">vsquery</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+
+<span class="c1"># check if a vector is anomalous</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Gone With The Wind&quot;</span><span class="p">,)</span>
+<span class="n">embed_of_text</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+<span class="n">node</span> <span class="o">=</span> <span class="n">TextNode</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">embedding</span><span class="o">=</span><span class="n">embed_of_text</span><span class="p">)</span>
+<span class="n">true_or_false</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">is_anomalous</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+<span class="c1"># llama_index RAG application</span>
+<span class="kn">from</span> <span class="nn">llama_index.embeddings.openai</span> <span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">StorageContext</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span>
+
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What did the author do growing up?&quot;</span>
+
+<span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">)</span>
+<span class="n">embed_model</span> <span class="o">=</span> <span class="n">OpenAIEmbedding</span><span class="p">()</span>
+<span class="n">embed_of_question</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+
+<span class="n">db_documents</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">load_documents</span><span class="p">(</span><span class="n">embed_of_question</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">db_documents</span><span class="p">,</span>
+    <span class="n">embed_model</span><span class="o">=</span><span class="n">embed_model</span><span class="p">,</span>
+    <span class="n">storage_context</span><span class="o">=</span><span class="n">storage_context</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Question: </span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Answer: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># logout to clean up resources</span>
+<span class="n">vector_store</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Note</strong>: Client(requires jaguardb-http-client) &lt;--&gt; Http Gateway &lt;--&gt; JaguarDB Server
+Client side needs to run: "pip install -U jaguardb-http-client"</p>
+<p><strong>MariaDB</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.mariadb</span> <span class="kn">import</span> <span class="n">MariaDBVectorStore</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">MariaDBVectorStore</span><span class="o">.</span><span class="n">from_params</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">&quot;llamaindex&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;password&quot;</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="s2">&quot;vectordb&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;llama_index_vectorstore&quot;</span><span class="p">,</span>
+    <span class="n">embed_dim</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>  <span class="c1"># OpenAI embedding dimension</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Milvus</strong></p>
+<ul>
+<li>Milvus Index offers the ability to store both Documents and their embeddings.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pymilvus</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.milvus</span> <span class="kn">import</span> <span class="n">MilvusVectorStore</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">MilvusVectorStore</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="s2">&quot;https://localhost:19530&quot;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="s2">&quot;True&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Note</strong>: <code>MilvusVectorStore</code> depends on the <code>pymilvus</code> library.
+Use <code>pip install pymilvus</code> if not already installed.
+If you get stuck at building wheel for <code>grpcio</code>, check if you are using python 3.11
+(there's a known issue: https://github.com/milvus-io/pymilvus/issues/1308)
+and try downgrading.</p>
+<p><strong>MongoDBAtlas</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Provide URI to constructor, or use environment variable</span>
+<span class="kn">import</span> <span class="nn">pymongo</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.mongodb</span> <span class="kn">import</span> <span class="n">MongoDBAtlasVectorSearch</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">StorageContext</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SimpleDirectoryReader</span>
+
+<span class="c1"># mongo_uri = os.environ[&quot;MONGO_URI&quot;]</span>
+<span class="n">mongo_uri</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;mongodb+srv://&lt;username&gt;:&lt;password&gt;@&lt;host&gt;?retryWrites=true&amp;w=majority&quot;</span>
+<span class="p">)</span>
+<span class="n">mongodb_client</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">mongo_uri</span><span class="p">)</span>
+
+<span class="c1"># construct store</span>
+<span class="n">store</span> <span class="o">=</span> <span class="n">MongoDBAtlasVectorSearch</span><span class="p">(</span><span class="n">mongodb_client</span><span class="p">)</span>
+<span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">vector_store</span><span class="o">=</span><span class="n">store</span><span class="p">)</span>
+<span class="n">uber_docs</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span>
+    <span class="n">input_files</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;../data/10k/uber_2021.pdf&quot;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="c1"># construct index</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">uber_docs</span><span class="p">,</span> <span class="n">storage_context</span><span class="o">=</span><span class="n">storage_context</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>MyScale</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">clickhouse_connect</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.myscale</span> <span class="kn">import</span> <span class="n">MyScaleVectorStore</span>
+
+<span class="c1"># Creating a MyScale client</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">clickhouse_connect</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;YOUR_CLUSTER_HOST&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="mi">8443</span><span class="p">,</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;YOUR_USERNAME&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;YOUR_CLUSTER_PASSWORD&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">MyScaleVectorStore</span><span class="p">(</span><span class="n">myscale_client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Neo4j</strong></p>
+<ul>
+<li>Neo4j stores texts, metadata, and embeddings and can be customized to return graph data in the form of metadata.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.neo4jvector</span> <span class="kn">import</span> <span class="n">Neo4jVectorStore</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">neo4j_vector</span> <span class="o">=</span> <span class="n">Neo4jVectorStore</span><span class="p">(</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;neo4j&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;pleaseletmein&quot;</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;bolt://localhost:7687&quot;</span><span class="p">,</span>
+    <span class="n">embed_dim</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Pinecone</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pinecone</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.pinecone</span> <span class="kn">import</span> <span class="n">PineconeVectorStore</span>
+
+<span class="c1"># Creating a Pinecone index</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;api_key&quot;</span>
+<span class="n">pinecone</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="s2">&quot;us-west1-gcp&quot;</span><span class="p">)</span>
+<span class="n">pinecone</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span>
+    <span class="s2">&quot;quickstart&quot;</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">,</span> <span class="n">pod_type</span><span class="o">=</span><span class="s2">&quot;p1&quot;</span>
+<span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pinecone</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="s2">&quot;quickstart&quot;</span><span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">PineconeVectorStore</span><span class="p">(</span><span class="n">pinecone_index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Qdrant</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">qdrant_client</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.qdrant</span> <span class="kn">import</span> <span class="n">QdrantVectorStore</span>
+
+<span class="c1"># Creating a Qdrant vector store</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">qdrant_client</span><span class="o">.</span><span class="n">QdrantClient</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;&lt;qdrant-host&gt;&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;&lt;qdrant-api-key&gt;&quot;</span><span class="p">,</span> <span class="n">https</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">collection_name</span> <span class="o">=</span> <span class="s2">&quot;paul_graham&quot;</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">QdrantVectorStore</span><span class="p">(</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Redis</strong></p>
+<p>First, start Redis-Stack (or get url from Redis provider)</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--name<span class="w"> </span>redis-vecdb<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">6379</span>:6379<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:8001<span class="w"> </span>redis/redis-stack:latest
+</code></pre></div>
+<p>Then connect and use Redis as a vector database with LlamaIndex</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.redis</span> <span class="kn">import</span> <span class="n">RedisVectorStore</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">RedisVectorStore</span><span class="p">(</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="s2">&quot;llm-project&quot;</span><span class="p">,</span>
+    <span class="n">redis_url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>This can be used with the <code>VectorStoreIndex</code> to provide a query interface for retrieval, querying, deleting, persisting the index, and more.</p>
+<p><strong>SingleStore</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.singlestoredb</span> <span class="kn">import</span> <span class="n">SingleStoreVectorStore</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># can set the singlestore db url in env</span>
+<span class="c1"># or pass it in as an argument to the SingleStoreVectorStore constructor</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SINGLESTOREDB_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PLACEHOLDER URL&quot;</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">SingleStoreVectorStore</span><span class="p">(</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;embeddings&quot;</span><span class="p">,</span>
+    <span class="n">content_field</span><span class="o">=</span><span class="s2">&quot;content&quot;</span><span class="p">,</span>
+    <span class="n">metadata_field</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="o">=</span><span class="s2">&quot;vector&quot;</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Tablestore</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">tablestore</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.tablestore</span> <span class="kn">import</span> <span class="n">TablestoreVectorStore</span>
+
+<span class="c1"># create a vector store that does not support filtering non-vector fields</span>
+<span class="n">simple_vector_store</span> <span class="o">=</span> <span class="n">TablestoreVectorStore</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;&lt;end_point&gt;&quot;</span><span class="p">,</span>
+    <span class="n">instance_name</span><span class="o">=</span><span class="s2">&quot;&lt;instance_name&gt;&quot;</span><span class="p">,</span>
+    <span class="n">access_key_id</span><span class="o">=</span><span class="s2">&quot;&lt;access_key_id&gt;&quot;</span><span class="p">,</span>
+    <span class="n">access_key_secret</span><span class="o">=</span><span class="s2">&quot;&lt;access_key_secret&gt;&quot;</span><span class="p">,</span>
+    <span class="n">vector_dimension</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># create a vector store that support filtering non-vector fields</span>
+<span class="n">vector_store_with_meta_data</span> <span class="o">=</span> <span class="n">TablestoreVectorStore</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;&lt;end_point&gt;&quot;</span><span class="p">,</span>
+    <span class="n">instance_name</span><span class="o">=</span><span class="s2">&quot;&lt;instance_name&gt;&quot;</span><span class="p">,</span>
+    <span class="n">access_key_id</span><span class="o">=</span><span class="s2">&quot;&lt;access_key_id&gt;&quot;</span><span class="p">,</span>
+    <span class="n">access_key_secret</span><span class="o">=</span><span class="s2">&quot;&lt;access_key_secret&gt;&quot;</span><span class="p">,</span>
+    <span class="n">vector_dimension</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+    <span class="c1"># optional: custom metadata mapping is used to filter non-vector fields.</span>
+    <span class="n">metadata_mappings</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">tablestore</span><span class="o">.</span><span class="n">FieldSchema</span><span class="p">(</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">,</span>  <span class="c1"># non-vector fields</span>
+            <span class="n">tablestore</span><span class="o">.</span><span class="n">FieldType</span><span class="o">.</span><span class="n">KEYWORD</span><span class="p">,</span>
+            <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">enable_sort_and_agg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">tablestore</span><span class="o">.</span><span class="n">FieldSchema</span><span class="p">(</span>
+            <span class="s2">&quot;time&quot;</span><span class="p">,</span>  <span class="c1"># non-vector fields</span>
+            <span class="n">tablestore</span><span class="o">.</span><span class="n">FieldType</span><span class="o">.</span><span class="n">LONG</span><span class="p">,</span>
+            <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">enable_sort_and_agg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>TiDB</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.tidbvector</span> <span class="kn">import</span> <span class="n">TiDBVectorStore</span>
+
+<span class="n">tidbvec</span> <span class="o">=</span> <span class="n">TiDBVectorStore</span><span class="p">(</span>
+    <span class="c1"># connection url format</span>
+    <span class="c1"># - mysql+pymysql://root@34.212.137.91:4000/test</span>
+    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;PLACEHOLDER URL&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;llama_index_vectorstore&quot;</span><span class="p">,</span>
+    <span class="n">distance_strategy</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+    <span class="n">vector_dimension</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Timescale</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.timescalevector</span> <span class="kn">import</span> <span class="n">TimescaleVectorStore</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">TimescaleVectorStore</span><span class="o">.</span><span class="n">from_params</span><span class="p">(</span>
+    <span class="n">service_url</span><span class="o">=</span><span class="s2">&quot;YOUR TIMESCALE SERVICE URL&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;paul_graham_essay&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Upstash</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.upstash</span> <span class="kn">import</span> <span class="n">UpstashVectorStore</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">UpstashVectorStore</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;YOUR_URL&quot;</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="s2">&quot;YOUR_TOKEN&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Vertex AI Vector Search</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.vertexaivectorsearch</span> <span class="kn">import</span> <span class="n">VertexAIVectorStore</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">VertexAIVectorStore</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="s2">&quot;[your-google-cloud-project-id]&quot;</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="s2">&quot;[your-google-cloud-region]&quot;</span><span class="p">,</span>
+    <span class="n">index_id</span><span class="o">=</span><span class="s2">&quot;[your-index-resource-name]&quot;</span><span class="p">,</span>
+    <span class="n">endpoint_id</span><span class="o">=</span><span class="s2">&quot;[your-index-endpoint-name]&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Weaviate</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">weaviate</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.weaviate</span> <span class="kn">import</span> <span class="n">WeaviateVectorStore</span>
+
+<span class="c1"># creating a Weaviate client</span>
+<span class="n">resource_owner_config</span> <span class="o">=</span> <span class="n">weaviate</span><span class="o">.</span><span class="n">AuthClientPassword</span><span class="p">(</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;&lt;username&gt;&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;&lt;password&gt;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">weaviate</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span>
+    <span class="s2">&quot;https://&lt;cluster-id&gt;.semi.network/&quot;</span><span class="p">,</span>
+    <span class="n">auth_client_secret</span><span class="o">=</span><span class="n">resource_owner_config</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">WeaviateVectorStore</span><span class="p">(</span><span class="n">weaviate_client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Zep</strong></p>
+<p>Zep stores texts, metadata, and embeddings. All are returned in search results.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.zep</span> <span class="kn">import</span> <span class="n">ZepVectorStore</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">ZepVectorStore</span><span class="p">(</span>
+    <span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;&lt;api_url&gt;&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;&lt;api_key&gt;&quot;</span><span class="p">,</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;&lt;unique_collection_name&gt;&quot;</span><span class="p">,</span>  <span class="c1"># Can either be an existing collection or a new one</span>
+    <span class="n">embedding_dimensions</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>  <span class="c1"># Optional, required if creating a new collection</span>
+<span class="p">)</span>
+
+<span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">)</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span> <span class="n">storage_context</span><span class="o">=</span><span class="n">storage_context</span>
+<span class="p">)</span>
+
+<span class="c1"># Query index using both a text query and metadata filters</span>
+<span class="n">filters</span> <span class="o">=</span> <span class="n">MetadataFilters</span><span class="p">(</span>
+    <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="n">ExactMatchFilter</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;theme&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Mafia&quot;</span><span class="p">)]</span>
+<span class="p">)</span>
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;What is inception about?&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Zilliz</strong></p>
+<ul>
+<li>Zilliz Cloud (hosted version of Milvus) uses the Milvus Index with some extra arguments.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pymilvus</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.milvus</span> <span class="kn">import</span> <span class="n">MilvusVectorStore</span>
+
+
+<span class="c1"># construct vector store</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">MilvusVectorStore</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="s2">&quot;foo.vectordb.zillizcloud.com&quot;</span><span class="p">,</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;your_token_here&quot;</span><span class="p">,</span>
+    <span class="n">overwrite</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/jerryjliu/llama_index/tree/main/docs/docs/examples/vector_stores">Example notebooks can be found here</a>.</p>
+<h2 id="loading-data-from-vector-stores-using-data-connector">Loading Data from Vector Stores using Data Connector<a class="headerlink" href="#loading-data-from-vector-stores-using-data-connector" title="Permanent link">#</a></h2>
+<p>LlamaIndex supports loading data from a huge number of sources. See <a href="../../../module_guides/loading/connector/modules/">Data Connectors</a> for more details and API documentation.</p>
+<p>AlloyDB stores both document and vectors.
+This tutorial demonstrates the synchronous interface. All synchronous methods have corresponding asynchronous methods.
+This is an example of how to use AlloyDB:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-alloydb-pg
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SummaryIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index_alloydb_pg</span> <span class="kn">import</span> <span class="n">AlloyDBEngine</span><span class="p">,</span> <span class="n">AlloyDBReader</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">AlloyDBEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="n">CLUSTER</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">AlloyDBReader</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">SummaryIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;&lt;query_text&gt;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Google Cloud SQL for PostgreSQL stores both document and vectors.
+This tutorial demonstrates the synchronous interface. All synchronous methods have corresponding asynchronous methods.
+This is an example of how to use Cloud SQL for PostgreSQL:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-cloud-sql-pg
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SummaryIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index_cloud_sql_pg</span> <span class="kn">import</span> <span class="n">PostgresEngine</span><span class="p">,</span> <span class="n">PostgresReader</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">PostgresEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PostgresReader</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">SummaryIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;&lt;query_text&gt;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Chroma stores both documents and vectors. This is an example of how to use Chroma:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.readers.chroma</span> <span class="kn">import</span> <span class="n">ChromaReader</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SummaryIndex</span>
+
+<span class="c1"># The chroma reader loads data from a persisted Chroma collection.</span>
+<span class="c1"># This requires a collection name and a persist directory.</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">ChromaReader</span><span class="p">(</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;chroma_collection&quot;</span><span class="p">,</span>
+    <span class="n">persist_directory</span><span class="o">=</span><span class="s2">&quot;examples/data_connectors/chroma_collection&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">query_vector</span><span class="o">=</span><span class="n">query_vector</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">SummaryIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;&lt;query_text&gt;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Qdrant also stores both documents and vectors. This is an example of how to use Qdrant:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.readers.qdrant</span> <span class="kn">import</span> <span class="n">QdrantReader</span>
+
+<span class="n">reader</span> <span class="o">=</span> <span class="n">QdrantReader</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">)</span>
+
+<span class="c1"># the query_vector is an embedding representation of your query_vector</span>
+<span class="c1"># Example query_vector</span>
+<span class="c1"># query_vector = [0.3, 0.3, 0.3, 0.3, ...]</span>
+
+<span class="n">query_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="c1"># NOTE: Required args are collection_name, query_vector.</span>
+<span class="c1"># See the Python client: https;//github.com/qdrant/qdrant_client</span>
+<span class="c1"># for more details</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">query_vector</span><span class="o">=</span><span class="n">query_vector</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>NOTE: Since Weaviate can store a hybrid of document and vector objects, the user may either choose to explicitly specify <code>class_name</code> and <code>properties</code> in order to query documents, or they may choose to specify a raw GraphQL query. See below for usage.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># option 1: specify class_name and properties</span>
+
+<span class="c1"># 1) load data using class_name and properties</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">class_name</span><span class="o">=</span><span class="s2">&quot;&lt;class_name&gt;&quot;</span><span class="p">,</span>
+    <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;property1&quot;</span><span class="p">,</span> <span class="s2">&quot;property2&quot;</span><span class="p">,</span> <span class="s2">&quot;...&quot;</span><span class="p">],</span>
+    <span class="n">separate_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 2) example GraphQL query</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">{</span>
+<span class="s2">    Get {</span>
+<span class="s2">        &lt;class_name&gt; {</span>
+<span class="s2">            &lt;property1&gt;</span>
+<span class="s2">            &lt;property2&gt;</span>
+<span class="s2">        }</span>
+<span class="s2">    }</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">graphql_query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">separate_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p>NOTE: Both Pinecone and Faiss data loaders assume that the respective data sources only store vectors; text content is stored elsewhere. Therefore, both data loaders require that the user specifies an <code>id_to_text_map</code> in the load_data call.</p>
+<p>For instance, this is an example usage of the Pinecone data loader <code>PineconeReader</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.readers.pinecone</span> <span class="kn">import</span> <span class="n">PineconeReader</span>
+
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PineconeReader</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="s2">&quot;us-west1-gcp&quot;</span><span class="p">)</span>
+
+<span class="n">id_to_text_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;id1&quot;</span><span class="p">:</span> <span class="s2">&quot;text blob 1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id2&quot;</span><span class="p">:</span> <span class="s2">&quot;text blob 2&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">query_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="s2">&quot;quickstart&quot;</span><span class="p">,</span>
+    <span class="n">id_to_text_map</span><span class="o">=</span><span class="n">id_to_text_map</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">vector</span><span class="o">=</span><span class="n">query_vector</span><span class="p">,</span>
+    <span class="n">separate_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/jerryjliu/llama_index/tree/main/docs/docs/examples/data_connectors">Example notebooks can be found here</a>.</p>
+<h2 id="vector-store-examples">Vector Store Examples<a class="headerlink" href="#vector-store-examples" title="Permanent link">#</a></h2>
+<ul>
+<li><a href="../../../examples/vector_stores/AlibabaCloudOpenSearchIndexDemo/">Alibaba Cloud OpenSearch</a></li>
+<li><a href="../../../examples/vector_stores/AmazonNeptuneVectorDemo/">Amazon Neptune - Neptune Analytics</a></li>
+<li><a href="../../../examples/vector_stores/AstraDBIndexDemo/">Astra DB</a></li>
+<li><a href="../../../examples/vector_stores/AsyncIndexCreationDemo/">Async Index Creation</a></li>
+<li><a href="../../../examples/vector_stores/AzureAISearchIndexDemo/">Azure AI Search</a></li>
+<li><a href="../../../examples/vector_stores/AzureCosmosDBMongoDBvCoreDemo/">Azure Cosmos DB</a></li>
+<li><a href="../../../examples/vector_stores/CassandraIndexDemo/">Caasandra</a></li>
+<li><a href="../../../examples/vector_stores/ChromaIndexDemo/">Chromadb</a></li>
+<li><a href="../../../examples/vector_stores/CouchbaseVectorStoreDemo/">Couchbase</a></li>
+<li><a href="../../../examples/vector_stores/DashvectorIndexDemo/">Dash</a></li>
+<li><a href="../../../examples/vector_stores/DeepLakeIndexDemo/">Deeplake</a></li>
+<li><a href="../../../examples/vector_stores/DocArrayHnswIndexDemo/">DocArray HNSW</a></li>
+<li><a href="../../../examples/vector_stores/DocArrayInMemoryIndexDemo/">DocArray in-Memory</a></li>
+<li><a href="../../../examples/vector_stores/EpsillaIndexDemo/">Espilla</a></li>
+<li><a href="../../../examples/vector_stores/AlloyDBVectorStoreDemo/">Google AlloyDB for PostgreSQL</a></li>
+<li><a href="../../../examples/vector_stores/CloudSQLPgVectorStoreDemo/">Google Cloud SQL for PostgreSQL</a></li>
+<li><a href="../../../examples/vector_stores/LanceDBIndexDemo/">LanceDB</a></li>
+<li><a href="../../../examples/vector_stores/LanternIndexDemo/">Lantern</a></li>
+<li><a href="../../examples/vector_stores/MetalIndexDemo.ipynb">Metal</a></li>
+<li><a href="../../../examples/vector_stores/MilvusIndexDemo/">Milvus</a></li>
+<li><a href="../../../examples/vector_stores/MilvusAsyncAPIDemo/">Milvus Async API</a></li>
+<li><a href="../../../examples/vector_stores/MilvusFullTextSearchDemo/">Milvus Full-Text Search</a></li>
+<li><a href="../../../examples/vector_stores/MilvusHybridIndexDemo/">Milvus Hybrid Search</a></li>
+<li><a href="../../../examples/vector_stores/MyScaleIndexDemo/">MyScale</a></li>
+<li><a href="../../../examples/vector_stores/ElasticsearchIndexDemo/">ElsaticSearch</a></li>
+<li><a href="../../../examples/vector_stores/FaissIndexDemo/">FAISS</a></li>
+<li><a href="../../../examples/vector_stores/MongoDBAtlasVectorSearch/">MongoDB Atlas</a></li>
+<li><a href="../../../examples/vector_stores/Neo4jVectorDemo/">Neo4j</a></li>
+<li><a href="../../../examples/vector_stores/OpensearchDemo/">OpenSearch</a></li>
+<li><a href="../../../examples/vector_stores/PineconeIndexDemo/">Pinecone</a></li>
+<li><a href="../../../examples/vector_stores/PineconeIndexDemo-Hybrid/">Pinecone Hybrid Search</a></li>
+<li><a href="../../../examples/vector_stores/PGVectoRsDemo/">PGvectoRS</a></li>
+<li><a href="../../../examples/vector_stores/postgres/">Postgres</a></li>
+<li><a href="../../../examples/vector_stores/RedisIndexDemo/">Redis</a></li>
+<li><a href="../../../examples/vector_stores/QdrantIndexDemo/">Qdrant</a></li>
+<li><a href="../../../examples/vector_stores/qdrant_hybrid/">Qdrant Hybrid Search</a></li>
+<li><a href="../../../examples/vector_stores/RocksetIndexDemo/">Rockset</a></li>
+<li><a href="../../../examples/vector_stores/SimpleIndexDemo/">Simple</a></li>
+<li><a href="../../../examples/vector_stores/SupabaseVectorIndexDemo/">Supabase</a></li>
+<li><a href="../../../examples/vector_stores/TablestoreDemo/">Tablestore</a></li>
+<li><a href="../../../examples/vector_stores/TairIndexDemo/">Tair</a></li>
+<li><a href="../../../examples/vector_stores/TencentVectorDBIndexDemo/">Tencent</a></li>
+<li><a href="../../../examples/vector_stores/Timescalevector/">Timesacle</a></li>
+<li><a href="../../../examples/vector_stores/UpstashVectorDemo/">Upstash</a></li>
+<li><a href="../../../examples/vector_stores/WeaviateIndexDemo/">Weaviate</a></li>
+<li><a href="../../../examples/vector_stores/WeaviateIndexDemo-Hybrid/">Weaviate Hybrid Search</a></li>
+<li><a href="../../../examples/vector_stores/WordLiftDemo/">WordLift</a></li>
+<li><a href="../../../examples/vector_stores/ZepIndexDemo/">Zep</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

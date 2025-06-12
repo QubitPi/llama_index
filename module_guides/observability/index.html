@@ -1,0 +1,3230 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/observability/">
+      
+      
+        <link rel="prev" href="../evaluating/evaluating_evaluators_with_llamadatasets/">
+      
+      
+        <link rel="next" href="instrumentation/">
+      
+      
+      <link rel="icon" href="../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Observability - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/style.css">
+    
+      <link rel="stylesheet" href="../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#observability" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Observability
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../understanding/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../use_cases/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api_reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/integrations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../llama_cloud/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  LlamaCloud
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../understanding/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Learn
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../use_cases/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Use Cases
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../examples/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Component Guides
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../models/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Models
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../models/prompts/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Prompts
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../loading/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Loading
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../indexing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Indexing
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../storing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Storing
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../querying/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Querying
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../deploying/agents/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Agents
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../workflow/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Workflows
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../evaluating/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Evaluation
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_11" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_5_11" id="__nav_5_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_11_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_11">
+            <span class="md-nav__icon md-icon"></span>
+            Observability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instrumentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instrumentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Settings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../llama_deploy" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../api_reference/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../community/integrations/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../llama_cloud/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partner-one-click-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partner One-Click Integrations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Partner One-Click Integrations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llamatrace-hosted-arize-phoenix" class="md-nav__link">
+    <span class="md-ellipsis">
+      LlamaTrace (Hosted Arize Phoenix)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LlamaTrace (Hosted Arize Phoenix)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mlflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      MLflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MLflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Support Table
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openllmetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenLLMetry
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenLLMetry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arize-phoenix-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arize Phoenix (local)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arize Phoenix (local)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langfuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      Langfuse 🪢
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Langfuse 🪢">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-guides_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#literal-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      Literal AI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Literal AI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-guides_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comet-opik" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comet Opik
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comet Opik">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-guides_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argilla" class="md-nav__link">
+    <span class="md-ellipsis">
+      Argilla
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Argilla">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-guides_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-partner-one-click-integrations-legacy-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other Partner One-Click Integrations (Legacy Modules)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other Partner One-Click Integrations (Legacy Modules)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#langfuse_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Langfuse
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Langfuse">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deepeval" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeepEval
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DeepEval">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weights-and-biases-prompts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Weights and Biases Prompts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Weights and Biases Prompts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openinference" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenInference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenInference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#truera-trulens" class="md-nav__link">
+    <span class="md-ellipsis">
+      TruEra TruLens
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TruEra TruLens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern + Guides
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#honeyhive" class="md-nav__link">
+    <span class="md-ellipsis">
+      HoneyHive
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HoneyHive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#promptlayer" class="md-nav__link">
+    <span class="md-ellipsis">
+      PromptLayer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PromptLayer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langtrace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Langtrace
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Langtrace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openlit" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenLIT
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenLIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agentops" class="md-nav__link">
+    <span class="md-ellipsis">
+      AgentOps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AgentOps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simple-llm-inputsoutputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple (LLM Inputs/Outputs)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simple (LLM Inputs/Outputs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-pattern_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      More observability
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">#</a></h1>
+<p>LlamaIndex provides <strong>one-click observability</strong> 🔭 to allow you to build principled LLM applications in a production setting.</p>
+<p>A key requirement for principled development of LLM applications over your data (RAG systems, agents) is being able to observe, debug, and evaluate
+your system - both as a whole and for each component.</p>
+<p>This feature allows you to seamlessly integrate the LlamaIndex library with powerful observability/evaluation tools offered by our partners.
+Configure a variable once, and you'll be able to do things like the following:</p>
+<ul>
+<li>View LLM/prompt inputs/outputs</li>
+<li>Ensure that the outputs of any component (LLMs, embeddings) are performing as expected</li>
+<li>View call traces for both indexing and querying</li>
+</ul>
+<p>Each provider has similarities and differences. Take a look below for the full set of guides for each one!</p>
+<p><strong>NOTE:</strong></p>
+<p>Observability is now being handled via the <a href="instrumentation/"><code>instrumentation</code> module</a> (available in v0.10.20 and later.)</p>
+<p>A lot of the tooling and integrations mentioned in this page use our legacy <code>CallbackManager</code> or don't use <code>set_global_handler</code>. We've marked these integrations as such!</p>
+<h2 id="usage-pattern">Usage Pattern<a class="headerlink" href="#usage-pattern" title="Permanent link">#</a></h2>
+<p>To toggle, you will generally just need to do the following:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="c1"># general usage</span>
+<span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;&lt;handler_name&gt;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that all <code>kwargs</code> to <code>set_global_handler</code> are passed to the underlying callback handler.</p>
+<p>And that's it! Executions will get seamlessly piped to downstream service and you'll be able to access features such as viewing execution traces of your application.</p>
+<h2 id="partner-one-click-integrations">Partner <code>One-Click</code> Integrations<a class="headerlink" href="#partner-one-click-integrations" title="Permanent link">#</a></h2>
+<h3 id="llamatrace-hosted-arize-phoenix">LlamaTrace (Hosted Arize Phoenix)<a class="headerlink" href="#llamatrace-hosted-arize-phoenix" title="Permanent link">#</a></h3>
+<p>We've partnered with Arize on <a href="https://llamatrace.com/">LlamaTrace</a>, a hosted tracing, observability, and evaluation platform that works natively with LlamaIndex open-source users and has integrations with LlamaCloud.</p>
+<p>This is built upon the open-source Arize <a href="https://github.com/Arize-ai/phoenix">Phoenix</a> project. Phoenix provides a notebook-first experience for monitoring your models and LLM Applications by providing:</p>
+<ul>
+<li>LLM Traces - Trace through the execution of your LLM Application to understand the internals of your LLM Application and to troubleshoot problems related to things like retrieval and tool execution.</li>
+<li>LLM Evals - Leverage the power of large language models to evaluate your generative model or application's relevance, toxicity, and more.</li>
+</ul>
+<h4 id="usage-pattern_1">Usage Pattern<a class="headerlink" href="#usage-pattern_1" title="Permanent link">#</a></h4>
+<p>To install the integration package, do <code>pip install -U llama-index-callbacks-arize-phoenix</code>.</p>
+<p>Then create an account on LlamaTrace: https://llamatrace.com/login. Create an API key and put it in the <code>PHOENIX_API_KEY</code> variable below.</p>
+<p>Then run the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Phoenix can display in real time the traces automatically</span>
+<span class="c1"># collected from your LlamaIndex application.</span>
+<span class="c1"># Run all of your LlamaIndex applications as usual and traces</span>
+<span class="c1"># will be collected and displayed in Phoenix.</span>
+
+<span class="c1"># setup Arize Phoenix for logging/observability</span>
+<span class="kn">import</span> <span class="nn">llama_index.core</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">PHOENIX_API_KEY</span> <span class="o">=</span> <span class="s2">&quot;&lt;PHOENIX_API_KEY&gt;&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OTEL_EXPORTER_OTLP_HEADERS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;api_key=</span><span class="si">{</span><span class="n">PHOENIX_API_KEY</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_global_handler</span><span class="p">(</span>
+    <span class="s2">&quot;arize_phoenix&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;https://llamatrace.com/v1/traces&quot;</span>
+<span class="p">)</span>
+
+<span class="o">...</span>
+</code></pre></div>
+<h4 id="guides">Guides<a class="headerlink" href="#guides" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://github.com/run-llama/llamacloud-demo/blob/main/examples/tracing/llamacloud_tracing_phoenix.ipynb">LlamaCloud Agent with LlamaTrace</a></li>
+</ul>
+<p><img alt="" src="../../_static/integrations/arize_phoenix.png" /></p>
+<h3 id="mlflow">MLflow<a class="headerlink" href="#mlflow" title="Permanent link">#</a></h3>
+<p><a href="https://mlflow.org/docs/latest/llms/tracing/index.html">MLflow</a> is an open-source MLOps/LLMOps platform, focuses on the full lifecycle for machine learning projects, ensuring that each phase is manageable, traceable, and reproducible.
+<strong>MLflow Tracing</strong> is an OpenTelemetry-based tracing capability and supports one-click instrumentation for LlamaIndex applications.</p>
+<h4 id="usage-pattern_2">Usage Pattern<a class="headerlink" href="#usage-pattern_2" title="Permanent link">#</a></h4>
+<p>Since MLflow is open-source, you can start using it without any account creation or API key setup. Jump straight into the code after installing the MLflow package!</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">mlflow</span>
+
+<span class="n">mlflow</span><span class="o">.</span><span class="n">llama_index</span><span class="o">.</span><span class="n">autolog</span><span class="p">()</span>  <span class="c1"># Enable mlflow tracing</span>
+</code></pre></div>
+<p><img alt="" src="../../_static/integrations/mlflow/mlflow.gif" /></p>
+<h4 id="guides_1">Guides<a class="headerlink" href="#guides_1" title="Permanent link">#</a></h4>
+<p>MLflow LlamaIndex integration also provides experiment tracking, evaluation, dependency management, and more. Check out the <a href="https://mlflow.org/docs/latest/llms/llama-index/index.html">MLflow documentation</a> for more details.</p>
+<h4 id="support-table">Support Table<a class="headerlink" href="#support-table" title="Permanent link">#</a></h4>
+<p>MLflow Tracing support the full range of LlamaIndex features. Some new features like <a href="https://www.llamaindex.ai/blog/introducing-agentworkflow-a-powerful-system-for-building-ai-agent-systems">AgentWorkflow</a> requires MLflow &gt;= 2.18.0.</p>
+<table>
+<thead>
+<tr>
+<th>Streaming</th>
+<th>Async</th>
+<th>Engine</th>
+<th>Agents</th>
+<th>Workflow</th>
+<th>AgentWorkflow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅ (&gt;= 2.18)</td>
+<td>✅  (&gt;= 2.18)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="openllmetry">OpenLLMetry<a class="headerlink" href="#openllmetry" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/traceloop/openllmetry">OpenLLMetry</a> is an open-source project based on OpenTelemetry for tracing and monitoring
+LLM applications. It connects to <a href="https://www.traceloop.com/docs/openllmetry/integrations/introduction">all major observability platforms</a> and installs in minutes.</p>
+<h4 id="usage-pattern_3">Usage Pattern<a class="headerlink" href="#usage-pattern_3" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">traceloop.sdk</span> <span class="kn">import</span> <span class="n">Traceloop</span>
+
+<span class="n">Traceloop</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="guides_2">Guides<a class="headerlink" href="#guides_2" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="../../examples/observability/OpenLLMetry/">OpenLLMetry</a></li>
+</ul>
+<p><img alt="" src="../../_static/integrations/openllmetry.png" /></p>
+<h3 id="arize-phoenix-local">Arize Phoenix (local)<a class="headerlink" href="#arize-phoenix-local" title="Permanent link">#</a></h3>
+<p>You can also choose to use a <strong>local</strong> instance of Phoenix through the open-source project.</p>
+<p>In this case you don't need to create an account on LlamaTrace or set an API key for Phoenix. The phoenix server will launch locally.</p>
+<h4 id="usage-pattern_4">Usage Pattern<a class="headerlink" href="#usage-pattern_4" title="Permanent link">#</a></h4>
+<p>To install the integration package, do <code>pip install -U llama-index-callbacks-arize-phoenix</code>.</p>
+<p>Then run the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Phoenix can display in real time the traces automatically</span>
+<span class="c1"># collected from your LlamaIndex application.</span>
+<span class="c1"># Run all of your LlamaIndex applications as usual and traces</span>
+<span class="c1"># will be collected and displayed in Phoenix.</span>
+
+<span class="kn">import</span> <span class="nn">phoenix</span> <span class="k">as</span> <span class="nn">px</span>
+
+<span class="c1"># Look for a URL in the output to open the App in a browser.</span>
+<span class="n">px</span><span class="o">.</span><span class="n">launch_app</span><span class="p">()</span>
+<span class="c1"># The App is initially empty, but as you proceed with the steps below,</span>
+<span class="c1"># traces will appear automatically as your LlamaIndex application runs.</span>
+
+<span class="kn">import</span> <span class="nn">llama_index.core</span>
+
+<span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;arize_phoenix&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+</code></pre></div>
+<h4 id="example-guides">Example Guides<a class="headerlink" href="#example-guides" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://docs.llamaindex.ai/en/latest/examples/vector_stores/pinecone_auto_retriever/?h=phoenix">Auto-Retrieval Guide with Pinecone and Arize Phoenix</a></li>
+<li><a href="https://colab.research.google.com/github/Arize-ai/phoenix/blob/main/tutorials/tracing/llama_index_tracing_tutorial.ipynb">Arize Phoenix Tracing Tutorial</a></li>
+</ul>
+<h3 id="langfuse">Langfuse 🪢<a class="headerlink" href="#langfuse" title="Permanent link">#</a></h3>
+<p><a href="https://langfuse.com/docs">Langfuse</a> is an open source LLM engineering platform to help teams collaboratively debug, analyze and iterate on their LLM Applications. With the Langfuse integration, you can track and monitor performance, traces, and metrics of your LlamaIndex application. Detailed <a href="https://langfuse.com/docs/tracing">traces</a> of the context augmentation and the LLM querying processes are captured and can be inspected directly in the Langfuse UI.</p>
+<h4 id="usage-pattern_5">Usage Pattern<a class="headerlink" href="#usage-pattern_5" title="Permanent link">#</a></h4>
+<p>Make sure you have both <code>llama-index</code> and <code>langfuse</code> installed.</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index<span class="w"> </span>langfuse
+</code></pre></div>
+<p>At the root of your LlamaIndex application, register Langfuse's <code>LlamaIndexInstrumentor</code>. When instantiating <code>LlamaIndexInstrumentor</code>, make sure to configure your Langfuse API keys and the Host URL correctly via environment variables or constructor arguments.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Get keys for your project from the project settings page: https://cloud.langfuse.com</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGFUSE_PUBLIC_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;pk-lf-...&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGFUSE_SECRET_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sk-lf-...&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;LANGFUSE_HOST&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;https://cloud.langfuse.com&quot;</span>  <span class="c1"># 🇪🇺 EU region</span>
+<span class="c1"># os.environ[&quot;LANGFUSE_HOST&quot;] = &quot;https://us.cloud.langfuse.com&quot; # 🇺🇸 US region</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">langfuse.llama_index</span> <span class="kn">import</span> <span class="n">LlamaIndexInstrumentor</span>
+
+<span class="c1"># Get your keys from the Langfuse project settings page and set them as environment variables</span>
+<span class="c1"># or pass them as arguments when initializing the instrumentor</span>
+
+<span class="n">instrumentor</span> <span class="o">=</span> <span class="n">LlamaIndexInstrumentor</span><span class="p">()</span>
+
+<span class="c1"># Automatically trace all LlamaIndex operations</span>
+<span class="n">instrumentor</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># ... your LlamaIndex index creation ...</span>
+<span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What is the capital of France?&quot;</span><span class="p">)</span>
+
+<span class="c1"># Flush events to langfuse</span>
+<span class="n">instrumentor</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</code></pre></div>
+<p>You can now see the logs of your LlamaIndex application in Langfuse:</p>
+<p><a href="https://langfuse.com/images/cookbook/integration-llamaindex-workflows/llamaindex-trace.gif">LlamaIndex example trace</a></p>
+<p><em><a href="https://cloud.langfuse.com/project/cloramnkj0002jz088vzn1ja4/traces/6f554d6b-a2bc-4fba-904f-aa54de2897ca?display=preview">Example trace link in Langfuse</a></em></p>
+<h4 id="example-guides_1">Example Guides<a class="headerlink" href="#example-guides_1" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://langfuse.com/docs/integrations/llama-index/get-started">Langfuse Documentation</a></li>
+<li><a href="https://langfuse.com/docs/integrations/llama-index/example-python-instrumentation-module">End-to-end example notebook</a></li>
+<li><a href="https://langfuse.com/docs/integrations/llama-index/workflows">Tracing LlamaIndex Agents</a></li>
+<li><a href="https://docs.llamaindex.ai/en/stable/examples/observability/LangfuseMistralPostHog/">Analyze and Debug LlamaIndex Applications with PostHog and Langfuse</a></li>
+</ul>
+<h3 id="literal-ai">Literal AI<a class="headerlink" href="#literal-ai" title="Permanent link">#</a></h3>
+<p><a href="https://literalai.com/">Literal AI</a> is the go-to LLM evaluation and observability solution, enabling engineering and product teams to ship LLM applications reliably, faster and at scale. This is possible through a collaborative development cycle involving prompt engineering, LLM observability, LLM evaluation and LLM monitoring. Conversation Threads and Agent Runs can be automatically logged on Literal AI.</p>
+<p>The simplest way to get started and try out Literal AI is to signup on our <a href="https://cloud.getliteral.ai/">cloud instance</a>.
+You can then navigate to <strong>Settings</strong>, grab your API key, and start logging!</p>
+<h4 id="usage-pattern_6">Usage Pattern<a class="headerlink" href="#usage-pattern_6" title="Permanent link">#</a></h4>
+<ul>
+<li>Install the Literal AI Python SDK with <code>pip install literalai</code></li>
+<li>On your Literal AI project, go to <strong>Settings</strong> and grab your API key</li>
+<li>If you are using a self-hosted instance of Literal AI, also make note of its base URL</li>
+</ul>
+<p>Then add the following lines to your applicative code :</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="c1"># You should provide your Literal AI API key and base url using the following environment variables:</span>
+<span class="c1"># LITERAL_API_KEY, LITERAL_API_URL</span>
+<span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;literalai&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="example-guides_2">Example Guides<a class="headerlink" href="#example-guides_2" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://docs.getliteral.ai/integrations/llama-index">Literal AI integration with Llama Index</a></li>
+<li><a href="https://github.com/Chainlit/literal-cookbook/blob/main/python/llamaindex-integration">Build a Q&amp;A application with LLamaIndex and monitor it with Literal AI</a></li>
+</ul>
+<h3 id="comet-opik">Comet Opik<a class="headerlink" href="#comet-opik" title="Permanent link">#</a></h3>
+<p><a href="https://www.comet.com/docs/opik/?utm_source=llama-index&amp;utm_medium=docs&amp;utm_campaign=opik&amp;utm_content=home_page">Opik</a> is an open-source end to end LLM Evaluation Platform built by Comet.</p>
+<p>To get started, simply sign up for an account on <a href="https://www.comet.com/signup?from=llm&amp;utm_medium=github&amp;utm_source=llama-index&amp;utm_campaign=opik">Comet</a> and grab your API key.</p>
+<h4 id="usage-pattern_7">Usage Pattern<a class="headerlink" href="#usage-pattern_7" title="Permanent link">#</a></h4>
+<ul>
+<li>Install the Opik Python SDK with <code>pip install opik</code></li>
+<li>In Opik, get your API key from the user menu.</li>
+<li>If you are using a self-hosted instance of Opik, also make note of its base URL.</li>
+</ul>
+<p>You can configure Opik using the environment variables <code>OPIK_API_KEY</code>, <code>OPIK_WORKSPACE</code> and <code>OPIK_URL_OVERRIDE</code> if you are using a <a href="https://www.comet.com/docs/opik/self-host/self_hosting_opik">self-hosted instance</a>. You can set these by calling:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OPIK_API_KEY</span><span class="o">=</span><span class="s2">&quot;&lt;OPIK_API_KEY&gt;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OPIK_WORKSPACE</span><span class="o">=</span><span class="s2">&quot;&lt;OPIK_WORKSPACE - Often the same as your API key&gt;&quot;</span>
+
+<span class="c1"># Optional</span>
+<span class="c1">#export OPIK_URL_OVERRIDE=&quot;&lt;OPIK_URL_OVERRIDE&gt;&quot;</span>
+</code></pre></div>
+<p>You can now use the Opik integration with LlamaIndex by setting the global handler:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Document</span><span class="p">,</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">set_global_handler</span>
+
+<span class="c1"># You should provide your OPIK API key and Workspace using the following environment variables:</span>
+<span class="c1"># OPIK_API_KEY, OPIK_WORKSPACE</span>
+<span class="n">set_global_handler</span><span class="p">(</span>
+    <span class="s2">&quot;opik&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># This example uses OpenAI by default so don&#39;t forget to set an OPENAI_API_KEY</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">([</span><span class="n">Document</span><span class="o">.</span><span class="n">example</span><span class="p">()])</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+
+<span class="n">questions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Tell me about LLMs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;How do you fine-tune a neural network ?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What is RAG ?&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt; </span><span class="se">\033</span><span class="s2">[92m</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+<p>You will see the following traces in Opik:</p>
+<p><img alt="Opik integration with LlamaIndex" src="../../_static/integrations/opik.png" /></p>
+<h4 id="example-guides_3">Example Guides<a class="headerlink" href="#example-guides_3" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://www.comet.com/docs/opik/tracing/integrations/llama_index?utm_source=llamaindex&amp;utm_medium=docs&amp;utm_campaign=opik">Llama-index + Opik documentation page</a></li>
+<li><a href="https://www.comet.com/docs/opik/cookbook/llama-index?utm_source=llama-index&amp;utm_medium=docs&amp;utm_campaign=opik">Llama-index integration cookbook</a></li>
+</ul>
+<h3 id="argilla">Argilla<a class="headerlink" href="#argilla" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/argilla-io/argilla">Argilla</a> is a collaboration tool for AI engineers and domain experts who need to build high-quality datasets for their projects.</p>
+<p>To get started, you need to deploy the Argilla server. If you have not done so, you can easily deploy it following this <a href="https://docs.argilla.io/latest/getting_started/quickstart/">guide</a>.</p>
+<h4 id="usage-pattern_8">Usage Pattern<a class="headerlink" href="#usage-pattern_8" title="Permanent link">#</a></h4>
+<ul>
+<li>Install the Argilla LlamaIndex integration package with <code>pip install argilla-llama-index</code></li>
+<li>Initialize the ArgillaHandler. The <code>&lt;api_key&gt;</code> is in the <code>My Settings</code> page of your Argilla Space but make sure you are logged in with the <code>owner</code> account you used to create the Space. The <code>&lt;api_url&gt;</code> is the URL shown in your browser.</li>
+<li>Add the ArgillaHandler to the dispatcher.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.instrumentation</span> <span class="kn">import</span> <span class="n">get_dispatcher</span>
+<span class="kn">from</span> <span class="nn">argilla_llama_index</span> <span class="kn">import</span> <span class="n">ArgillaHandler</span>
+
+<span class="n">argilla_handler</span> <span class="o">=</span> <span class="n">ArgillaHandler</span><span class="p">(</span>
+    <span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;query_llama_index&quot;</span><span class="p">,</span>
+    <span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:6900&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;argilla.apikey&quot;</span><span class="p">,</span>
+    <span class="n">number_of_retrievals</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">root_dispatcher</span> <span class="o">=</span> <span class="n">get_dispatcher</span><span class="p">()</span>
+<span class="n">root_dispatcher</span><span class="o">.</span><span class="n">add_span_handler</span><span class="p">(</span><span class="n">argilla_handler</span><span class="p">)</span>
+<span class="n">root_dispatcher</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="n">argilla_handler</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="example-guides_4">Example Guides<a class="headerlink" href="#example-guides_4" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://github.com/argilla-io/argilla-llama-index/blob/main/docs/tutorials/getting_started.ipynb">Getting started with Argilla's LlamaIndex Integration</a></li>
+<li><a href="https://github.com/argilla-io/argilla-llama-index/tree/main/docs/tutorials">Other example tutorials</a></li>
+</ul>
+<p><img alt="Argilla integration with LlamaIndex" src="../../_static/integrations/argilla.png" /></p>
+<h2 id="other-partner-one-click-integrations-legacy-modules">Other Partner <code>One-Click</code> Integrations (Legacy Modules)<a class="headerlink" href="#other-partner-one-click-integrations-legacy-modules" title="Permanent link">#</a></h2>
+<p>These partner integrations use our legacy <code>CallbackManager</code> or third-party calls.</p>
+<h3 id="langfuse_1">Langfuse<a class="headerlink" href="#langfuse_1" title="Permanent link">#</a></h3>
+<p>This integration is deprecated. We recommend using the new instrumentation-based integration with Langfuse as described <a href="https://langfuse.com/docs/integrations/llama-index/get-started">here</a>.</p>
+<h4 id="usage-pattern_9">Usage Pattern<a class="headerlink" href="#usage-pattern_9" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="c1"># Make sure you&#39;ve installed the &#39;llama-index-callbacks-langfuse&#39; integration package.</span>
+
+<span class="c1"># NOTE: Set your environment variables &#39;LANGFUSE_SECRET_KEY&#39;, &#39;LANGFUSE_PUBLIC_KEY&#39; and &#39;LANGFUSE_HOST&#39;</span>
+<span class="c1"># as shown in your langfuse.com project settings.</span>
+
+<span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;langfuse&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="guides_3">Guides<a class="headerlink" href="#guides_3" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="../../examples/observability/LangfuseCallbackHandler/">Langfuse Callback Handler</a></li>
+<li><a href="../../examples/observability/LangfuseMistralPostHog/">Langfuse Tracing with PostHog</a></li>
+</ul>
+<p><img alt="langfuse-tracing" src="https://static.langfuse.com/llamaindex-langfuse-docs.gif" /></p>
+<h3 id="deepeval">DeepEval<a class="headerlink" href="#deepeval" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/confident-ai/deepeval">DeepEval (by Confident AI)</a> is an open-source evaluation framework for LLM applications. As you "unit test" your LLM app using DeepEval's 14+ default metrics it currently offers (summarization, hallucination, answer relevancy, faithfulness, RAGAS, etc.), you can debug failing test cases through this tracing integration with LlamaIndex, or debug unsatisfactory evaluations in <strong>production</strong> through DeepEval's hosted evaluation platform, <a href="https://confident-ai.com">Confident AI</a>, that runs referenceless evaluations in production.</p>
+<h4 id="usage-pattern_10">Usage Pattern<a class="headerlink" href="#usage-pattern_10" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;deepeval&quot;</span><span class="p">)</span>
+
+<span class="c1"># NOTE: Run &#39;deepeval login&#39; in the CLI to log traces on Confident AI, DeepEval&#39;s hosted evaluation platform.</span>
+<span class="c1"># Run all of your LlamaIndex applications as usual and traces</span>
+<span class="c1"># will be collected and displayed on Confident AI whenever evaluations are ran.</span>
+<span class="o">...</span>
+</code></pre></div>
+<p><img alt="tracing" src="https://d2lsxfc3p6r9rv.cloudfront.net/confident-tracing.gif" /></p>
+<h3 id="weights-and-biases-prompts">Weights and Biases Prompts<a class="headerlink" href="#weights-and-biases-prompts" title="Permanent link">#</a></h3>
+<p>Prompts allows users to log/trace/inspect the execution flow of LlamaIndex during index construction and querying. It also allows users to version-control their indices.</p>
+<h4 id="usage-pattern_11">Usage Pattern<a class="headerlink" href="#usage-pattern_11" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;wandb&quot;</span><span class="p">,</span> <span class="n">run_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;project&quot;</span><span class="p">:</span> <span class="s2">&quot;llamaindex&quot;</span><span class="p">})</span>
+
+<span class="c1"># NOTE: No need to do the following</span>
+<span class="kn">from</span> <span class="nn">llama_index.callbacks.wandb</span> <span class="kn">import</span> <span class="n">WandbCallbackHandler</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="c1"># wandb_callback = WandbCallbackHandler(run_args={&quot;project&quot;: &quot;llamaindex&quot;})</span>
+<span class="c1"># Settings.callback_manager = CallbackManager([wandb_callback])</span>
+
+<span class="c1"># access additional methods on handler to persist index + load index</span>
+<span class="kn">import</span> <span class="nn">llama_index.core</span>
+
+<span class="c1"># persist index</span>
+<span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">global_handler</span><span class="o">.</span><span class="n">persist_index</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">index_name</span><span class="o">=</span><span class="s2">&quot;my_index&quot;</span><span class="p">)</span>
+<span class="c1"># load storage context</span>
+<span class="n">storage_context</span> <span class="o">=</span> <span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">global_handler</span><span class="o">.</span><span class="n">load_storage_context</span><span class="p">(</span>
+    <span class="n">artifact_url</span><span class="o">=</span><span class="s2">&quot;ayut/llamaindex/my_index:v0&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><img alt="" src="../../_static/integrations/wandb.png" /></p>
+<h4 id="guides_4">Guides<a class="headerlink" href="#guides_4" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="../../examples/callbacks/WandbCallbackHandler.ipynb">Wandb Callback Handler</a></li>
+</ul>
+<h3 id="openinference">OpenInference<a class="headerlink" href="#openinference" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/Arize-ai/open-inference-spec">OpenInference</a> is an open standard for capturing and storing AI model inferences. It enables experimentation, visualization, and evaluation of LLM applications using LLM observability solutions such as <a href="https://github.com/Arize-ai/phoenix">Phoenix</a>.</p>
+<h4 id="usage-pattern_12">Usage Pattern<a class="headerlink" href="#usage-pattern_12" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">llama_index.core</span>
+
+<span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;openinference&quot;</span><span class="p">)</span>
+
+<span class="c1"># NOTE: No need to do the following</span>
+<span class="kn">from</span> <span class="nn">llama_index.callbacks.openinference</span> <span class="kn">import</span> <span class="n">OpenInferenceCallbackHandler</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="c1"># callback_handler = OpenInferenceCallbackHandler()</span>
+<span class="c1"># Settings.callback_manager = CallbackManager([callback_handler])</span>
+
+<span class="c1"># Run your LlamaIndex application here...</span>
+<span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+    <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># View your LLM app data as a dataframe in OpenInference format.</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.callbacks.open_inference_callback</span> <span class="kn">import</span> <span class="n">as_dataframe</span>
+
+<span class="n">query_data_buffer</span> <span class="o">=</span> <span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">global_handler</span><span class="o">.</span><span class="n">flush_query_data_buffer</span><span class="p">()</span>
+<span class="n">query_dataframe</span> <span class="o">=</span> <span class="n">as_dataframe</span><span class="p">(</span><span class="n">query_data_buffer</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>NOTE</strong>: To unlock capabilities of Phoenix, you will need to define additional steps to feed in query/ context dataframes. See below!</p>
+<h4 id="guides_5">Guides<a class="headerlink" href="#guides_5" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="../../examples/callbacks/OpenInferenceCallback.ipynb">OpenInference Callback Handler</a></li>
+<li><a href="https://colab.research.google.com/github/Arize-ai/phoenix/blob/main/tutorials/llama_index_search_and_retrieval_tutorial.ipynb">Evaluating Search and Retrieval with Arize Phoenix</a></li>
+</ul>
+<h3 id="truera-trulens">TruEra TruLens<a class="headerlink" href="#truera-trulens" title="Permanent link">#</a></h3>
+<p>TruLens allows users to instrument/evaluate LlamaIndex applications, through features such as feedback functions and tracing.</p>
+<h4 id="usage-pattern-guides">Usage Pattern + Guides<a class="headerlink" href="#usage-pattern-guides" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># use trulens</span>
+<span class="kn">from</span> <span class="nn">trulens_eval</span> <span class="kn">import</span> <span class="n">TruLlama</span>
+
+<span class="n">tru_query_engine</span> <span class="o">=</span> <span class="n">TruLlama</span><span class="p">(</span><span class="n">query_engine</span><span class="p">)</span>
+
+<span class="c1"># query</span>
+<span class="n">tru_query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;What did the author do growing up?&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="" src="../../_static/integrations/trulens.png" /></p>
+<h4 id="guides_6">Guides<a class="headerlink" href="#guides_6" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="../../community/integrations/trulens/">Trulens Guide</a></li>
+<li><a href="https://github.com/truera/trulens/blob/trulens-eval-0.20.3/trulens_eval/examples/quickstart/llama_index_quickstart.ipynb">Quickstart Guide with LlamaIndex + TruLens</a></li>
+<li><a href="https://colab.research.google.com/github/truera/trulens/blob/trulens-eval-0.20.3/trulens_eval/examples/quickstart/llama_index_quickstart.ipynb">Google Colab</a></li>
+</ul>
+<h3 id="honeyhive">HoneyHive<a class="headerlink" href="#honeyhive" title="Permanent link">#</a></h3>
+<p>HoneyHive allows users to trace the execution flow of any LLM workflow. Users can then debug and analyze their traces, or customize feedback on specific trace events to create evaluation or fine-tuning datasets from production.</p>
+<h4 id="usage-pattern_13">Usage Pattern<a class="headerlink" href="#usage-pattern_13" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="n">set_global_handler</span><span class="p">(</span>
+    <span class="s2">&quot;honeyhive&quot;</span><span class="p">,</span>
+    <span class="n">project</span><span class="o">=</span><span class="s2">&quot;My HoneyHive Project&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My LLM Workflow Name&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;MY HONEYHIVE API KEY&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># NOTE: No need to do the following</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
+
+<span class="c1"># from honeyhive.utils.llamaindex_tracer import HoneyHiveLlamaIndexTracer</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="c1"># hh_tracer = HoneyHiveLlamaIndexTracer(</span>
+<span class="c1">#     project=&quot;My HoneyHive Project&quot;,</span>
+<span class="c1">#     name=&quot;My LLM Workflow Name&quot;,</span>
+<span class="c1">#     api_key=&quot;MY HONEYHIVE API KEY&quot;,</span>
+<span class="c1"># )</span>
+<span class="c1"># Settings.callback_manager = CallbackManager([hh_tracer])</span>
+</code></pre></div>
+<p><img alt="" src="../../_static/integrations/honeyhive.png" />
+<img alt="" src="../../_static/integrations/perfetto.png" />
+<em>Use Perfetto to debug and analyze your HoneyHive traces</em></p>
+<h4 id="guides_7">Guides<a class="headerlink" href="#guides_7" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="../../examples/callbacks/HoneyHiveLlamaIndexTracer.ipynb">HoneyHive Callback Handler</a></li>
+</ul>
+<h3 id="promptlayer">PromptLayer<a class="headerlink" href="#promptlayer" title="Permanent link">#</a></h3>
+<p>PromptLayer allows you to track analytics across LLM calls, tagging, analyzing, and evaluating prompts for various use-cases. Use it with LlamaIndex to track the performance of your RAG prompts and more.</p>
+<h4 id="usage-pattern_14">Usage Pattern<a class="headerlink" href="#usage-pattern_14" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PROMPTLAYER_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;pl_7db888a22d8171fb58aab3738aa525a7&quot;</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="c1"># pl_tags are optional, to help you organize your prompts and apps</span>
+<span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;promptlayer&quot;</span><span class="p">,</span> <span class="n">pl_tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;paul graham&quot;</span><span class="p">,</span> <span class="s2">&quot;essay&quot;</span><span class="p">])</span>
+</code></pre></div>
+<h4 id="guides_8">Guides<a class="headerlink" href="#guides_8" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="../../examples/callbacks/PromptLayerHandler.ipynb">PromptLayer</a></li>
+</ul>
+<h3 id="langtrace">Langtrace<a class="headerlink" href="#langtrace" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/Scale3-Labs/langtrace">Langtrace</a> is a robust open-source tool that supports OpenTelemetry and is designed to trace, evaluate, and manage LLM applications seamlessly. Langtrace integrates directly with LlamaIndex, offering detailed, real-time insights into performance metrics such as accuracy, evaluations, and latency.</p>
+<h4 id="install">Install<a class="headerlink" href="#install" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>langtrace-python-sdk
+</code></pre></div>
+<h4 id="usage-pattern_15">Usage Pattern<a class="headerlink" href="#usage-pattern_15" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">langtrace_python_sdk</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">langtrace</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># Must precede any llm module imports</span>
+
+<span class="n">langtrace</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;&lt;LANGTRACE_API_KEY&gt;&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="guides_9">Guides<a class="headerlink" href="#guides_9" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://docs.langtrace.ai/supported-integrations/llm-frameworks/llamaindex">Langtrace</a></li>
+</ul>
+<h3 id="openlit">OpenLIT<a class="headerlink" href="#openlit" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/openlit/openlit">OpenLIT</a> is an OpenTelemetry-native GenAI and LLM Application Observability tool. It's designed to make the integration process of observability into GenAI projects with just a single line of code. OpenLIT provides OpenTelemetry Auto instrumentation for various LLMs, VectorDBs and Frameworks like LlamaIndex. OpenLIT provides insights into your LLM Applications performance, tracing of requests, over view metrics on usage like costs, tokens and a lot more.</p>
+<h4 id="install_1">Install<a class="headerlink" href="#install_1" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>openlit
+</code></pre></div>
+<h4 id="usage-pattern_16">Usage Pattern<a class="headerlink" href="#usage-pattern_16" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">openlit</span>
+
+<span class="n">openlit</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="guides_10">Guides<a class="headerlink" href="#guides_10" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://docs.openlit.io/latest/integrations/llama-index">OpenLIT's Official Documentation</a></li>
+</ul>
+<h3 id="agentops">AgentOps<a class="headerlink" href="#agentops" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/AgentOps-AI/agentops">AgentOps</a> helps developers build, evaluate,
+and monitor AI agents. AgentOps will help build agents from prototype to production,
+enabling agent monitoring, LLM cost tracking, benchmarking, and more.</p>
+<h4 id="install_2">Install<a class="headerlink" href="#install_2" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-instrumentation-agentops
+</code></pre></div>
+<h4 id="usage-pattern_17">Usage Pattern<a class="headerlink" href="#usage-pattern_17" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">set_global_handler</span>
+
+<span class="c1"># NOTE: Feel free to set your AgentOps environment variables (e.g., &#39;AGENTOPS_API_KEY&#39;)</span>
+<span class="c1"># as outlined in the AgentOps documentation, or pass the equivalent keyword arguments</span>
+<span class="c1"># anticipated by AgentOps&#39; AOClient as **eval_params in set_global_handler.</span>
+
+<span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;agentops&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="simple-llm-inputsoutputs">Simple (LLM Inputs/Outputs)<a class="headerlink" href="#simple-llm-inputsoutputs" title="Permanent link">#</a></h3>
+<p>This simple observability tool prints every LLM input/output pair to the terminal. Most useful for when you need to quickly enable debug logging on your LLM application.</p>
+<h4 id="usage-pattern_18">Usage Pattern<a class="headerlink" href="#usage-pattern_18" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">llama_index.core</span>
+
+<span class="n">llama_index</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">set_global_handler</span><span class="p">(</span><span class="s2">&quot;simple&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="guides_11">Guides<a class="headerlink" href="#guides_11" title="Permanent link">#</a></h4>
+<ul>
+<li><a href="https://mlflow.org/docs/latest/llms/llama-index/index.html">MLflow</a></li>
+</ul>
+<h2 id="more-observability">More observability<a class="headerlink" href="#more-observability" title="Permanent link">#</a></h2>
+<ul>
+<li><a href="callbacks/">Callbacks Guide</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../evaluating/evaluating_evaluators_with_llamadatasets/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Evaluating Evaluators with LabelledEvaluatorDataset&#39;s">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Evaluating Evaluators with LabelledEvaluatorDataset's
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="instrumentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Instrumentation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Instrumentation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../javascript/runllm.js"></script>
+      
+        <script src="../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>
