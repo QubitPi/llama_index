@@ -2,6 +2,9 @@ name: Unit Testing
 
 on:
   pull_request:
+  push:
+    branches:
+      - master
 
 env:
   # How many concurrent processes running pytest in a single CI job
@@ -13,7 +16,7 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest-unit-tester
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
