@@ -5781,14 +5781,14 @@ print(str(response))</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>The current weather in San Francisco is as follows:
 
-- **Temperature**: 13.3°C (55.9°F)
-- **Condition**: Sunny
-- **Wind**: 4.0 mph (6.5 kph) from the NNE
-- **Humidity**: 57%
-- **Pressure**: 1021 mb (30.16 in)
+- **Temperature**: 16.1°C (61°F)
+- **Condition**: Partly cloudy
+- **Wind**: 13.6 mph (22.0 kph) from the west
+- **Humidity**: 64%
 - **Visibility**: 16 km (9 miles)
+- **Pressure**: 1017 mb (30.04 in)
 
-For more details, you can check the weather [here](https://www.weatherapi.com/).
+For more details, you can check the full report [here](https://www.weatherapi.com/).
 </pre>
 </div>
 </div>
@@ -6182,14 +6182,14 @@ async for event in handler.stream_events():
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>The current weather in Saskatoon is as follows:
 
-- **Temperature**: 0.1°C (32.2°F)
-- **Condition**: Partly cloudy
-- **Wind**: 13.2 mph (21.2 kph) from the SSE
-- **Humidity**: 80%
-- **Feels Like**: -5.3°C (22.5°F)
-- **Visibility**: 24 km (14 miles)
+- **Temperature**: 22.2°C (72°F)
+- **Condition**: Overcast
+- **Humidity**: 25%
+- **Wind Speed**: 6.0 mph (9.7 kph) from the northwest
+- **Visibility**: 4.8 km
+- **Pressure**: 1018 mb
 
-For more details, you can check the full weather report [here](https://www.weatherapi.com/).</pre>
+For more details, you can check the full report [here](https://www.weatherapi.com/).</pre>
 </div>
 </div>
 </div>
@@ -6236,14 +6236,10 @@ For more details, you can check the full weather report [here](https://www.weath
     <span class="k">return</span> <span class="sa">f</span><span class="s2">"Name set to </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
 
 
-<span class="n">agent</span> <span class="o">=</span> <span class="n">AgentWorkflow</span><span class="p">(</span>
-    <span class="n">agents</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">FunctionAgent</span><span class="p">(</span>
-            <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">set_name</span><span class="p">],</span>
-            <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
-            <span class="n">system_prompt</span><span class="o">=</span><span class="s2">"You are a helpful assistant that can set a name."</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">],</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">FunctionAgent</span><span class="p">(</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">set_name</span><span class="p">],</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">system_prompt</span><span class="o">=</span><span class="s2">"You are a helpful assistant that can set a name."</span><span class="p">,</span>
     <span class="n">initial_state</span><span class="o">=</span><span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"unset"</span><span class="p">},</span>
 <span class="p">)</span>
 
@@ -6265,14 +6261,10 @@ async def set_name(ctx: Context, name: str) -&gt; str:
     return f"Name set to {name}"
 
 
-agent = AgentWorkflow(
-    agents=[
-        FunctionAgent(
-            tools=[set_name],
-            llm=llm,
-            system_prompt="You are a helpful assistant that can set a name.",
-        )
-    ],
+agent = FunctionAgent(
+    tools=[set_name],
+    llm=llm,
+    system_prompt="You are a helpful assistant that can set a name.",
     initial_state={"name": "unset"},
 )
 
@@ -6568,7 +6560,7 @@ print(str(response))</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The dangerous task has been initiated. Please confirm if you would like to proceed with it.
+<pre>The dangerous task has been completed successfully. If you need anything else, feel free to ask!
 </pre>
 </div>
 </div>
